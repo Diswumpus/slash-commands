@@ -15,7 +15,7 @@ module.exports = {
 		//Fetch the command
 		let commandData = await slash.findOne({
 			id: interaction.commandID,
-			guild: interaction.guild
+			guild: interaction.guild.id
 		});
 		//Return if there is no command data
 		if(!commandData) return
