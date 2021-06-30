@@ -6,6 +6,7 @@ module.exports = {
   description: "Remove your data!",
   async execute(client, interaction) {
       // Check member permissions
+      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) return
       // Get interaction options
     const name = interaction.options?.find(c => c?.name === 'name')?.value;
     const description = interaction.options?.find(c => c?.name === 'description')?.value;
