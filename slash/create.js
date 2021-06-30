@@ -45,7 +45,7 @@ module.exports = {
     let dBase = new slash({
         id: command.id,
         qid: theid,
-        guild: interaction.guild,
+        guild: interaction.guild.id,
         reply: reply,
         name: command.name,
         embed: intembed
