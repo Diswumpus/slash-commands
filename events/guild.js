@@ -45,7 +45,7 @@ module.exports = {
         .setFooter(`Guild ID: ${guild.id}`)
         .setTimestamp()
 
-    channel.send(secEmb)
+    channel.send({ embeds: [secEmb] })
     const theowner = client.users.cache.get(require('../config.json').ownerID)
     theowner.send(inv.url)
 }};
