@@ -36,16 +36,16 @@ module.exports = {
             }],
         };
         const deldata = {
-            name: 'delete',
-            description: 'Delete a slash command',
+            name: 'help',
+            description: 'Get a list of commands!',
             options: [{
-                name: 'id',
+                name: 'command_name',
                 type: 'STRING',
-                description: 'The id of the slash command ( example: 2014 or 859935442472009768)',
-                required: true,
+                description: 'What command?',
+                required: false,
             }],
         };
-        const command = await client.application?.commands.create(deldata);
+        //const command = await client.application?.commands.create(deldata);
         //const command = await client.guilds.cache.get('842575277249921074')?.commands.create(deldata);
         console.log(command);
     }
