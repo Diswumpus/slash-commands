@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
+const color = require('../color.json').color;
 
 module.exports = {
-    name: 'registerr',
+    name: 'register',
     description: 'Register a slash command!',
     async execute(message, Member, args) {
         const client = message.client
@@ -36,17 +37,11 @@ module.exports = {
             }],
         };
         const deldata = {
-            name: 'help',
-            description: 'Get a list of commands!',
-            options: [{
-                name: 'command_name',
-                type: 'STRING',
-                description: 'What command?',
-                required: false,
-            }],
+            name: 'list',
+            description: 'Get a list of custom commands!',
         };
         //const command = await client.application?.commands.create(deldata);
-        //const command = await client.guilds.cache.get('842575277249921074')?.commands.create(deldata);
+        const command = await client.guilds.cache.get('842575277249921074')?.commands.create(deldata);
         console.log(command);
     }
 }

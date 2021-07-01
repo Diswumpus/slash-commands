@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const slash = require('../models/slash-command');
+const color = require('../color.json').color;
 
 module.exports = {
   name: "create",
@@ -57,6 +58,7 @@ module.exports = {
     .addField('ID:', `${theid} ||( ${command.id} )||`, true)
     .addField('Name:', command.name, true)
     .addField('Description:', command.description, true)
+    .setColor(color)
     await interaction.reply({ embeds: [embed] })
   }
 }

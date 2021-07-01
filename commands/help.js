@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const color = require('../color.json').color;
 
 module.exports = {
     name: 'help',
@@ -8,7 +9,7 @@ module.exports = {
         const helpp = new Discord.MessageEmbed()
         .setTitle(`Commands`)
         .setFooter(`${message.client.user.username}`, message.client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
-        .setColor('BLURPLE')
+        .setColor(color)
         const { commands } = message.client;
         commands.forEach(cmd => {
             helpp.addField(cmd.name, cmd.description);
@@ -18,7 +19,7 @@ module.exports = {
         const helpp = new Discord.MessageEmbed()
         .setTitle(`${args[0]}`)
         .setFooter(`${message.client.user.username}`, message.client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
-        .setColor('BLURPLE')
+        .setColor(color)
         const { commands } = message.client;
         const cmd = commands.find(c => c.name === args[0])
         helpp.addField(cmd.name, cmd.description)

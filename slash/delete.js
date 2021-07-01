@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const slash = require('../models/slash-command');
+const color = require('../color.json').color;
 
 module.exports = {
   name: "delete",
@@ -28,6 +29,7 @@ module.exports = {
     //Reply
     const embed = new Discord.MessageEmbed()
     .setTitle('`✅` Deleted')
+    .setColor(color)
     await interaction.reply({ embeds: [embed] })
   }
 }

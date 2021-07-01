@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const color = require('../color.json').color;
 
 module.exports = {
     name: 'help',
@@ -9,7 +10,7 @@ module.exports = {
         const helpp = new Discord.MessageEmbed()
         .setTitle(`Commands`)
         .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
-        .setColor('BLURPLE')
+        .setColor(color)
         const commands = client.slashcmds;
         commands.forEach(cmd => {
             helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`);
