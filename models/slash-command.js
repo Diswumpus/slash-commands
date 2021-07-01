@@ -6,7 +6,8 @@ const sSchema = new mongoose.Schema({
     guild: String,
     reply: String,
     name: String,
-    embed: Boolean
+    embed: Boolean,
+    uses: Number
 });
 
 const sModel = module.exports = mongoose.model('s-commands', sSchema);

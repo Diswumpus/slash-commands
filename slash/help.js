@@ -13,7 +13,7 @@ module.exports = {
         .setColor(color)
         const commands = client.slashcmds;
         commands.forEach(cmd => {
-            helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`);
+            helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`, true);
         });
         await interaction.reply({ embeds: [helpp] });
     } else if(cmddd) {
