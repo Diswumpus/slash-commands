@@ -7,7 +7,7 @@ module.exports = {
   name: "delete",
   async execute(client, interaction) {
       // Check member permissions
-      if(!interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id !== owner.ownerID) return
+      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID){
       // Get interaction options
     const cmdid = interaction.options?.find(c => c?.name === 'id')?.value;
     //Delete it
@@ -32,5 +32,6 @@ module.exports = {
     .setTitle('`✅` Deleted')
     .setColor(color)
     await interaction.reply({ embeds: [embed] })
+    }
   }
 }
