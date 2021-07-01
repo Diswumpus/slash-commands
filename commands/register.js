@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'register',
+    name: 'registerr',
     description: 'Register a slash command!',
     async execute(message, Member, args) {
         const client = message.client
@@ -35,8 +35,18 @@ module.exports = {
                 required: false,
             }],
         };
-        //const command = await client.application?.commands.create(data);
-        const command = await client.guilds.cache.get('842575277249921074')?.commands.create(data);
+        const deldata = {
+            name: 'delete',
+            description: 'Delete a slash command',
+            options: [{
+                name: 'id',
+                type: 'STRING',
+                description: 'The id of the slash command ( example: 2014 or 859935442472009768)',
+                required: true,
+            }],
+        };
+        const command = await client.application?.commands.create(deldata);
+        //const command = await client.guilds.cache.get('842575277249921074')?.commands.create(deldata);
         console.log(command);
     }
 }
