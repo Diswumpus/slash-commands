@@ -10,18 +10,18 @@ module.exports = {
         .setTitle(`Commands`)
         .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setColor('BLURPLE')
-        const { commands } = client;
+        const commands = client.slashcmds;
         commands.forEach(cmd => {
-            helpp.addField(cmd.name, cmd.description);
+            helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`);
         });
         await interaction.reply({ embeds: [helpp] });
     } else if(cmddd) {
         const helpp = new Discord.MessageEmbed()
         .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setColor('BLURPLE')
-        const { commands } = client;
+        const commands = client.slashcmds;
         const cmd = commands.find(c => c.name === cmddd)
-        helpp.addField(cmd.name, cmd.description)
+        helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`)
         if(!cmd) {
             const notfound = new Discord.MessageEmbed()
             .setTitle(`Not found!`)
