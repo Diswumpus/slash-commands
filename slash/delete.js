@@ -1,12 +1,13 @@
 const Discord = require("discord.js");
 const slash = require('../models/slash-command');
 const color = require('../color.json').color;
+const owner = require('../config.json');
 
 module.exports = {
   name: "delete",
   async execute(client, interaction) {
       // Check member permissions
-      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) return
+      if(!interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id !== owner.ownerID) return
       // Get interaction options
     const cmdid = interaction.options?.find(c => c?.name === 'id')?.value;
     //Delete it
