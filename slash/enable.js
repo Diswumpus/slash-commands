@@ -1,0 +1,57 @@
+//Get all packages/files
+const Discord = require("discord.js");
+const prime = require('../models/premium');
+const color = require('../color.json').color;
+const owner = require('../config.json');
+
+module.exports = {
+  name: "enable-premium",
+  async execute(client, interaction) {
+      // Check member permissions
+      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID){
+        // Get interaction options
+        const id = interaction.options?.find(c => c?.name === 'code')?.value;
+        //Check if there is one
+        let findone = await prime.findOne({
+            id: id
+        })
+        //If there is no prime code
+        if(!findone || findone.guild){
+            return await interaction.reply({ content: 'That premium code seems to be invalid or someone already used it! :\\' })
+        }
+        //Delete code data...
+        await prime.findOneAndDelete({
+            id: id
+        });
+        //Get time
+        let time = findone.plan;
+        let expiresAt;
+        if(time === "month"){
+            expiresAt = Date.now() + 2592000000;
+            } else if(time === "year"){
+            expiresAt = Date.now() + (2592000000 * 12);
+            } else if(time === "min"){
+              expiresAt = Date.now() + 1000
+            }
+        //Save file
+            let newSave = new prime({
+                guild: interaction.guild.id,
+                id: id,
+                enabled: true,
+                exp: expiresAt,
+                expd: false,
+                redeemedAt: Date.now()
+            });
+            await newSave.save().catch(e => console.log(e));
+        //Reply
+        //Create embed
+        const rep_embed = new Discord.MessageEmbed()
+        .setTitle('Activated')
+        .setColor(color)
+        .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild.id}\` by \`${interaction.user.tag}\``)
+        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
+        //Send embed
+        await interaction.reply({ embeds: [ rep_embed ] });
+      }
+  }
+}

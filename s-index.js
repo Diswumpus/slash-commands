@@ -144,4 +144,35 @@ client.on('message', async message => {
         }
     }
 });
+const prime = require('./models/premium');
+setInterval(async () => {
+    const conditional = {
+        expd: false
+    }
+    const results = await prime.find(conditional)
+
+    if (results && results.length) {
+        for (const result of results) {
+            if (Number(result.redeemedAt) >= Number(result.exp)) {
+                const guildPremium = client.guilds.cache.get(result.guild);
+                if (guildPremium) {
+                        const timeemoj = client.emojis.cache.get('846868929065517066');
+                        const infoemoj = client.emojis.cache.get('860201073305583637');
+                        const embed = new Discord.MessageEmbed()
+                            .setColor(require('./color.json').color)//guildPremium.name
+                            .setDescription(`${infoemoj} Hey,\n\n${timeemoj} ${guildPremium.name}'s premium just expired... <a:blobsigh:855262242215690251>`)
+                            .setFooter('Slash commands premium')
+                            .addField(`‏‏‎ ‎`, `[Support Server](${require('./color.json').support}) | [Vote for me!](${require('./color.json').vote})`)
+                        guildPremium.channels.cache.first().send({ embeds: [embed] });
+                        await prime.findOneAndDelete({
+                            id: result.id
+                        });
+                }
+            }
+
+        }
+    }
+
+}, 1000)
+
 client.login(config.token);

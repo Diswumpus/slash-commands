@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const color = require('../color.json').color;
 
 module.exports = {
-    name: 'registeer',
+    name: 'registeera',
     description: 'Register a slash command!',
     async execute(message, Member, args) {
         const client = message.client
@@ -52,8 +52,18 @@ module.exports = {
                 required: false,
             }],
         };
+        const prime = {
+            name: 'enable-premium',
+            description: 'Enable premium for this guild',
+            options: [{
+                name: 'code',
+                type: 'STRING',
+                description: 'What code?',
+                required: true,
+            }],
+        };
         //const command = await client.application?.commands.create(deldata);
-        const command = await client.guilds.cache.get('842575277249921074')?.commands.create(deldata);
+        const command = await client.guilds.cache.get('842575277249921074')?.commands.create(prime);
         console.log(command);
     }
 }

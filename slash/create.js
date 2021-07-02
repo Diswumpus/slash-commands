@@ -59,6 +59,7 @@ module.exports = {
     .addField('Name:', command.name, true)
     .addField('Description:', command.description, true)
     .setColor(color)
+    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
     await interaction.reply({ embeds: [embed] })
   }
 }
