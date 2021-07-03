@@ -52,14 +52,16 @@ module.exports = {
         embed: intembed
     });
     await dBase.save().catch(e => console.log(e));
-    //...
+    //Log
+    require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
+    //Send message
     const embed = new Discord.MessageEmbed()
     .setTitle('`✅` Created')
     .addField('ID:', `${theid} ||( ${command.id} )||`, true)
     .addField('Name:', command.name, true)
     .addField('Description:', command.description, true)
     .setColor(color)
-    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
+    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
     await interaction.reply({ embeds: [embed] })
   }
 }

@@ -26,12 +26,14 @@ module.exports = {
             id: cmdid
         })
     }
+    //Log
+    require('../log').log(`${interaction.user.tag} deleted \`/${commandData.name}\` on guild: \`${interaction.guild}\``, 'command')
     //Remove command from database
     //Reply
     const embed = new Discord.MessageEmbed()
     .setTitle('`✅` Deleted')
     .setColor(color)
-    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
+    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
     await interaction.reply({ embeds: [embed] })
     }
   }

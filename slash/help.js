@@ -11,7 +11,7 @@ module.exports = {
         .setTitle(`Commands`)
         .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setColor(color)
-        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
+        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
         const commands = client.slashcmds;
         commands.forEach(cmd => {
             helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`, true);
@@ -21,7 +21,7 @@ module.exports = {
         const helpp = new Discord.MessageEmbed()
         .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setColor('BLURPLE')
-        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote})`)
+        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
         const commands = client.slashcmds;
         const cmd = commands.find(c => c.name === cmddd)
         helpp.addField(`Name: ${cmd.name}`, `Description: ${cmd.description}`)
