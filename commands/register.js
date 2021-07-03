@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const color = require('../color.json').color;
 
 module.exports = {
-    name: 'registeera',
+    name: 'register',
     description: 'Register a slash command!',
     async execute(message, Member, args) {
         const client = message.client
@@ -62,7 +62,7 @@ module.exports = {
                 required: true,
             }],
         };
-        //const command = await client.application?.commands.create(deldata);
+        //const command = await client.application?.commands.create(prime);
         const command = await client.guilds.cache.get('842575277249921074')?.commands.create(prime);
         console.log(command);
     }
