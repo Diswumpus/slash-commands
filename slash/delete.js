@@ -27,7 +27,7 @@ module.exports = {
         })
     }
     //Log
-    require('../log').log(`${interaction.user.tag} deleted \`/${commandData.name}\` on guild: \`${interaction.guild}\``, 'command')
+    require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command')
     //Remove command from database
     //Reply
     const embed = new Discord.MessageEmbed()
