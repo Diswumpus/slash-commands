@@ -53,13 +53,27 @@ module.exports = {
             }],
         };
         const prime = {
-            name: 'enable-premium',
-            description: 'Enable premium for this guild',
+            name: 'create-code',
+            description: 'Create a premium code!!',
             options: [{
-                name: 'code',
+                name: 'time',
                 type: 'STRING',
-                description: 'What code?',
+                description: 'For how long?',
                 required: true,
+                choices: [
+					{
+						name: 'Lifetime',
+						value: 'lifetime',
+					},
+					{
+						name: 'Month',
+						value: 'month',
+					},
+					{
+						name: 'Year',
+						value: 'year',
+					},
+				],
             }],
         };
         //const command = await client.application?.commands.create(prime);

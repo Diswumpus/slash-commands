@@ -16,7 +16,7 @@ module.exports = {
    let expiresAt;
    let code;
    let done = false;
-   const plans = ["month", "year", "min"]
+   const plans = ["month", "year", "lifetime"]
    //Get code gen package
     const voucher_codes = require('voucher-code-generator');
     //Create a code with for loop
@@ -41,6 +41,8 @@ module.exports = {
       expiresAt = Date.now() + (2592000000 * 12);
       } else if(time === "min"){
         expiresAt = Date.now() + 1000
+      } else if(time === 'lifetime'){
+        expiresAt = 0
       }
       //Save prime code
     let codeSave = new prime({

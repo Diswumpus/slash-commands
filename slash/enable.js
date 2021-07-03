@@ -32,6 +32,8 @@ module.exports = {
             expiresAt = Date.now() + (2592000000 * 12);
             } else if(time === "min"){
               expiresAt = Date.now() + 1000
+            } else if(time === 'lifetime'){
+                expiresAt = 0
             }
         //Save file
             let newSave = new prime({

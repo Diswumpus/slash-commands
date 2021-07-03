@@ -153,6 +153,7 @@ setInterval(async () => {
 
     if (results && results.length) {
         for (const result of results) {
+            if(Number(result.exp) === 0) return
             if (Number(result.redeemedAt) >= Number(result.exp)) {
                 const guildPremium = client.guilds.cache.get(result.guild);
                 if (guildPremium) {
