@@ -34,21 +34,17 @@ module.exports = {
                 type: 'BOOLEAN',
                 description: 'Should the reply be an embed?',
                 required: false,
-            }],
-        };
-        const deldata = {
-            name: 'list',
-            description: 'Get a list of custom commands!',
-            options: [{
-                name: 'ephemeral',
-                type: 'BOOLEAN',
-                description: 'Make it so only you can see the message',
+            },
+            {
+                name: 'option_1',
+                type: 'STRING',
+                description: 'What command options (Use {option_1} on reply)',
                 required: false,
             },
             {
-                name: 'global',
-                type: 'BOOLEAN',
-                description: 'See every command',
+                name: 'option_2',
+                type: 'STRING',
+                description: 'What command options (Use {option_2} on reply)',
                 required: false,
             }],
         };
@@ -76,8 +72,8 @@ module.exports = {
 				],
             }],
         };
-        //const command = await client.application?.commands.create(prime);
-        const command = await client.guilds.cache.get('842575277249921074')?.commands.create(prime);
+        const command = await client.application?.commands.create(prime);
+        //const command = await client.guilds.cache.get('842575277249921074')?.commands.create(data);
         console.log(command);
     }
 }

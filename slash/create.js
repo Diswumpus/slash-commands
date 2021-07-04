@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const slash = require('../models/slash-command');
 const color = require('../color.json').color;
+const interactions = require('../interaction').get;
 
 module.exports = {
   name: "create",
@@ -13,11 +14,74 @@ module.exports = {
     const description = interaction.options?.find(c => c?.name === 'description')?.value;
     const reply = interaction.options?.find(c => c?.name === 'reply')?.value;
     const intembed = interaction.options?.find(c => c?.name === 'embed')?.value || false;
+    const option_1 = interaction.options?.find(c => c?.name === 'option_1')?.value;
+    const option_2 = interaction.options?.find(c => c?.name === 'option_2')?.value;
+    //Check if guild premium and interaction options 1 & 2
+    const prime = require('../models/premium');
+    const gprime = await prime.findOne({
+        guild: interaction.guild.id
+    });
+    //Return if guild is not premium
+    if(gprime?.guild !== interactions.guild.id){
+        if(option_1 || option_2){
+        const noprime = new Discord.MessageEmbed()
+        .setColor('RED')
+        .setDescription(`Your guild is not premium!\n\nOnly premium guilds can have command options!`)
+        .setTitle('`❎`')
+        await interaction.reply({ embeds: [noprime] });
+        setTimeout(async () => {
+            await interaction.deleteReply();
+        }, 3000);
+        return
+        }
+    }
     if (!client.application?.owner) await client.application?.fetch();
-    const data = {
+    let data;
+    if(!option_1 && !option_2){
+    data = {
         name: name.toLowerCase(),
         description: description,
     };
+    } else if(option_1){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_1,
+                type: 'STRING',
+                description: option_1,
+                required: true,
+            }],
+        };
+    } else if(option_2){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_2,
+                type: 'STRING',
+                description: option_2,
+                required: true,
+            }],
+        };
+    } else if(option_1 && option_2){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_1,
+                type: 'STRING',
+                description: option_1,
+                required: true,
+                },
+                {
+                name: option_2,
+                type: 'STRING',
+                description: option_2,
+                required: true,
+            }],
+        };
+    }
     const command = await client.guilds.cache.get(interaction.guild.id)?.commands.create(data);
     //Add command to database
     /*    id: String,
@@ -49,7 +113,9 @@ module.exports = {
         guild: interaction.guild.id,
         reply: reply,
         name: command.name,
-        embed: intembed
+        embed: intembed,
+        option1: option_1,
+        option2: option_2
     });
     await dBase.save().catch(e => console.log(e));
     //Log

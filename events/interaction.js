@@ -1,5 +1,14 @@
 const Discord = require('discord.js');
 const slash = require('../models/slash-command');
+let thetext;
+async function text(text) {
+    text = text.toString()
+    let newtext = text.slice(1, text.length)
+    let oldtext = text.slice(0, 1)
+    let rettext = oldtext.toUpperCase() + newtext
+    thetext = rettext;
+    return `${rettext}`
+}
 
 module.exports = {
 	name: 'interaction',
@@ -19,6 +28,22 @@ module.exports = {
 		});
 		//Return if there is no command data
 		if (!commandData) return
+		//Define text
+		let text = commandData.reply;
+		//Replace var
+		if(commandData.option1){
+			var res1 = text.replace("{option_1}", interaction.options?.find(c => c?.name === commandData.option1)?.value);
+		} else if(commandData.option2){
+			var res2 = text.replace("{option_2}", interaction.options?.find(c => c?.name === commandData.option2)?.value);
+		}
+		//Create text
+		if(commandData.option1){
+			text = res1
+		} else if(commandData.option2){
+			text = res2
+		} else if(commandData.option1 && commandData.option2){
+			text = text.replace("{option_2}", interaction.options?.find(c => c?.name === commandData.option2)?.value) && text.replace("{option_1}", interaction.options?.find(c => c?.name === commandData.option1)?.value);
+		}
 		//Add uses to the command
 		await slash.findOne({
 			id: interaction.commandID,
@@ -36,11 +61,11 @@ module.exports = {
 		//Check if embed
 		if (commandData?.embed === true) {
 			const replyembed = new Discord.MessageEmbed()
-				.setTitle(commandData.name)
-				.setDescription(commandData.reply)
+				.setTitle(thetext)
+				.setDescription(text)
 			await interaction.reply({ embeds: [replyembed] })
 		} else {
-			await interaction.reply({ content: commandData.reply })
+			await interaction.reply({ content: text })
 		}
 	},
 };

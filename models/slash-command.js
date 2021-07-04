@@ -7,7 +7,9 @@ const sSchema = new mongoose.Schema({
     reply: String,
     name: String,
     embed: Boolean,
-    uses: Number
+    uses: Number,
+    option1: String,
+    option2: String
 });
 
 const sModel = module.exports = mongoose.model('s-commands', sSchema);
