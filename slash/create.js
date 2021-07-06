@@ -26,8 +26,8 @@ module.exports = {
         if(option_1 || option_2){
         const noprime = new Discord.MessageEmbed()
         .setColor('RED')
-        .setDescription(`Your guild is not premium!\n\nOnly premium guilds can have command options!`)
-        .setTitle('`❎`')
+        .setDescription(`${require('../emojis.json').x} Your guild is not premium!\n\nOnly premium guilds can have command options!`)
+        .setTitle(`${require('../emojis.json').x} Error!`)
         await interaction.reply({ embeds: [noprime] });
         setTimeout(async () => {
             await interaction.deleteReply();
@@ -122,7 +122,7 @@ module.exports = {
     require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
     //Send message
     const embed = new Discord.MessageEmbed()
-    .setTitle('`✅` Created')
+    .setTitle(`${require('../emojis.json').check} Created`)
     .addField('ID:', `${theid} ||( ${command.id} )||`, true)
     .addField('Name:', command.name, true)
     .addField('Description:', command.description, true)

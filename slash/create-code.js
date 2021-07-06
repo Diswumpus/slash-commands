@@ -55,7 +55,7 @@ module.exports = {
     //R E P L Y
     //Create embed
     const reply_embed = new Discord.MessageEmbed()
-    .setTitle('`✅` Created!')
+    .setTitle(`${require('../emojis.json').check} Created!`)
     .setDescription(`**Code**: \`${code}\`\n\nExpires At: \`${expiresAt}\``)
     .setColor(color)
     //Send embed

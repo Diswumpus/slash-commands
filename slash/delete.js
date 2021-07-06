@@ -31,7 +31,7 @@ module.exports = {
     //Remove command from database
     //Reply
     const embed = new Discord.MessageEmbed()
-    .setTitle('`✅` Deleted')
+    .setTitle(`${require('../emojis.json').check} Deleted`)
     .setColor(color)
     .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
     await interaction.reply({ embeds: [embed] })

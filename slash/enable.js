@@ -50,7 +50,7 @@ module.exports = {
         //Reply
         //Create embed
         const rep_embed = new Discord.MessageEmbed()
-        .setTitle('Activated')
+        .setTitle(`${require('../emojis.json').check} Activated`)
         .setColor(color)
         .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild.id}\` by \`${interaction.user.tag}\`\n\nExpires at: <t:${Math.floor(expiresAt / 1000.0)}:R>\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
         .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)

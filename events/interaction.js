@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const slash = require('../models/slash-command');
 let thetext;
-async function text(text) {
+async function textf(text) {
     text = text.toString()
     let newtext = text.slice(1, text.length)
     let oldtext = text.slice(0, 1)
@@ -28,6 +28,8 @@ module.exports = {
 		});
 		//Return if there is no command data
 		if (!commandData) return
+		//Run function
+		textf(commandData.name)
 		//Define text
 		let text = commandData.reply;
 		//Replace var
