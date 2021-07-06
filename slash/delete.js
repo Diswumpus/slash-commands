@@ -12,7 +12,7 @@ module.exports = {
     const cmdid = interaction.options?.find(c => c?.name === 'id')?.value;
     //Delete it
     //Check if it is custom id
-    if(cmdid.length === 4){
+    if(cmdid.length < 4){
         let commandData = await slash.findOne({
 			qid: cmdid
 		});
