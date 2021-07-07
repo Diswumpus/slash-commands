@@ -22,7 +22,7 @@ module.exports = {
         guild: interaction.guild.id
     });
     //Return if guild is not premium
-    if(gprime?.guild !== interactions.guild.id){
+    if(gprime?.guild !== interaction.guild.id){
         if(option_1 || option_2){
         const noprime = new Discord.MessageEmbed()
         .setColor('RED')
