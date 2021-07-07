@@ -37,7 +37,7 @@ module.exports = {
     }
     if (!client.application?.owner) await client.application?.fetch();
     let data;
-    if(!option_1 && !option_2){
+    if(!option_1 || !option_2){
     data = {
         name: name.toLowerCase(),
         description: description,
