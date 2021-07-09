@@ -1,4 +1,5 @@
 {
     "webhookurl": {"premium": "jQwXRA8-0uKnjs5wEmK6a5_d7phTR0Nyt98nH1j4zbW1qXFmfFnqRbzl_RYZwDFMMWAP", "command": "8lh9tHOuwRXOFoMqqr-rFD_ormLVLYhUX0LtoZQxEn4G1HeQsfvaYKktUGfVr0fSHfmv", "error": "z1yGvRJXKucB8QBelKVOf3hTAgK_0FcQOyeMyVW_ClRfmP87ZaJMBd_huOFIR68JHl6t"},
-    "webhookid": {"premium": "860918572967526450", "command": "860918719408635924", "error": "860918787176136754"}
+    "webhookid": {"premium": "860918572967526450", "command": "860918719408635924", "error": "860918787176136754"},
+    "channel": {"premium": "860918492068970527", "command": "860918509374144552", "error": "860918549904490507"}
 }

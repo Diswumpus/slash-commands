@@ -14,7 +14,7 @@ const client = new Discord.Client({
 client.once('ready', async () => {
     console.log('Ready! %s', client.user.tag);
     //Set presence
-    client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
+    client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guilds` }], status: 'online' });
 });
 module.exports.client = client;
 client.commands = new Discord.Collection();
@@ -157,7 +157,6 @@ setInterval(async () => {
             if (Number(result.redeemedAt) >= Number(result.exp)) {
                 const guildPremium = client.guilds.cache.get(result.guild);
                 if (guildPremium) {
-                        require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium')
                         const timeemoj = client.emojis.cache.get('846868929065517066');
                         const infoemoj = client.emojis.cache.get('860201073305583637');
                         const embed = new Discord.MessageEmbed()
@@ -165,7 +164,9 @@ setInterval(async () => {
                             .setDescription(`${infoemoj} Hey,\n\n${timeemoj} ${guildPremium.name}'s premium just expired... <a:blobsigh:855262242215690251>`)
                             .setFooter('Slash commands premium')
                             .addField(`‏‏‎ ‎`, `[Support Server](${require('./color.json').support}) | [Vote for me!](${require('./color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
-                        guildPremium.channels.cache.first().send({ embeds: [embed] });
+                        guildPremium.channels.cache.first().send({ embeds: [embed] }).then(m => {
+                            require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium', m)
+                        });
                         await prime.findOneAndDelete({
                             id: result.id
                         });
