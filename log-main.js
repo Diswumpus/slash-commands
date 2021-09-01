@@ -39,12 +39,13 @@ module.exports = async (message, type, g) => {
     //Log it to the console
     console.log(message)
     //Create buttons
-    const mcb = await require('./interaction').link(g.url)
+    const mcb = new Discord.MessageActionRow()
     mcb.addComponents(
         await require('./interaction').blink(inv.url, 'Go to guild')
     )
     //Get channel
-    const channel = client.channels.cache.get(logs.channel[type])
+    const channel = client.channels.cache.get(logs.channel[type]);
+    console.log(channel)
     //Send message
     channel.send({embeds: [embed], components: [mcb]});
 }

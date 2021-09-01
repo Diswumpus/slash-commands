@@ -136,7 +136,7 @@ module.exports = {
         const ifilter = (i) => i.user.id === interaction.user.id;
         let btfunction;
         //Log
-        require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', m2)
+        require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
         interaction.channel.awaitMessageComponent({ ifilter, time: 15000 })
             .then(async i => {
                 if (i.customId === 'yesbuttons') {
