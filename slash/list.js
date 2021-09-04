@@ -9,7 +9,11 @@ module.exports = {
   description: "Remove your data!",
   async execute(client, interaction) {
       // Check member permissions
-      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) return
+      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) {
+        if(interaction.user.id !== ownerid || interaction.user.id !== owner2id){
+          return
+        }
+      }
       //Get options
       const ephemeral = interaction.options?.find(c => c?.name === 'ephemeral')?.value || false;
       const global = interaction.options?.find(c => c?.name === 'global')?.value || false;
