@@ -10,6 +10,8 @@ module.exports = {
   async execute(client, interaction) {
       // Check member permissions
       if(!interaction.member.permissions.has('MANAGE_MESSAGES')) {
+        console.log(interaction.user.id)
+        console.log(ownerid)
         if(interaction.user.id !== ownerid || interaction.user.id !== owner2id){
           return
         }
