@@ -31,7 +31,7 @@ module.exports = {
         
                         const embed = new Discord.MessageEmbed()
                         .setColor(color)
-                        .setDescription(`\`\`\`\njs\n${clean(evaled)}\n\`\`\``)
+                        .setDescription(`\`\`\`\nxl\n${clean(evaled)}\n\`\`\``)
                     await interaction.reply({ embeds: [embed] });
                 } catch (err) {
                     const eembed = new Discord.MessageEmbed()
