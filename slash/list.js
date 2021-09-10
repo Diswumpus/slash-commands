@@ -134,8 +134,10 @@ module.exports = {
 
         if(ii === 0){
           component = rowfo
-        } else if(ii === embeds.length){
+        } else if(ii === embeds.length-1){
           component = rowbo
+        } else {
+          component = row
         }
         if(i.customId === 'back'){
           i.update({ embeds: [embeds[ii]], components: [component] })
