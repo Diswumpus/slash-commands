@@ -22,6 +22,7 @@ module.exports = {
         .setURL(inv.url)
         .setAuthor(`Slash Commands Partners`, message.client.user.displayAvatarURL(), require('../color.json').website)
         .setTimestamp()
+        .setImage(guild.bannerURL() || guild.splashURL())
         if(guild.description){
         embed.setDescription(`${guild.description}`)
         }
