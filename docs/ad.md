@@ -9,7 +9,7 @@
 
 :crown~1:  You can create slash commands with options (premium only)
 
-:reaction_add:  You can win slash commands premium in slash commands partnered servers and partnered servers get **slash commands premium lifetime** (Partner here: `{link}`)
+:reaction_add:  You can win slash commands premium in slash commands partnered servers and partnered servers get **slash commands premium lifetime** (Partner here: https://forms.gle/phrjV9RsJUwMv87Y6)
 
 :download:  **Invite:** https://discord.com/oauth2/authorize?client_id=859915461692096552&permissions=4228381815&scope=bot+applications.commands 
 ```
