@@ -124,8 +124,15 @@ module.exports = {
         .setEmoji(require('../emojis.json').flag_addid)
         .setStyle('SECONDARY')
       )
+      const getComponent = () => {
+        let c = rowfo
+        if(embeds.length === 0){
+          c = rowd
+        }
+        return c
+      }
       //Send the embed
-      await interaction.reply({ embeds: [command_embed], ephemeral: eph, components: [rowfo] });
+      await interaction.reply({ embeds: [command_embed], ephemeral: eph, components: [getComponent()] });
       let ii = 0
       const collector = await interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 })
       collector.on('collect', i => {
