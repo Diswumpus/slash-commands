@@ -9,7 +9,7 @@ module.exports = {
         if (!client.application?.owner) await client.application?.fetch();
         const prime = {
             name: 'edit',
-            description: 'Leaves a guild',
+            description: 'Edits a command',
             options: [{
                 name: 'command_id',
                 type: 'STRING',
