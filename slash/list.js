@@ -2,13 +2,18 @@ const Discord = require("discord.js");
 const slash = require('../models/slash-command');
 const color = require('../color.json').color;
 const ownerid = require('../config.json').ownerID;
+const owner2id = require('../config.json').owner2ID;
 
 module.exports = {
   name: "list",
   description: "Remove your data!",
   async execute(client, interaction) {
       // Check member permissions
-      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) return
+      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) {
+        if(interaction.user.id !== ownerid || interaction.user.id !== owner2id){
+          return
+        }
+      }
       //Get options
       const ephemeral = interaction.options?.find(c => c?.name === 'ephemeral')?.value || false;
       const global = interaction.options?.find(c => c?.name === 'global')?.value || false;
@@ -26,9 +31,11 @@ module.exports = {
       //Get all commands
       let commands;
       //Check if global is true and the user id is the same as the owner
-      if(global === true && interaction.user.id === ownerid){
+      if(global === true){
+        if(interaction.user.id === ownerid || interaction.user.id === owner2id){
         commands = await slash.find();
         eph = true;
+        }
       } else {
         commands = await slash.find({ guild: interaction.guild.id });
       };
