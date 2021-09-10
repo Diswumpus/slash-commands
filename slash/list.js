@@ -3,10 +3,16 @@ const slash = require('../models/slash-command');
 const color = require('../color.json').color;
 const ownerid = require('../config.json').ownerID;
 const owner2id = require('../config.json').owner2ID;
+const dt = require('discord-turtle');
 
 module.exports = {
   name: "list",
-  description: "Remove your data!",
+  description: "List the guilds commands",
+      /**
+     * 
+     * @param {Discord.Client} client 
+     * @param {Discord.CommandInteraction} interaction 
+     */
   async execute(client, interaction) {
       // Check member permissions
       if(!interaction.member.permissions.has('MANAGE_MESSAGES')) {
@@ -46,11 +52,83 @@ module.exports = {
       .setTitle(`${interaction.guild}'s Commands`)
       .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
       .setColor(color)
+      /**
+       * @type {Discord.MessageEmbed[]}
+       */
+      const embeds = new Array(command_embed);
       //Add them to the embed
-      commands.forEach(c => {
-          command_embed.addField(`${info} Command: ${c.name}`, `${idemoji} ID: ${c.qid}\n${chart} Uses: ${c.uses || '0'}`, true)
-      });
+      let i = 0
+      let ce = 0
+      for(const c of commands){
+        i++
+        if(i === 24){
+          i = 0
+          ce++
+          embeds.push(command_embed)
+        }
+        embeds[ce].addField(`${info} Command: ${c.name}`, `${idemoji} ID: ${c.qid}\n${chart} Uses: ${c.uses || '0'}`, true)
+      }
+      const row = new Discord.MessageActionRow()
+      .addComponents(
+        new Discord.MessageButton()
+        .setCustomId('back')
+        .setLabel('Back')
+        .setEmoji(require('../emojis.json').flag_removeid)
+        .setStyle('SECONDARY'),
+        new Discord.MessageButton()
+        .setCustomId('forward')
+        .setLabel('Forward')
+        .setEmoji(require('../emojis.json').flag_addid)
+        .setStyle('SECONDARY')
+      )
+      const rowfo = new Discord.MessageActionRow()
+      .addComponents(
+        new Discord.MessageButton()
+        .setCustomId('back')
+        .setLabel('Back')
+        .setDisabled(true)
+        .setEmoji(require('../emojis.json').flag_removeid)
+        .setStyle('SECONDARY'),
+        new Discord.MessageButton()
+        .setCustomId('forward')
+        .setLabel('Forward')
+        .setEmoji(require('../emojis.json').flag_addid)
+        .setStyle('SECONDARY')
+      )
+      const rowbo = new Discord.MessageActionRow()
+      .addComponents(
+        new Discord.MessageButton()
+        .setCustomId('back')
+        .setLabel('Back')
+        .setEmoji(require('../emojis.json').flag_removeid)
+        .setStyle('SECONDARY'),
+        new Discord.MessageButton()
+        .setCustomId('forward')
+        .setDisabled(true)
+        .setLabel('Forward')
+        .setEmoji(require('../emojis.json').flag_addid)
+        .setStyle('SECONDARY')
+      )
       //Send the embed
-      await interaction.reply({ embeds: [command_embed], ephemeral: eph});
+      await interaction.reply({ embeds: [command_embed], ephemeral: eph, components: [rowfo] });
+      let ii = 0
+      interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 }).then(i => {
+        let component;
+
+        if(ii === 0){
+          component = rowfo
+        } else if(ii === embeds.length){
+          component = rowbo
+        }
+        if(i.customId === 'back'){
+          interaction.editReply({ embeds: [embeds[ii]], components: [component] })
+
+          ii--
+        } else if(i.customId === 'forward'){
+          interaction.editReply({ embeds: [embeds[ii]], components: [component] })
+
+          ii++
+        }
+      })
   }
 }
