@@ -55,7 +55,7 @@ module.exports = {
       let ce = 0
       for(const c of commands){
         i++
-        if(i === 24){
+        if(i === 23){
           i = 0
           ce++
           embeds.push(command_embed)
@@ -126,27 +126,34 @@ module.exports = {
         return c
       }
       //Send the embed
-      await interaction.reply({ embeds: [command_embed], ephemeral: eph, components: [getComponent()] });
-      let ii = 0
+      await interaction.reply({ embeds: [embeds[0].setFooter(`Page 1/${embeds.length}`)], ephemeral: eph, components: [getComponent()] });
+      let ii = 1
       const collector = await interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 })
       collector.on('collect', i => {
         let component;
 
-        if(ii === 0){
+        if(ii-1 === 0){
           component = rowfo
-        } else if(ii === embeds.length-1){
+        } else if(ii === embeds.length){
           component = rowbo
         } else {
           component = row
         }
+        const page = ''
         if(i.customId === 'back'){
-          i.update({ embeds: [embeds[ii]], components: [component] })
-
           ii--
-        } else if(i.customId === 'forward'){
-          i.update({ embeds: [embeds[ii]], components: [component] })
 
+          i.update({ embeds: [embeds[ii-1].setFooter(`Page ${ii}/${embeds.length}`)], components: [component] })
+        } else if(i.customId === 'forward'){
           ii++
+
+          i.update({ embeds: [embeds[ii-1].setFooter(`Page ${ii}/${embeds.length}`)], components: [component] })
+        }
+
+        if(ii-1 === 0){
+          interaction.editReply({ components: [rowfo] })
+        } else if(ii === embeds.length){
+          interaction.editReply({ components: [rowbo] })
         }
       })
       collector.on('end', () => {

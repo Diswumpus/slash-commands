@@ -6,6 +6,7 @@
 <img src="https://cdn.discordapp.com/emojis/880278338571235329.png?v=1" style="width:40px;height:40px;"><font size="30px"> <a href="https://turtlebot-discord.github.io/slash-commands/tos">Terms of Service</a><br>
 <img src="https://cdn.discordapp.com/emojis/880278338571235329.png?v=1" style="width:40px;height:40px;"><font size="30px"> <a href="https://turtlebot-discord.github.io/slash-commands/ad">Ad</a><br>
 <img src="https://cdn.discordapp.com/emojis/880278338571235329.png?v=1" style="width:40px;height:40px;"><font size="30px"> <a href="https://turtlebot-discord.github.io/slash-commands/privacy">Privacy Policy</a><br>
+<img src="https://cdn.discordapp.com/emojis/880278338571235329.png?v=1" style="width:40px;height:40px;"><font size="30px"> <a href="https://turtlebot-discord.github.io/slash-commands/partnering">Partnering</a><br>
 <img src="https://cdn.discordapp.com/emojis/878677686350934027.png?v=1" style="width:40px;height:40px;"> <a href="https://turtlebot-discord.github.io/slash-commands/creating_commands">Creating Commands</a>
 
 <font size="20px" color="7289da"> For more help join <a href="https://discord.gg/yuHceddqur">our Discord server</a><font><br>
