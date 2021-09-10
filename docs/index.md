@@ -20,5 +20,3 @@
 <a href="https://top.gg/bot/859915461692096552">
   <img src="https://top.gg/api/widget/859915461692096552.svg" alt="Slash Commands" />
   </a>
-
----
