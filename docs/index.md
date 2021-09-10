@@ -14,9 +14,9 @@
 
 <a href="https://discord.gg/ANzBrkcXZy"><img src="https://invidget.switchblade.xyz/yuHceddqur" /></a>
 
----
 
-## Top.gg
+
+<font size="10px"> Top.gg </font>
 <a href="https://top.gg/bot/859915461692096552">
   <img src="https://top.gg/api/widget/859915461692096552.svg" alt="Slash Commands" />
   </a>
