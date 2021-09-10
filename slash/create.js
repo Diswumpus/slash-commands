@@ -45,44 +45,45 @@ module.exports = {
                 return
             }
         }
-        if (!client.application?.owner) await client.application?.fetch();
-        let data;
-        if (!option_1 || !option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-            };
-        } else if (option_1) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_1,
-                    type: 'STRING',
-                    description: option_1,
-                    required: true,
-                }],
-            };
-        } else if (option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_2,
-                    type: 'STRING',
-                    description: option_2,
-                    required: true,
-                }],
-            };
-        } else if (option_1 && option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_1,
-                    type: 'STRING',
-                    description: option_1,
-                    required: true,
+    }
+    if (!client.application?.owner) await client.application?.fetch();
+    let data;
+    if(!option_1 || !option_2){
+    data = {
+        name: name.toLowerCase(),
+        description: description,
+    };
+    } else if(option_1){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_1,
+                type: 'STRING',
+                description: option_1,
+                required: true,
+            }],
+        };
+    } else if(option_2){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_2,
+                type: 'STRING',
+                description: option_2,
+                required: true,
+            }],
+        };
+    } else if(option_1 && option_2){
+        data = {
+            name: name.toLowerCase(),
+            description: description,
+            options: [{
+                name: option_1,
+                type: 'STRING',
+                description: option_1,
+                required: true,
                 },
                 {
                     name: option_2,
@@ -137,4 +138,28 @@ module.exports = {
                         .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
                     await interaction.editReply({ embeds: [embed], components: [] })
     }
+    //Create the command in the database
+    let dBase = new slash({
+        id: command.id,
+        qid: theid,
+        guild: interaction.guild.id,
+        reply: reply,
+        name: command.name,
+        embed: intembed,
+        option1: option_1,
+        option2: option_2
+    });
+    await dBase.save().catch(e => console.log(e));
+    //Log
+    require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
+    //Send message
+    const embed = new Discord.MessageEmbed()
+    .setTitle(`${require('../emojis.json').check} Created`)
+    .addField('ID:', `${theid} ||( ${command.id} )||`, true)
+    .addField('Name:', command.name, true)
+    .addField('Description:', command.description, true)
+    .setColor(color)
+    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
+    await interaction.reply({ embeds: [embed] })
+  }
 }

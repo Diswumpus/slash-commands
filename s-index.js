@@ -14,7 +14,7 @@ const client = new Discord.Client({
 client.once('ready', async () => {
     console.log('Ready! %s', client.user.tag);
     //Set presence
-    client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guilds` }], status: 'online' });
+    client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
 });
 module.exports.client = client;
 client.commands = new Discord.Collection();
@@ -120,6 +120,7 @@ setInterval(async () => {
             if (Number(result.redeemedAt) >= Number(result.exp)) {
                 const guildPremium = client.guilds.cache.get(result.guild);
                 if (guildPremium) {
+                        require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium')
                         const timeemoj = client.emojis.cache.get('846868929065517066');
                         const infoemoj = client.emojis.cache.get('860201073305583637');
                         const embed = new Discord.MessageEmbed()
