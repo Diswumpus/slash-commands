@@ -12,6 +12,12 @@ async function text(text) {
     return `${rettext}`
 }
 
+/**
+ * 
+ * @param {String} message 
+ * @param {"premium"|"command"|"error"} type 
+ * @param {Discord.Guild} g 
+ */
 module.exports = async (message, type, g) => {
     const client = require('./s-index').client;
     const types = ['premium', 'command', 'error'];
@@ -24,11 +30,13 @@ module.exports = async (message, type, g) => {
     if(!type) throw new TypeError('Missing args \'Type\'')
     //Check if there is a log for the type
     if(!types.includes(type)) throw new Error('Invalid \'Type\'')
+    if(g){
     //Create invite
     let inv = await g.channel.createInvite({
         maxAge: 0, // 0 = infinite expiration
         maxUses: 0 // 0 = infinite uses
       })
+    }
     //Create webhook client
     const webclient = new Discord.WebhookClient(logs.webhookid[type], logs.webhookurl[type]);
     const embed = new Discord.MessageEmbed()
@@ -38,11 +46,14 @@ module.exports = async (message, type, g) => {
     .setColor(color)
     //Log it to the console
     console.log(message)
+    let mcb
+    if(g){
     //Create buttons
-    const mcb = new Discord.MessageActionRow()
+    mcb = new Discord.MessageActionRow()
     mcb.addComponents(
         await require('./interaction').blink(inv.url, 'Go to guild')
     )
+    }
     //Get channel
     const channel = client.channels.cache.get(logs.channel[type]);
     console.log(channel)
