@@ -33,7 +33,7 @@ module.exports = async (message, type, g) => {
       })
     }
     //Create webhook client
-    const webclient = new Discord.WebhookClient(logs.webhookid[type], logs.webhookurl[type]);
+    //const webclient = new Discord.WebhookClient(logs.webhookid[type], logs.webhookurl[type]);
     const embed = new Discord.MessageEmbed()
     .setAuthor(`/ Logs`, `${client.user.displayAvatarURL()}`)
     .setTitle('__**' + thetext + '**__')
@@ -46,7 +46,11 @@ module.exports = async (message, type, g) => {
     //Create buttons
     mcb = new Discord.MessageActionRow()
     mcb.addComponents(
-        await require('./interaction').blink(inv.url, 'Go to guild')
+        new Discord.MessageButton()
+        .setStyle("LINK")
+        .setURL(inv.url.toString())
+        .setLabel('Go to guild')
+        .setEmoji(require('./emojis.json').link)
     )
     }
     //Get channel
