@@ -25,11 +25,6 @@ module.exports = async (message, type, g) => {
     await text(type);
     //Load webhooks
     const logs = require('./webhooks.json');
-    //Check if args are there
-    if(!message) throw new TypeError('Missing args \'Message\'')
-    if(!type) throw new TypeError('Missing args \'Type\'')
-    //Check if there is a log for the type
-    if(!types.includes(type)) throw new Error('Invalid \'Type\'')
     if(g){
     //Create invite
     let inv = await g.channel.createInvite({
@@ -56,7 +51,6 @@ module.exports = async (message, type, g) => {
     }
     //Get channel
     const channel = client.channels.cache.get(logs.channel[type]);
-    console.log(channel)
     //Send message
     channel.send({embeds: [embed], components: [mcb]});
 }
