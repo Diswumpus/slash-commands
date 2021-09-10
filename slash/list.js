@@ -44,7 +44,7 @@ module.exports = {
       //Create new embed
       const command_embed = new Discord.MessageEmbed()
       .setTitle(`${interaction.guild}'s Commands`)
-      .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
+      .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
       .setColor(color)
       //Add them to the embed
       commands.forEach(c => {

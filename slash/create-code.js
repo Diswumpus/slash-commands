@@ -57,6 +57,7 @@ module.exports = {
     const reply_embed = new Discord.MessageEmbed()
     .setTitle(`${require('../emojis.json').check} Created!`)
     .setDescription(`**Code**: \`${code}\`\n\nExpires At: \`${expiresAt}\``)
+    .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
     .setColor(color)
     //Send embed
     await interaction.reply({ embeds: [reply_embed] });

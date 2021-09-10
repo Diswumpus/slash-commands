@@ -33,7 +33,7 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
     .setTitle(`${require('../emojis.json').check} Deleted`)
     .setColor(color)
-    .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
+    .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
     await interaction.reply({ embeds: [embed] })
     }
   }
