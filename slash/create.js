@@ -104,7 +104,121 @@ module.exports = {
         } else {
             theid = Math.floor(Math.random() * 5000);
         }
-        if(i === true){ break; }
+
+        //Ask if buttons
+        const btembed = new Discord.MessageEmbed()
+            .setTitle(`${require('../emojis.json').tb} Buttons!`)
+            .setDescription('Should there be buttons?')
+        //Create buttons
+        const buttons = new Discord.MessageActionRow()
+            .addComponents(
+                new Discord.MessageButton()
+                    .setCustomId('yesbuttons')
+                    .setLabel(`Yes!`)
+                    .setEmoji(require('../emojis.json').checkid)
+                    .setStyle('PRIMARY'),
+                new Discord.MessageButton()
+                    .setCustomId('nobuttons')
+                    .setLabel(`No, skip`)
+                    .setEmoji(require('../emojis.json').xid)
+                    .setStyle('PRIMARY')
+            );
+        await interaction.editReply({ embeds: [btembed], components: [buttons] });
+        const mfilter = m => m.author.id === interaction.user.id;
+        const ifilter = (i) => i.user.id === interaction.user.id;
+        let btfunction;
+        //Log
+        require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
+        interaction.channel.awaitMessageComponent({ ifilter, time: 15000 })
+            .then(async i => {
+                if (i.customId === 'yesbuttons') {
+                    buttonss = true
+                } else if (i.customId === 'nobuttons') {
+                    buttonss = false
+                }
+                if (buttonss === true) {
+                    await interaction.editReply({ embeds: [new Discord.MessageEmbed().setTitle('Button').setDescription('What label for the button?')], components: [] });
+                    interaction.channel.awaitMessages({ mfilter, time: 15000 })
+                        .then(async i2 => {
+                            const btlabel = i2.first()?.content;
+                            i2.first().delete().catch(() => { })
+                            const buttonmenu = new Discord.MessageSelectMenu()
+                                .setCustomId('buttonmenu')
+                                .setPlaceholder('Nothing selected')
+                                .addOptions([
+                                    {
+                                        label: 'Delete Message',
+                                        description: 'Deletes the sent message',
+                                        value: '1',
+                                    },
+                                ]);
+                            await interaction.editReply({ embeds: [new Discord.MessageEmbed().setTitle('Button').setDescription('What function')], components: [[buttonmenu]] });
+                            interaction.channel.awaitMessageComponent({ ifilter, time: 15000 })
+                                .then(async i3 => {
+                                    if (i3.customId === 'buttonmenu') {
+                                        btfunction = i3.values;
+                                    } else {
+                                        btfunction = null;
+                                    }
+                                    const { v4: uuidv4 } = require('uuid');
+                                    const thebutton = new Discord.MessageActionRow()
+                                        .addComponents(
+                                            new Discord.MessageButton()
+                                                .setCustomId(btfunction || '0')
+                                                .setLabel(btlabel)
+                                                .setStyle('PRIMARY')
+                                        );
+                                    //Create the command in the database
+                                    let dBase = new slash({
+                                        id: command.id,
+                                        qid: theid,
+                                        guild: interaction.guild.id,
+                                        reply: reply,
+                                        name: command.name,
+                                        embed: intembed,
+                                        option1: option_1,
+                                        option2: option_2,
+                                        button: thebutton || null,
+                                        function: btfunction[0] || null
+                                    });
+                                    await dBase.save().catch(e => console.log(e));
+                                    //Send message
+                                    const embed = new Discord.MessageEmbed()
+                                        .setTitle(`${require('../emojis.json').check} Created`)
+                                        .addField('ID:', `${theid} ||( ${command.id} )||`, true)
+                                        .addField('Name:', command.name, true)
+                                        .addField('Description:', command.description, true)
+                                        .setColor(color)
+                                        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
+                                    await interaction.editReply({ embeds: [embed], components: [] })
+                                })
+                        })
+                } else {
+                    //Create the command in the database
+                    let dBase = new slash({
+                        id: command.id,
+                        qid: theid,
+                        guild: interaction.guild.id,
+                        reply: reply,
+                        name: command.name,
+                        embed: intembed,
+                        option1: option_1,
+                        option2: option_2,
+                        button: null,
+                        function: null
+                    });
+                    await dBase.save().catch(e => console.log(e));
+                    //Send message
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle(`${require('../emojis.json').check} Created`)
+                        .addField('ID:', `${theid} ||( ${command.id} )||`, true)
+                        .addField('Name:', command.name, true)
+                        .addField('Description:', command.description, true)
+                        .setColor(color)
+                        .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                    await interaction.editReply({ embeds: [embed], components: [] })
+                }
+            })
     }
     //Create the command in the database
     let dBase = new slash({

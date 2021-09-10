@@ -53,7 +53,7 @@ module.exports = {
         .setTitle(`${require('../emojis.json').check} Activated`)
         .setColor(color)
         .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild.id}\` by \`${interaction.user.tag}\`\n\nExpires at: <t:${Math.floor(expiresAt / 1000.0)}:R>\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
-        .addField(`‏‏‎ ‎`, `[Support Server](${require('../color.json').support}) | [Vote for me!](${require('../color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
+        .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
         //Send embed
         await interaction.reply({ embeds: [ rep_embed ] });
       }

@@ -164,8 +164,10 @@ setInterval(async () => {
                             .setColor(require('./color.json').color)//guildPremium.name
                             .setDescription(`${infoemoj} Hey,\n\n${timeemoj} ${guildPremium.name}'s premium just expired... <a:blobsigh:855262242215690251>`)
                             .setFooter('Slash commands premium')
-                            .addField(`‏‏‎ ‎`, `[Support Server](${require('./color.json').support}) | [Vote for me!](${require('./color.json').vote}) | [Invite Me!](${require('../color.json').inv})`)
-                        guildPremium.channels.cache.first().send({ embeds: [embed] });
+                            .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                        guildPremium.channels.cache.first().send({ embeds: [embed] }).then(m => {
+                            require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium', m)
+                        });
                         await prime.findOneAndDelete({
                             id: result.id
                         });

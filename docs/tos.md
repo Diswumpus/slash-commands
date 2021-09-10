@@ -9,3 +9,5 @@
 - No selling **Slash Command's Premium** codes or you will receive a warning or a bot ban
 
 ---
+
+> **If you violate any of these rules slash commands will be removed from your server**

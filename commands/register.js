@@ -49,31 +49,17 @@ module.exports = {
             }],
         };
         const prime = {
-            name: 'create-code',
-            description: 'Create a premium code!!',
+            name: 'leave',
+            description: 'Leaves a guild',
             options: [{
-                name: 'time',
+                name: 'guild_id',
                 type: 'STRING',
-                description: 'For how long?',
+                description: 'What guild?',
                 required: true,
-                choices: [
-					{
-						name: 'Lifetime',
-						value: 'lifetime',
-					},
-					{
-						name: 'Month',
-						value: 'month',
-					},
-					{
-						name: 'Year',
-						value: 'year',
-					},
-				],
             }],
         };
-        const command = await client.application?.commands.create(data);
-        //const command = await client.guilds.cache.get('842575277249921074')?.commands.create(data);
+        //const command = await client.application?.commands.create(data);
+        const command = await client.guilds.cache.get('834199640702320650')?.commands.create(prime);
         console.log(command);
     }
 }
