@@ -24,7 +24,8 @@ module.exports = {
         //Check if has !
         if(!message.content.startsWith('!')) return
         //Get args
-        const args = message.content.slice(1);
+        const args = message.content.slice(1).replace(/ /g,"-");
+		console.log(args)
         //Fetch the command
 		let commandData = await slash.findOne({
 			name: args,
