@@ -15,13 +15,7 @@ module.exports = {
      */
   async execute(client, interaction) {
       // Check member permissions
-      if(!interaction.member.permissions.has('MANAGE_MESSAGES')) {
-        console.log(interaction.user.id)
-        console.log(ownerid)
-        if(interaction.user.id !== ownerid || interaction.user.id !== owner2id){
-          return
-        }
-      }
+      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id !== ownerid || interaction.user.id !== owner2id){
       //Get options
       const ephemeral = interaction.options?.find(c => c?.name === 'ephemeral')?.value || false;
       const global = interaction.options?.find(c => c?.name === 'global')?.value || false;
@@ -126,7 +120,7 @@ module.exports = {
       )
       const getComponent = () => {
         let c = rowfo
-        if(embeds.length === 0){
+        if(embeds.length === 1){
           c = rowd
         }
         return c
@@ -157,4 +151,5 @@ module.exports = {
         interaction.editReply({ components: [rowd]})
       })
   }
+}
 }
