@@ -109,10 +109,26 @@ module.exports = {
         .setEmoji(require('../emojis.json').flag_addid)
         .setStyle('SECONDARY')
       )
+      const rowd = new Discord.MessageActionRow()
+      .addComponents(
+        new Discord.MessageButton()
+        .setCustomId('back')
+        .setLabel('Back')
+        .setDisabled(true)
+        .setEmoji(require('../emojis.json').flag_removeid)
+        .setStyle('SECONDARY'),
+        new Discord.MessageButton()
+        .setCustomId('forward')
+        .setDisabled(true)
+        .setLabel('Forward')
+        .setEmoji(require('../emojis.json').flag_addid)
+        .setStyle('SECONDARY')
+      )
       //Send the embed
       await interaction.reply({ embeds: [command_embed], ephemeral: eph, components: [rowfo] });
       let ii = 0
-      interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 }).then(i => {
+      const collector = await interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 })
+      collector.on('collect', i => {
         let component;
 
         if(ii === 0){
@@ -129,6 +145,9 @@ module.exports = {
 
           ii++
         }
+      })
+      collector.on('end', () => {
+        interaction.editReply({ components: [rowd]})
       })
   }
 }
