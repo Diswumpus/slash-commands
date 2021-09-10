@@ -12,6 +12,11 @@ async function textf(text) {
 
 module.exports = {
 	name: 'interaction',
+	      /**
+     * 
+     * @param {Discord.Client} client 
+     * @param {Discord.CommandInteraction} interaction 
+     */
 	async execute(interaction, client) {
 		/*
 		id: String,
@@ -23,7 +28,7 @@ module.exports = {
 		*/
 		//Fetch the command
 		let commandData = await slash.findOne({
-			id: interaction.commandID,
+			id: interaction.commandId,
 			guild: interaction.guild.id
 		});
 		//Return if there is no command data
@@ -67,7 +72,7 @@ module.exports = {
 				.setDescription(text)
 			await interaction.reply({ embeds: [replyembed] })
 		} else {
-			await interaction.reply({ content: text })
+			await interaction.reply({ content: text.toString() })
 		}
 	},
 };
