@@ -7,26 +7,15 @@ module.exports = {
     async execute(message, Member, args) {
         const client = message.client
         if (!client.application?.owner) await client.application?.fetch();
+        if(message.author.id !== require('../config.json').ownerID) return
         const prime = {
-            name: 'edit',
-            description: 'Leaves a guild',
+            name: 'eval',
+            description: 'Eval some code',
             options: [{
-                name: 'command_id',
+                name: 'code',
                 type: 'STRING',
-                description: 'What command? (ex. 1038)',
+                description: 'The code to eval',
                 required: true,
-            },
-            {
-                name: 'reply',
-                type: 'STRING',
-                description: 'The reply of the command you want to change',
-                required: false,
-            },
-            {
-                name: 'embed',
-                type: 'BOOLEAN',
-                description: 'Should the reply be an embed?',
-                required: false,
             }],
         };
         const command = await client.application?.commands.create(prime);

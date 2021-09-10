@@ -25,6 +25,7 @@
   "homepage": "https://github.com/TurtlePaw/slash-commands#readme",
   "dependencies": {
     "canvas": "^2.8.0",
+    "discord-turtle": "^3.1.0",
     "discord.js": "^13.0.0-dev.755c180.1625659372",
     "key-file-storage": "^2.2.9",
     "klaw-sync": "^6.0.0",

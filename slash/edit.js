@@ -48,7 +48,6 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle(`${require('../emojis.json').check} Edited the command!`)
             .setColor(color)
-            .setDescription(`Left guild ${guildl.name} (${guildl.id})`)
             .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
             if(optionschanged.reply){
                 embed.addField(`Reply Changed`, `${commandr.reply} -> ${optionschanged.reply}`)

@@ -7,6 +7,7 @@ module.exports = {
     async execute(message, Member, args) {
         const client = message.client
         if (!client.application?.owner) await client.application?.fetch();
+        if(message.author.id !== require('../config.json').ownerID) return
         //https://discord.com/oauth2/authorize?client_id=841782635386109972&scope=bot+applications.commands
         const data = {
             name: 'create',

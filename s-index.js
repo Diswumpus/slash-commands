@@ -62,29 +62,6 @@ client.on('interaction', async interaction => {
     }
 });
 
-client.on("message", message => {
-    const args = message.content.split(" ").slice(1);
-    const clean = text => {
-        if (typeof (text) === "string")
-            return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-        else
-            return text;
-    }
-    if (message.content.startsWith(config.prefix + "eval")) {
-        if (message.author.id !== config.ownerID) return;
-        try {
-            const code = args.join(" ");
-            let evaled = eval(code);
-
-            if (typeof evaled !== "string")
-                evaled = require("util").inspect(evaled);
-
-            message.channel.send(clean(evaled), { code: "xl" });
-        } catch (err) {
-            message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-        }
-    }
-});
 var commandFiles = klawSync('./commands', { nodir: true, traverseAll: true, filter: f => f.path.endsWith('.js') })
 for (const file of commandFiles) {
     const command = require(`${file.path}`);
@@ -93,20 +70,6 @@ for (const file of commandFiles) {
     // with the key as the command name and the value as the exported module
     client.commands.set(command.name, command);
 }
-const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-client.on('message', async message => {
-    const mentionRegex = RegExp(`^<@!?${client.user.id}>$`);
-    const mentionRegexPrefix = RegExp(`^<@!?${client.user.id}>`);
-    if (message.content.match(mentionRegex)) {
-        let currentPrefix = config.prefix;
-        message.reply({
-            embeds: [new Discord.MessageEmbed()
-                .setTitle(`Hey there!`)
-                .setDescription(`My prefix is \`${config.prefix}\``)
-                .setColor('BLUE')]
-        })
-    }
-});
 client.on('message', async message => {
     var Member;
     var differentDays = 0;
