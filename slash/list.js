@@ -138,11 +138,11 @@ module.exports = {
           component = rowbo
         }
         if(i.customId === 'back'){
-          interaction.editReply({ embeds: [embeds[ii]], components: [component] })
+          i.update({ embeds: [embeds[ii]], components: [component] })
 
           ii--
         } else if(i.customId === 'forward'){
-          interaction.editReply({ embeds: [embeds[ii]], components: [component] })
+          i.update({ embeds: [embeds[ii]], components: [component] })
 
           ii++
         }
