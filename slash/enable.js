@@ -10,7 +10,7 @@ module.exports = {
       // Check member permissions
       if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID){
         // Get interaction options
-        const id = interaction.options?.find(c => c?.name === 'code')?.value;
+        const id = interaction.options?.get('code')?.value;
         //Check if there is one
         let findone = await prime.findOne({
             id: id

@@ -10,7 +10,7 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
     async execute(client, interaction) {
-        const guild = interaction.options?.find(c => c?.name === 'guild_id')?.value;
+        const guild = interaction.options?.get('guild_id')?.value;
 
         const guildl = await client.guilds.cache.get(guild).leave()
 

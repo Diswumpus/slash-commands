@@ -5,7 +5,7 @@ module.exports = {
     name: 'help',
     description: 'Shows a list of commands',
     async execute(client, interaction) {
-        const cmddd = interaction.options?.find(c => c?.name === 'command_name')?.value;
+        const cmddd = interaction.options?.get('command_name')?.value;
         if(!cmddd) {
         const helpp = new Discord.MessageEmbed()
         .setTitle(`${require('../emojis.json').tb} Commands`)

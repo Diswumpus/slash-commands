@@ -17,8 +17,8 @@ module.exports = {
       // Check member permissions
       if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id !== ownerid || interaction.user.id !== owner2id){
       //Get options
-      const ephemeral = interaction.options?.find(c => c?.name === 'ephemeral')?.value || false;
-      const global = interaction.options?.find(c => c?.name === 'global')?.value || false;
+      const ephemeral = interaction.options?.get('ephemeral')?.value || false;
+      const global = interaction.options?.get('global')?.value || false;
       //Check if message is going to be ephemeral
       let eph;
       if(ephemeral === true){
