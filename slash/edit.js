@@ -8,7 +8,15 @@ module.exports = {
     description: 'Edits a command',
     data: new SlashCommandBuilder()
     .setName(`edit`)
-    .setDescription("Edit a slash command"),
+    .setDescription("Edit a slash command")
+    .addStringOption(o => {
+        return o.setName('reply')
+        .setDescription('The reply for the command')
+    })
+    .addBooleanOption(o => {
+        return o.setName('embed')
+        .setDescription('If the reply should be an embed')
+    }),
     /**
      * 
      * @param {Discord.Client} client 
