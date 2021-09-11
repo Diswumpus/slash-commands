@@ -4,11 +4,25 @@ const color = require('../color.json').color;
 const ownerid = require('../config.json').ownerID;
 const owner2id = require('../config.json').owner2ID;
 const dt = require('discord-turtle');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   name: "list",
   description: "List the guilds commands",
-      /**
+    data: new SlashCommandBuilder()
+    .setName('list')
+    .setDescription(`Lists the guilds commands`)
+    .addBooleanOption(option => {
+      return option.setName('ephemeral')
+      .setDescription('Make it so only you can see the message')
+      .setRequired(false)
+    })
+    .addBooleanOption(option => {
+      return option.setName('global')
+      .setDescription('See every command')
+      .setRequired(false)
+    }),
+          /**
      * 
      * @param {Discord.Client} client 
      * @param {Discord.CommandInteraction} interaction 

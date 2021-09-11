@@ -3,9 +3,18 @@ const Discord = require("discord.js");
 const prime = require('../models/premium');
 const color = require('../color.json').color;
 const owner = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   name: "enable-premium",
+  data: new SlashCommandBuilder()
+  .setName(`enable-premium`)
+  .setDescription("Enable a premium code!")
+  .addStringOption(option => {
+    return option.setName('code')
+      .setDescription(`The premium code`)
+      .setRequired(true)
+  }),
   async execute(client, interaction) {
       // Check member permissions
       if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID){

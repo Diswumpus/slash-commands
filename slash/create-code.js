@@ -3,9 +3,22 @@ const Discord = require("discord.js");
 const prime = require('../models/premium');
 const color = require('../color.json').color;
 const owner = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   name: "create-code",
+  devOnly: true,
+  data: new SlashCommandBuilder()
+  .setName(`create-code`)
+  .setDescription("Create a premium code!")
+  .addStringOption(o => {
+    return o.setName('time')
+    .setDescription('The plan for the code')
+    .setRequired(true)
+    .addChoice('Month', 'month')
+    .addChoice('Year', 'year')
+    .addChoice('Lifetime', 'lifetime')
+}),
   async execute(client, interaction) {
     //Check if owner
     if(interaction.user.id !== owner.ownerID) return

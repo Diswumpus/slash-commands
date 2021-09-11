@@ -51,9 +51,14 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const slshCommands = []
+const slashCommands = []
     for(const cmd of slshcmdArray){
         if(cmd.data){
-        slshCommands.push(cmd.data)
+            if(cmd.devOnly){
+                slashCommands.push(cmd.data)
+            } else {
+                slshCommands.push(cmd.data)
+            }
         }
     }
 	slshCommands.map(command => command.toJSON());
@@ -66,6 +71,10 @@ const rest = new REST({ version: '9' }).setToken(token);
 			Routes.applicationCommands(clientId),
 			{ body: slshCommands },
 		);
+        await rest.put(
+            Routes.applicationGuildCommands(clientId, guildId),
+            { body: slashCommands}
+        );
 
 		console.log('Successfully registered application commands.');
 	} catch (error) {

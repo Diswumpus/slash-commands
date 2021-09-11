@@ -1,10 +1,14 @@
 const Discord = require('discord.js');
 const color = require('../color.json').color;
 const scommand = require('../models/slash-command');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'edit',
     description: 'Edits a command',
+    data: new SlashCommandBuilder()
+    .setName(`edit`)
+    .setDescription("Edit a slash command"),
     /**
      * 
      * @param {Discord.Client} client 

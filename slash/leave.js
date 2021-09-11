@@ -1,9 +1,19 @@
 const Discord = require('discord.js');
 const color = require('../color.json').color;
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'leave',
     description: 'Leaves a server',
+    devOnly: true,
+    data: new SlashCommandBuilder()
+    .setName(`leave`)
+    .setDescription("Leaves a server")
+    .addStringOption(o => {
+        return o.setRequired(true)
+        .setName('guild_id')
+        .setDescription('The id of the guild')
+    }),
     /**
      * 
      * @param {Discord.Client} client 
