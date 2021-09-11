@@ -13,7 +13,7 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
     async execute(client, interaction) {
-        const code = interaction.options?.find(c => c?.name === 'code')?.value;
+        const code = interaction.options?.get('code')?.value;
 
         const clean = text => {
             if (typeof (text) === "string")

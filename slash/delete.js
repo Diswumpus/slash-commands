@@ -9,7 +9,7 @@ module.exports = {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID || interaction.user.id === owner.owner2ID) {
             // Get interaction options
-            const cmdid = interaction.options?.find(c => c?.name === 'id')?.value;
+            const cmdid = interaction.options?.get('id')?.value;
             //Delete it
             //Check if it is custom id
             if (cmdid.length < 4 || cmdid.length === 4) {

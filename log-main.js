@@ -35,7 +35,7 @@ module.exports = async (message, type, g) => {
     //Create webhook client
     //const webclient = new Discord.WebhookClient(logs.webhookid[type], logs.webhookurl[type]);
     const embed = new Discord.MessageEmbed()
-    .setAuthor(`/ Logs`, `${client.user.displayAvatarURL()}`)
+    .setAuthor(`/ Logs`, `${client.user?.displayAvatarURL()}`)
     .setTitle('__**' + thetext + '**__')
     .setDescription(message)
     .setColor(color)
@@ -59,6 +59,6 @@ module.exports = async (message, type, g) => {
     //Send message
     channel.send({embeds: [embed], components: [mcb]});
     } else {
-        channel.send({ embeds: [embed] });
+        channel?.send({ embeds: [embed] });
     }
 }

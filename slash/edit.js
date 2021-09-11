@@ -14,8 +14,8 @@ module.exports = {
         const command_id = interaction.options?.find(c => c?.name === 'command_id')?.value;
 
         const options = {
-            reply: interaction.options?.find(c => c?.name === 'reply')?.value,
-            embed: interaction.options?.find(c => c?.name === 'embed')?.value
+            reply: interaction.options?.get('reply')?.value,
+            embed: interaction.options?.get('embed')?.value
         }
         const optionschanged = {
             reply: 'Nothing Changed',

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const slash = require('../models/slash-command');
+const serverM = require('../models/server.manager');
 let thetext;
 async function textf(text) {
     text = text.toString()
@@ -58,7 +59,7 @@ module.exports = {
 		}, async (err, dUser) => {
 			if (err) console.log(err);
 			if(dUser.uses){
-			dUser.uses++
+				dUser.uses++
 			} else {
 				dUser.uses = 1
 			}
@@ -70,6 +71,9 @@ module.exports = {
 			const replyembed = new Discord.MessageEmbed()
 				.setTitle(thetext)
 				.setDescription(text)
+				if((await serverM.hasColor(interaction.guild.id))){
+					replyembed.setColor((await serverM.findOne(interaction.guild.id).options.color))
+				}
 			await interaction.reply({ embeds: [replyembed] })
 		} else {
 			await interaction.reply({ content: text.toString() })

@@ -20,12 +20,12 @@ module.exports = {
             return
         };
         // Get interaction options
-        const name = interaction.options?.find(c => c?.name === 'name')?.value;
-        const description = interaction.options?.find(c => c?.name === 'description')?.value;
-        const reply = interaction.options?.find(c => c?.name === 'reply')?.value;
-        const intembed = interaction.options?.find(c => c?.name === 'embed')?.value || false;
-        const option_1 = interaction.options?.find(c => c?.name === 'option_1')?.value;
-        const option_2 = interaction.options?.find(c => c?.name === 'option_2')?.value;
+        const name = interaction.options.get('name')?.value;
+        const description = interaction.options?.get('description')?.value;
+        const reply = interaction.options?.get('reply')?.value;
+        const intembed = interaction.options?.get('embed')?.value || false;
+        const option_1 = interaction.options?.get('option_1')?.value;
+        const option_2 = interaction.options?.get('option_2')?.value;
         //Check if guild premium and interaction options 1 & 2
         const prime = require('../models/premium');
         const gprime = await prime.findOne({

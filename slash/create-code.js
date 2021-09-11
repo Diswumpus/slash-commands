@@ -10,7 +10,7 @@ module.exports = {
     //Check if owner
     if(interaction.user.id !== owner.ownerID) return
     //Get options
-    const time = interaction.options?.find(c => c?.name === 'time')?.value;
+    const time = interaction.options.get('time').value;
     //C R E A T E  C O D E
     //Define stuff
    let expiresAt;

@@ -31,6 +31,8 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args, client));
     }
 }
+
+const slshcmdArray = []
 // Here we load all the commands into client.commands
 for (const file of slashFiles) {
     const command = require(`./slash/${file}`);
@@ -38,12 +40,46 @@ for (const file of slashFiles) {
     // set a new item in the Collection
     // with the key as the command name and the value as the exported module
     client.slashcmds.set(command.name, command);
+
+    slshcmdArray.push(command)
 }
+
+//From https://discordjs.guide/creating-your-bot/creating-commands.html#command-deployment-script
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { clientId, guildId, token } = require('./config.json');
+
+const slshCommands = []
+    for(const cmd of slshcmdArray){
+        if(cmd.data){
+        slshCommands.push(cmd.data)
+        }
+    }
+	slshCommands.map(command => command.toJSON());
+
+const rest = new REST({ version: '9' }).setToken(token);
+
+(async () => {
+	try {
+		await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: slshCommands },
+		);
+
+		console.log('Successfully registered application commands.');
+	} catch (error) {
+		console.error(error);
+	}
+})();
+
+//End
+
+
 const errorr = new Discord.MessageEmbed()
     .setTitle(`That's a 404`)
     .setColor(`YELLOW`)
     .setDescription(`This is a problem at our end we are clearing it up, please try again in a bit if it still does not work use ,problem`)
-    .setImage(`https://cdn.tixte.com/uploads/turtlepaw.is-from.space/kow11oq1p9a.png`)
 client.on('interaction', async interaction => {
     if (!interaction.isCommand()) return;
     console.log(`received interaction ${interaction.commandName} by ${interaction.user.tag}`);
