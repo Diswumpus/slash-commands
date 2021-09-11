@@ -59,9 +59,9 @@ module.exports = {
 		}, async (err, dUser) => {
 			if (err) console.log(err);
 			if(dUser?.uses){
-				dUser?.uses++
+				dUser.uses++
 			} else {
-				dUser?.uses = 1
+				dUser.uses = 1
 			}
 			await dUser.save().catch(e => console.log(e));
 		});
