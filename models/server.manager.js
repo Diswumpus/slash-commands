@@ -6,5 +6,5 @@ module.exports.findOne = async (guildId) => {
 }
 
 module.exports.hasColor = async (guildId) => {
-    return !!(await this.findOne(guildId).options.color)
+    return !!(await this.findOne(guildId).options?.color)
 }
