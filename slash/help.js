@@ -1,9 +1,17 @@
 const Discord = require('discord.js');
 const color = require('../color.json').color;
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'help',
     description: 'Shows a list of commands',
+    data: new SlashCommandBuilder()
+    .setName(`help`)
+    .setDescription("Show's a list of commands")
+    .addStringOption(option => {
+        return option.setName('command_name')
+        .setDescription('The name of the command')
+    }),
     async execute(client, interaction) {
         const cmddd = interaction.options?.get('command_name')?.value;
         if(!cmddd) {

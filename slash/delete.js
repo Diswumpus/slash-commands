@@ -2,9 +2,17 @@ const Discord = require("discord.js");
 const slash = require('../models/slash-command');
 const color = require('../color.json').color;
 const owner = require('../config.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "delete",
+    data: new SlashCommandBuilder()
+    .setName(`delete`)
+    .setDescription("Delete a slash command")
+    .addStringOption(o => {
+        return o.setName('id')
+        .setDescription('The id of the command (0000 or snowflake)')
+    }),
     async execute(client, interaction) {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID || interaction.user.id === owner.owner2ID) {

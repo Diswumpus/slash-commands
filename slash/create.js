@@ -4,10 +4,34 @@ const color = require('../color.json').color;
 const interactions = require('../interaction').get;
 const wait = require('util').promisify(setTimeout);
 const emojis = require('../emojis.json');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "create",
-    description: "Remove your data!",
+    description: "Create a slash command",
+    data: new SlashCommandBuilder()
+    .setName(`create`)
+    .setDescription("Create a slash command")
+    .addStringOption(o => {
+        return o.setName('name')
+        .setDescription('The name of the command')
+        .setRequired(true)
+    })
+    .addStringOption(o => {
+        return o.setName('description')
+        .setDescription('The description of the command')
+        .setRequired(true)
+    })
+    .addStringOption(o => {
+        return o.setName('reply')
+        .setDescription('The reply of the command')
+        .setRequired(true)
+    })
+    .addBooleanOption(o => {
+        return o.setName('embed')
+        .setDescription('If the reply should be an embed')
+        .setRequired(false)
+    }),
     async execute(client, interaction) {
         //Defer Command
         const m2 = await interaction.defer();
