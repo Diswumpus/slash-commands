@@ -8,7 +8,7 @@ module.exports = {
      * @param {Discord.Client} client 
      */
 	async execute(guild, client) {
-    let chan = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'))
+    let chan = guild.channels.cache.find(channel => channel.type === "GUILD_TEXT" && channel.permissionsFor(guild.me).has())
 
     // Making an invite for server
     let inv = await chan.createInvite({
