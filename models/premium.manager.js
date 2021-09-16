@@ -6,5 +6,6 @@ module.exports.hasPremium = async (guildId) => {
     const prime = await premium.findOne({
         guild: guildId
     });
-    return prime?.guild === guildId
+  
+    return !!prime.enabled
 }
