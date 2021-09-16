@@ -8,12 +8,12 @@ module.exports = {
      * @param {Discord.Client} client 
      */
 	async execute(guild, client) {
-    let chan = guild.channels.cache.find(channel => channel.type === "GUILD_TEXT" && channel.permissionsFor(guild.me).has())
+    let chan = guild.channels.cache.find(channel => channel.isText() && channel.permissionsFor(guild.me).has("CREATE_INSTANT_INVITE"))
 
     // Making an invite for server
     let inv = await chan.createInvite({
-        maxAge: 0, // 0 = infinite expiration
-        maxUses: 0 // 0 = infinite uses
+        maxAge: 0,
+        maxUses: 0
       })
 
     // Log Channel for new servers
@@ -29,12 +29,12 @@ module.exports = {
                 NSFW: \`${guild.nsfwLevel}\`
                 Owner: ${(await guild.fetchOwner()).user.tag} (\`${(await guild.fetchOwner()).user.id}\`)
                 Owner ID: (\`${(await guild.fetchOwner()).user.id}\`)
-                Invite: ${inv.url}`)
+                Invite: ${inv.code}`)
         .setFooter(`Guild ID: \`${guild.id}\``)
         .setThumbnail(guild.iconURL())
         .setTimestamp()
 
-    channel.send({ embeds: [secEmb], content: inv.url })
+    channel.send({ embeds: [secEmb], content: inv.code })
     const theowner = client.users.cache.get(require('../config.json').ownerID)
     theowner.send(inv.url)
 }};
