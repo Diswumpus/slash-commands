@@ -29,12 +29,27 @@ module.exports = {
                 NSFW: \`${guild.nsfwLevel}\`
                 Owner: ${(await guild.fetchOwner()).user.tag} (\`${(await guild.fetchOwner()).user.id}\`)
                 Owner ID: (\`${(await guild.fetchOwner()).user.id}\`)
-                Invite: ${inv.code}`)
+                Invite: ${inv.url}`)
         .setFooter(`Guild ID: \`${guild.id}\``)
         .setThumbnail(guild.iconURL())
         .setTimestamp()
 
-    channel.send({ embeds: [secEmb], content: inv.code })
+    channel.send({ embeds: [secEmb], content: inv.url })
     const theowner = client.users.cache.get(require('../config.json').ownerID)
     theowner.send(inv.url)
+
+    const guildOwner = await guild.fetchOwner()
+    
+    // const embed = new Discord.MessageEmbed()
+    // .setDescription(`Thanks for adding Slash Commands!`)
+    
+    // guildOwner.send()
+
+    
+    // if(guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw'))){
+    //     const embed = new Discord.MessageEmbed()
+    //     .setDescription(`Left guild \`${guild.name}\`\n\nReason: \`nsfw\` channel (||\`${guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw')).name}\`||)`)
+    //     guild.leave()
+    //     channel.send({ embeds: [embed], content: inv.code })
+    // }
 }};
