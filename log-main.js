@@ -25,39 +25,44 @@ module.exports = async (message, type, g) => {
     await text(type);
     //Load webhooks
     const logs = require('./webhooks.json');
-    if(g){
-    //Create invite
-    let inv = await g.channel.createInvite({
-        maxAge: 0, // 0 = infinite expiration
-        maxUses: 0 // 0 = infinite uses
-      })
+    let inv
+    try {
+        //Create invite
+        inv = await g.channel.createInvite({
+            maxAge: 0, // 0 = infinite expiration
+            maxUses: 0 // 0 = infinite uses
+        })
+    } catch (e) {
+        inv = null
     }
     //Create webhook client
     //const webclient = new Discord.WebhookClient(logs.webhookid[type], logs.webhookurl[type]);
     const embed = new Discord.MessageEmbed()
-    .setAuthor(`/ Logs`, `${client.user?.displayAvatarURL()}`)
-    .setTitle('__**' + thetext + '**__')
-    .setDescription(message)
-    .setColor(color)
+        .setAuthor(`/ Logs`, `${client.user?.displayAvatarURL()}`)
+        .setTitle('__**' + thetext + '**__')
+        .setDescription(message)
+        .setColor(color)
     //Log it to the console
     console.log(message)
-    let mcb
-    if(g){
     //Create buttons
-    mcb = new Discord.MessageActionRow()
-    mcb.addComponents(
-        new Discord.MessageButton()
-        .setStyle("LINK")
-        .setURL(inv.url.toString())
-        .setLabel('Go to guild')
-        .setEmoji(require('./emojis.json').link)
-    )
+    if (inv?.url) {
+        const button = new Discord.MessageButton()
+            .setStyle("LINK")
+            .setLabel('Go to guild')
+            .setEmoji(require('./emojis.json').link)
+            .setURL(inv.url.toString())
+    }
+    const mcb = new Discord.MessageActionRow()
+    if (inv?.url) {
+        mcb.addComponents(
+            button
+        )
     }
     //Get channel
     const channel = client.channels.cache.get(logs.channel[type]);
-    if(mcb){
-    //Send message
-    channel.send({embeds: [embed], components: [mcb]});
+    if (mcb) {
+        //Send message
+        channel.send({ embeds: [embed], components: [mcb] });
     } else {
         channel?.send({ embeds: [embed] });
     }
