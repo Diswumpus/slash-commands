@@ -12,7 +12,7 @@ async function text(text) {
 }
 
 module.exports = {
-	name: 'message',
+	name: 'messageCreate',
 	async execute(message, client) {
         //Check if guild is premium
         const prime = require('../models/premium');

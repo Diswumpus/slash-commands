@@ -5,7 +5,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'edit',
+    c: "Server",
     description: 'Edits a command',
+    usage: `Not required: reply: String embed: True|False`,
     data: new SlashCommandBuilder()
     .setName(`edit`)
     .setDescription("Edit a slash command")

@@ -7,6 +7,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   name: "enable-premium",
+  c: "Server",
+  usage: `code: SlashCommandsPremiumCode`,
   data: new SlashCommandBuilder()
   .setName(`enable-premium`)
   .setDescription("Enable a premium code!")

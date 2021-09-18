@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     name: "create-button-roles",
-    
+    c: "buttonroles",
     /**
    * 
    * @param {Discord.Client} client 

@@ -8,6 +8,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
   name: "create-code",
   devOnly: true,
+  c: "Dev",
+  usage: `time: Month|Year|Lifetime`,
   data: new SlashCommandBuilder()
   .setName(`create-code`)
   .setDescription("Create a premium code!")

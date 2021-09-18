@@ -6,6 +6,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "delete",
+    c: "Server",
+    usage: `id: SlashCommandID`,
     data: new SlashCommandBuilder()
     .setName(`delete`)
     .setDescription("Delete a slash command")

@@ -4,8 +4,10 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'leave',
+    c: "Dev",
     description: 'Leaves a server',
     devOnly: true,
+    usage: `guild_id: GuildID`,
     data: new SlashCommandBuilder()
     .setName(`leave`)
     .setDescription("Leaves a server")
