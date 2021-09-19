@@ -5,10 +5,30 @@ const br = require('../models/button-roles');
 const color = require('../color.json').color;
 const owner = require('../config.json');
 const { v4: uuidv4 } = require('uuid');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "create-button-roles",
+    description: "Create Button Roles!",
     c: "buttonroles",
+    data: new SlashCommandBuilder()
+    .setName("create-button-roles")
+    .setDescription("Create Button Roles!")
+    .addStringOption(o => {
+        return o.setName("style")
+        .setDescription("The style for the buttons")
+        .setRequired(false)
+    })
+    .addStringOption(o => {
+        return o.setName("color")
+        .setDescription("The color for the embed")
+        .setRequired(false)
+    })
+    .addStringOption(o => {
+        return o.setName("description")
+        .setDescription("The description for the embed")
+        .setRequired(false)
+    }),
     /**
    * 
    * @param {Discord.Client} client 
@@ -45,10 +65,10 @@ module.exports = {
                 const m3 = m2.first()
 
                 let i = 0
-                for (const role of m3.mentions.roles) {
+                for (const role of m3.mentions.roles.entries()) {
                     if (i === 8) break;
                     i++
-                    roles.push(role)
+                    roles.push(role[1])
                 }
 
                 if (channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES') && channel.isText()) {
@@ -149,6 +169,7 @@ module.exports = {
                         }
                             return roless
                         },
+                        uuid: uuidv4(),
                         getEmbed: function () {
                             const embed = {
                                 color: interaction.options?.get('color')?.value || color,
@@ -156,34 +177,35 @@ module.exports = {
                             }
                             return new MessageEmbed()
                                 .setColor(embed.color)
+                                .setFooter(this.uuid)
                                 .setDescription(embed.description || `Use the buttons below to get some roles!`)
                         }
                     }
                     const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
-                    interaction.editReply({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
+                    interaction.editReply({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
 
                     new br({
                         guild: interaction.guild.id,
-                        id: uuidv4(),
+                        id: buttons.uuid,
                         roles: {
-                            r1: roles[0].id || null,
-                            r2: roles[1].id || null,
-                            r3: roles[2].id || null,
-                            r4: roles[3].id || null,
-                            r5: roles[4].id || null,
-                            r6: roles[5].id || null,
-                            r7: roles[6].id || null,
-                            r8: roles[7].id || null
+                            r1: roles[0]?.id || null,
+                            r2: roles[1]?.id || null,
+                            r3: roles[2]?.id || null,
+                            r4: roles[3]?.id || null,
+                            r5: roles[4]?.id || null,
+                            r6: roles[5]?.id || null,
+                            r7: roles[6]?.id || null,
+                            r8: roles[7]?.id || null
                         },
                         button_ID: {
-                            r1: roles[0].id || null,
-                            r2: roles[1].id || null,
-                            r3: roles[2].id || null,
-                            r4: roles[3].id || null,
-                            r5: roles[4].id || null,
-                            r6: roles[5].id || null,
-                            r7: roles[6].id || null,
-                            r8: roles[7].id || null
+                            r1: roles[0]?.id || null,
+                            r2: roles[1]?.id || null,
+                            r3: roles[2]?.id || null,
+                            r4: roles[3]?.id || null,
+                            r5: roles[4]?.id || null,
+                            r6: roles[5]?.id || null,
+                            r7: roles[6]?.id || null,
+                            r8: roles[7]?.id || null
                         }
                     }).save().catch(e => console.log(e))
                 }
