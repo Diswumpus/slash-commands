@@ -8,7 +8,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   name: "list",
+  c: "Server",
   description: "List the guilds commands",
+  usage: `Not required: ephemeral: true|false global: true|false`,
     data: new SlashCommandBuilder()
     .setName('list')
     .setDescription(`Lists the guilds commands`)
@@ -29,7 +31,7 @@ module.exports = {
      */
   async execute(client, interaction) {
       // Check member permissions
-      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id !== ownerid || interaction.user.id !== owner2id){
+      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === ownerid || interaction.user.id === owner2id){
       //Get options
       const ephemeral = interaction.options?.get('ephemeral')?.value || false;
       const global = interaction.options?.get('global')?.value || false;

@@ -7,7 +7,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'eval',
+    c: "Dev",
     description: 'Eval some code!',
+    usage: `code: jsString`,
     data: new SlashCommandBuilder()
     .setName(`eval`)
     .setDescription("Eval some code!")

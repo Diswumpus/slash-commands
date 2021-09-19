@@ -13,6 +13,8 @@ const premiumM = require('../models/premium.manager');
 
 module.exports = {
   name: "server",
+  c: "Server",
+  devOnly: true,
   description: "Manage the server settings!",
   data: new SlashCommandBuilder()
   .setName(`server`)
@@ -23,6 +25,7 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
   async execute(client, interaction){
+      return
       //interaction.deferReply()
 
       const res = await ser.findOne({ guild: interaction.guild.id })
@@ -152,7 +155,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             if(i.customId === 'setColor'){
-                if(premiumM.hasPremium(interaction.guild.id)){
+                if((await premiumM.hasPremium(interaction.guild.id))){
                 await i.update({ embeds: [embeds.useSM], components: [new MessageActionRow().addComponents(cancelButton), colors] })
                 interaction.channel.awaitMessageComponent({ time: 600000, filter: filter }).then(async i2 => {
                     if(i2.customId === 'cancel'){

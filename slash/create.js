@@ -8,7 +8,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "create",
+    c: "Server",
     description: "Create a slash command",
+    usage: `name: String description: String reply: String (Not Required: embed: true|false)`,
     data: new SlashCommandBuilder()
     .setName(`create`)
     .setDescription("Create a slash command")
@@ -32,9 +34,14 @@ module.exports = {
         .setDescription('If the reply should be an embed')
         .setRequired(false)
     }),
+        /**
+   * 
+   * @param {Discord.Client} client 
+   * @param {Discord.CommandInteraction} interaction 
+   */
     async execute(client, interaction) {
         //Defer Command
-        const m2 = await interaction.defer();
+        const m2 = await interaction.deferReply();
         // Check member permissions
         if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
             const nembed = new Discord.MessageEmbed()
