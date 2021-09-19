@@ -9,7 +9,6 @@ module.exports = {
     name: "premium",
     c: "Server",
     description: "Slash Commands Premium!",
-    devOnly: true,
     usage: ``,
     data: new SlashCommandBuilder()
         .setName('premium')
