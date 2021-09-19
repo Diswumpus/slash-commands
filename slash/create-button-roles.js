@@ -7,6 +7,7 @@ const owner = require('../config.json');
 const { v4: uuidv4 } = require('uuid');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
+
 module.exports = {
     name: "create-button-roles",
     description: "Create Button Roles!",
@@ -18,11 +19,31 @@ module.exports = {
         return o.setName("style")
         .setDescription("The style for the buttons")
         .setRequired(false)
+        .addChoice("Blurple", "PRIMARY")
+        .addChoice("Grey", "SECONDARY")
+        .addChoice("Green", "SUCCESS")
+        .addChoice("Red", "DANGER")
     })
     .addStringOption(o => {
         return o.setName("color")
         .setDescription("The color for the embed")
         .setRequired(false)
+        .addChoice("Blurple", "BLURPLE")
+        .addChoice("Navy", "NAVY")
+        .addChoice("Darker Grey", "DARKER_GREY")
+        .addChoice("Grey", "GREY")
+        .addChoice("Red", "RED")
+        .addChoice("Orange", "ORANGE")
+        .addChoice("Gold", "GOLD")
+        .addChoice("Fuchsia", "FUCHSIA")
+        .addChoice("Vivid Pink", "LUMINOUS_VIVID_PINK")
+        .addChoice("Purple", "PURPLE")
+        .addChoice("Yellow", "YELLOW")
+        .addChoice("Blue", "BLUE")
+        .addChoice("Green", "GREEN")
+        .addChoice("Aqua", "AQUA")
+        .addChoice("White", "WHITE")
+        .addChoice("Black", "DEFAULT")
     })
     .addStringOption(o => {
         return o.setName("description")
