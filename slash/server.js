@@ -14,7 +14,6 @@ const premiumM = require('../models/premium.manager');
 module.exports = {
     name: "server",
     c: "Server",
-    devOnly: true,
     description: "Manage the server settings!",
     data: new SlashCommandBuilder()
         .setName(`server`)
