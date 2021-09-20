@@ -71,8 +71,10 @@ module.exports = {
 			const replyembed = new Discord.MessageEmbed()
 				.setTitle(thetext)
 				.setDescription(text)
-				if((await serverM.hasColor(interaction.guild.id))){
-					replyembed.setColor((await serverM.findOne(interaction.guild.id).options.color))
+				var hasPremium = await premiumM.hasPremium(interaction.guild.id)
+				if(hasPremium){
+					var colorr = await serverM.findOne(interaction.guild.id).options.color
+					replyembed.setColor(colorr)
 				}
 			await interaction.reply({ embeds: [replyembed] })
 		} else {
