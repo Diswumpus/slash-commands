@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const slash = require('../models/slash-command');
 const serverM = require('../models/server.manager');
+const premiumM = require('../models/premium.manager');
 let thetext;
 async function text(text) {
     text = text.toString()
