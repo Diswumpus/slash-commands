@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const slash = require('../models/slash-command');
 const serverM = require('../models/server.manager');
+const premiumM = require('../models/premium.manager');
 let thetext;
 async function text(text) {
     text = text.toString()
@@ -55,8 +56,10 @@ module.exports = {
 			const replyembed = new Discord.MessageEmbed()
 				.setTitle(thetext)
 				.setDescription(commandData.reply)
-				if((await serverM.hasColor(interaction.guild.id))){
-					replyembed.setColor((await serverM.findOne(interaction.guild.id).options.color))
+				var hasPremium = await premiumM.hasPremium(interaction.guild.id)
+				if(hasPremium){
+					var colorr = await serverM.findOne(interaction.guild.id).options.color
+					replyembed.setColor(colorr)
 				}
 			await message.channel.send({ embeds: [replyembed] })
 		} else {

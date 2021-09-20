@@ -11,112 +11,41 @@ module.exports = {
     if(!interaction.isButton()) return
 
     if(isNaN(Number(interaction.customId))) return
-    const results = {
-        r1: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r1: interaction.customId
-                }
-            })?.r1
-        },
-        r2: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r2: interaction.customId
-                }
-            })?.r2
-        },
-        r3: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r3: interaction.customId
-                }
-            })?.r3
-        },
-        r4: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r4: interaction.customId
-                }
-            })?.r4
-        },
-        r5: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r5: interaction.customId
-                }
-            })?.r5
-        },
-        r6: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r6: interaction.customId
-                }
-            })?.r6
-        },
-        r7: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r7: interaction.customId
-                }
-            })?.r7
-        },
-        r8: async function(){
-            return await br.findOne({
-                guild: interaction.guild.id,
-                roles: {
-                    r8: interaction.customId
-                }
-            })?.r8
-        },
-        getOne: function(){
-            if(!!this.r1()){
-                return this.r1()
-            }
-            else if(!!this.r2()){
-                return this.r2()
-            }
-            else if(!!this.r3()){
-                return this.r3()
-            }
-            else if(!!this.r4()){
-                return this.r4()
-            }
-            else if(!!this.r5()){
-                return this.r5()
-            }
-            else if(!!this.r6()){
-                return this.r6()
-            }
-            else if(!!this.r7()){
-                return this.r7()
-            }
-            else if(!!this.r8()){
-                return this.r8()
-            }
-        } 
+    const results = await br.findOne({
+        guild: interaction.guild.id,
+        id: interaction.message.embeds[0].footer.text.toString()
+    })
+
+    let role;
+
+    const roleArray = [results.roles?.r1, results.roles?.r2, results.roles?.r3, results.roles?.r4, results.roles?.r5, results.roles?.r6, results.roles?.r7, results.roles?.r8]
+
+    for(const roleId of roleArray){
+        if(roleId === interaction.customId){
+            role = roleId
+        }
     }
 
     /**
      * @type {Discord.Role}
      */
-    const rresults = interaction.guild.roles.cache.get(results.getOne())
+    const rresults = interaction.guild.roles.cache.get(role)
 
     let textt;
-    if(interaction.member.roles.has(rresults.id)){
+    let ltype;
+    if(interaction.member.roles.cache.has(rresults.id)){
         interaction.member.roles.remove(rresults.id)
-        textt = `Removed the ${rresults} role!`
+        ltype = "REMOVE"
+        textt = `${require('../emojis.json').flag_remove} Removed the ${rresults} role!`
     } else {
         interaction.member.roles.add(rresults.id)
-        textt = `Added the ${rresults} role!`
+        ltype = "ADD"
+        textt = `${require('../emojis.json').flag_add} Added the ${rresults} role!`
     }
 
     interaction.reply({ content: textt, ephemeral: true });
+
+    const brLog = require('../buttonLogger')
+
+    const brlogger = await new brLog({ message: interaction.message, member: interaction.member, role: rresults }).log(client, ltype)
 }};

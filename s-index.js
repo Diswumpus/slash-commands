@@ -14,6 +14,26 @@ const emojis = require('./emojis.json');
 
 mongoose.connect(config.mongoose, { useNewUrlParser: true, useUnifiedTopology: true })
 
+mongoose.connection.on('connecting', () => {
+    console.log("Mongoose: Logging in!")
+})
+
+mongoose.connection.on('connected', () => {
+    console.log("Mongoose: Logged in!")
+})
+
+mongoose.connection.on('disconnecting', () => {
+    console.log("Mongoose: Logging out")
+})
+
+mongoose.connection.on('disconnected', () => {
+    console.log("Mongoose: Logged out")
+})
+
+mongoose.connection.on('error', error => {
+    console.log(error)
+})
+
 const client = new Discord.Client({
     intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_INTEGRATIONS", "GUILD_VOICE_STATES", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"],
 });
@@ -138,7 +158,7 @@ const slshCommands = []
 const slashCommands = []
     for(const cmd of slshcmdArray){
         if(cmd.data){
-            if(cmd.devOnly){
+            if(cmd.devOnly === true){
                 slashCommands.push(cmd.data)
             } else {
                 slshCommands.push(cmd.data)
