@@ -32,13 +32,20 @@ module.exports = {
     const rresults = interaction.guild.roles.cache.get(role)
 
     let textt;
+    let ltype;
     if(interaction.member.roles.cache.has(rresults.id)){
         interaction.member.roles.remove(rresults.id)
+        ltype = "REMOVE"
         textt = `${require('../emojis.json').flag_remove} Removed the ${rresults} role!`
     } else {
         interaction.member.roles.add(rresults.id)
+        ltype = "ADD"
         textt = `${require('../emojis.json').flag_add} Added the ${rresults} role!`
     }
 
     interaction.reply({ content: textt, ephemeral: true });
+
+    const brLog = require('../buttonLogger')
+
+    const brlogger = await new brLog({ message: interaction.message, member: interaction.member, role: rresults }).log(client, ltype)
 }};
