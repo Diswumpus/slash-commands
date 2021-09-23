@@ -10,4 +10,4 @@
 
 Have a premium feature suggestion send it here:
 <br><br>
-<a href="https://discord.gg/ANzBrkcXZy"><img src="https://invidget.switchblade.xyz/9SxgGWQZ5h" /></a>
+<a href="https://discord.gg/ANzBrkcXZy"><img src="https://invidget.switchblade.xyz/PWXGdJFdPH" /></a>
