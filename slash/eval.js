@@ -35,7 +35,7 @@ module.exports = {
 
         if(owners.includes(interaction.user.id)){
                 try {
-                    let evaled = eval(code);
+                    let evaled = await eval(code);
         
                     if (typeof evaled !== "string")
                         evaled = require("util").inspect(evaled);
