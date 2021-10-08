@@ -9,7 +9,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
   name: "list",
   c: "Server",
-  devOnly: true,
   description: "List the guilds commands",
   usage: `Not required: ephemeral: true|false global: true|false`,
   data: new SlashCommandBuilder()
