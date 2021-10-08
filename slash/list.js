@@ -9,35 +9,36 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
   name: "list",
   c: "Server",
+  devOnly: true,
   description: "List the guilds commands",
   usage: `Not required: ephemeral: true|false global: true|false`,
-    data: new SlashCommandBuilder()
+  data: new SlashCommandBuilder()
     .setName('list')
     .setDescription(`Lists the guilds commands`)
     .addBooleanOption(option => {
       return option.setName('ephemeral')
-      .setDescription('Make it so only you can see the message')
-      .setRequired(false)
+        .setDescription('Make it so only you can see the message')
+        .setRequired(false)
     })
     .addBooleanOption(option => {
       return option.setName('global')
-      .setDescription('See every command')
-      .setRequired(false)
+        .setDescription('See every command')
+        .setRequired(false)
     }),
-          /**
-     * 
-     * @param {Discord.Client} client 
-     * @param {Discord.CommandInteraction} interaction 
-     */
+  /**
+* 
+* @param {Discord.Client} client 
+* @param {Discord.CommandInteraction} interaction 
+*/
   async execute(client, interaction) {
-      // Check member permissions
-      if(interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === ownerid || interaction.user.id === owner2id){
+    // Check member permissions
+    if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === ownerid || interaction.user.id === owner2id) {
       //Get options
       const ephemeral = interaction.options?.get('ephemeral')?.value || false;
       const global = interaction.options?.get('global')?.value || false;
       //Check if message is going to be ephemeral
       let eph;
-      if(ephemeral === true){
+      if (ephemeral === true) {
         eph = true;
       } else {
         eph = false
@@ -49,132 +50,102 @@ module.exports = {
       //Get all commands
       let commands;
       //Check if global is true and the user id is the same as the owner
-      if(global === true){
-        if(interaction.user.id === ownerid || interaction.user.id === owner2id){
-        commands = await slash.find();
-        eph = true;
+      if (global === true) {
+        if (interaction.user.id === ownerid || interaction.user.id === owner2id) {
+          commands = await slash.find();
+          eph = true;
         }
       } else {
         commands = await slash.find({ guild: interaction.guild.id });
       };
       //Create new embed
       const command_embed = new Discord.MessageEmbed()
-      .setTitle(`${interaction.guild}'s Commands`)
-      .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-      .setColor(color)
+        .setTitle(`${interaction.guild}'s Commands`)
+        .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+        .setColor(color)
+        const embeds = [];
+
+        let i = 1;
+        let i2 = 0;
+    
+        let text = "";
+        let textLengths = []
+        let pages = []
+        let currentPage = "";
+        let msgCount = 0;
+      for (const c of commands) {
+        let content = `**${client.botEmojis.info} Command: ${c.name}**\n${client.botEmojis.profile} ID: ${c.qid}\n${chart} Uses: ${c.uses || '0'}\n\n`
+        let textToAdd = content
+        currentPage += textToAdd;
+        msgCount++;
+        if (msgCount % 10 == 0) {
+          pages.push(currentPage)
+          currentPage = []
+        }
+      }
+      if (currentPage.length > 0) pages.push(currentPage)
+      let ii = 0
+      for (const textt of pages) {
+        embeds.push(new Discord.MessageEmbed().setColor(color).setAuthor(interaction.user.tag, interaction.user.displayAvatarURL()).setDescription(textt))
+      }
+      const buttons = new Discord.MessageActionRow()
+        .addComponents(
+          new Discord.MessageButton()
+            .setCustomId("<")
+            .setEmoji(client.botEmojis.leave)
+            .setStyle("SECONDARY"),
+          new Discord.MessageButton()
+            .setCustomId("pagesdonttouch")
+            .setLabel(`${i} of ${embeds.length}`)
+            .setStyle("SECONDARY")
+            .setDisabled(true),
+          new Discord.MessageButton()
+            .setCustomId(">")
+            .setEmoji(client.botEmojis.join)
+            .setStyle("SECONDARY")
+        )
+      if (embeds.length < 2) {
+        buttons.components[0].setDisabled(true)
+        buttons.components[2].setDisabled(true)
+      }
+      await interaction.reply({ embeds: [embeds[i2]], components: [buttons] });
+
       /**
-       * @type {Discord.MessageEmbed[]}
+       * @type {Discord.Message}
        */
-      const embeds = new Array(command_embed);
-      //Add them to the embed
-      let i = 0
-      let ce = 0
-      for(const c of commands){
-        i++
-        if(i === 23){
-          i = 0
-          ce++
-          embeds.push(command_embed)
-        }
-        embeds[ce].addField(`${info} Command: ${c.name}`, `${idemoji} ID: ${c.qid}\n${chart} Uses: ${c.uses || '0'}`, true)
-      }
-      const row = new Discord.MessageActionRow()
-      .addComponents(
-        new Discord.MessageButton()
-        .setCustomId('back')
-        .setLabel('Back')
-        .setEmoji(require('../emojis.json').flag_removeid)
-        .setStyle('SECONDARY'),
-        new Discord.MessageButton()
-        .setCustomId('forward')
-        .setLabel('Forward')
-        .setEmoji(require('../emojis.json').flag_addid)
-        .setStyle('SECONDARY')
-      )
-      const rowfo = new Discord.MessageActionRow()
-      .addComponents(
-        new Discord.MessageButton()
-        .setCustomId('back')
-        .setLabel('Back')
-        .setDisabled(true)
-        .setEmoji(require('../emojis.json').flag_removeid)
-        .setStyle('SECONDARY'),
-        new Discord.MessageButton()
-        .setCustomId('forward')
-        .setLabel('Forward')
-        .setEmoji(require('../emojis.json').flag_addid)
-        .setStyle('SECONDARY')
-      )
-      const rowbo = new Discord.MessageActionRow()
-      .addComponents(
-        new Discord.MessageButton()
-        .setCustomId('back')
-        .setLabel('Back')
-        .setEmoji(require('../emojis.json').flag_removeid)
-        .setStyle('SECONDARY'),
-        new Discord.MessageButton()
-        .setCustomId('forward')
-        .setDisabled(true)
-        .setLabel('Forward')
-        .setEmoji(require('../emojis.json').flag_addid)
-        .setStyle('SECONDARY')
-      )
-      const rowd = new Discord.MessageActionRow()
-      .addComponents(
-        new Discord.MessageButton()
-        .setCustomId('back')
-        .setLabel('Back')
-        .setDisabled(true)
-        .setEmoji(require('../emojis.json').flag_removeid)
-        .setStyle('SECONDARY'),
-        new Discord.MessageButton()
-        .setCustomId('forward')
-        .setDisabled(true)
-        .setLabel('Forward')
-        .setEmoji(require('../emojis.json').flag_addid)
-        .setStyle('SECONDARY')
-      )
-      const getComponent = () => {
-        let c = rowfo
-        if(embeds.length === 1){
-          c = rowd
-        }
-        return c
-      }
-      //Send the embed
-      await interaction.reply({ embeds: [embeds[0].setFooter(`Page 1/${embeds.length}`)], ephemeral: eph, components: [getComponent()] });
-      let ii = 1
-      const collector = await interaction.channel.createMessageComponentCollector({ filter: i=>i.user.id===interaction.user.id, time: 1000000 })
-      collector.on('collect', i => {
-        let component;
+      const m = await interaction.fetchReply();
 
-        if(ii-1 === 0){
-          component = rowfo
-        } else if(ii === embeds.length){
-          component = rowbo
-        } else {
-          component = row
-        }
-        const page = ''
-        if(i.customId === 'back'){
-          ii--
+      const collector = m.createMessageComponentCollector({ filter: i => i.user.id === interaction.user.id })
 
-          i.update({ embeds: [embeds[ii-1].setFooter(`Page ${ii}/${embeds.length}`)], components: [component] })
-        } else if(i.customId === 'forward'){
-          ii++
+      collector.on("collect", async i3 => {
+        if (i3.customId === "<") {
+          if (embeds.length === 1) {
+            //...
+          } else if (i2 === 0) {
+            i2 = embeds.length - 1
+            i = embeds.length
+          } else {
+            i2--
+            i--
+          }
 
-          i.update({ embeds: [embeds[ii-1].setFooter(`Page ${ii}/${embeds.length}`)], components: [component] })
-        }
+          buttons.components[1].setLabel(`${i} of ${embeds.length}`)
+          i3.update({ embeds: [embeds[i2]], components: [buttons] })
+        } else if (i3.customId === ">") {
+          if (embeds.length === 1) {
+            //...
+          } else if (i2 + 1 === embeds.length) {
+            i2 = 0
+            i = 1
+          } else {
+            i2++
+            i++
+          }
 
-        if(ii-1 === 0){
-          interaction.editReply({ components: [rowfo] })
-        } else if(ii === embeds.length){
-          interaction.editReply({ components: [rowbo] })
+          buttons.components[1].setLabel(`${i} of ${embeds.length}`)
+          i3.update({ embeds: [embeds[i2]], components: [buttons] })
         }
       })
-      collector.on('end', () => {
-        interaction.editReply({ components: [rowd]})
-      })
+    }
   }
-}
 }

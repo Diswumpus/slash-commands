@@ -42,10 +42,25 @@ const client2 = new Discord.Client({
     intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_INTEGRATIONS", "GUILD_VOICE_STATES", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"],
 });
 //...
+let ready = false
+module.exports.ready = false
 client.once('ready', async () => {
     console.log('Ready! %s', client.user.tag);
     //Set presence
     client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
+    
+    setTimeout(() => {
+        setInterval(() => {
+            client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
+        }, 60000);
+        const emojis = new EmojiManager(client);
+        
+        client.botEmojis = emojis.emojis
+        
+        ready = true
+        module.exports.ready = true
+        console.log("Emojis Ready!")
+    }, 4000);
 });
 
 client.dashboardAdd = `https://discord.gg/PWXGdJFdPH`
@@ -257,6 +272,7 @@ client.on('messageCreate', async message => {
     }
 });
 const prime = require('./models/premium');
+const EmojiManager = require('./emojis.api');
 setInterval(async () => {
     const conditional = {
         expd: false
