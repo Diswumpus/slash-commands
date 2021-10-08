@@ -107,7 +107,7 @@ module.exports = {
         buttons.components[0].setDisabled(true)
         buttons.components[2].setDisabled(true)
       }
-      await interaction.reply({ embeds: [embeds[i2]], components: [buttons] });
+      await interaction.reply({ embeds: [embeds[i2]], components: [buttons], ephemeral: eph });
 
       /**
        * @type {Discord.Message}
