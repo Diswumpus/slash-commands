@@ -115,7 +115,7 @@ module.exports = {
        */
       const m = await interaction.fetchReply();
 
-      const collector = m.createMessageComponentCollector({ filter: i => i.user.id === interaction.user.id })
+      const collector = interaction.channel.createMessageComponentCollector({ filter: i => i.user.id === interaction.user.id })
 
       collector.on("collect", async i3 => {
         if (i3.customId === "<") {
