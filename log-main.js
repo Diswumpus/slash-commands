@@ -60,7 +60,7 @@ module.exports = async (message, type, g) => {
     }
     //Get channel
     const channel = client.channels.cache.get(logs.channel[type]);
-    if (mcb) {
+    if (mcb.components.length > 0) {
         //Send message
         channel?.send({ embeds: [embed], components: [mcb] });
     } else {
