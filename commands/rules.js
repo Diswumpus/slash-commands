@@ -32,6 +32,6 @@ module.exports = {
         .setTimestamp(message.guild.createdTimestamp)
         .setThumbnail(message.guild.iconURL({ dynamic: true }))
 
-        message.reply({ embeds: [embed] });
+        message.channel.send({ embeds: [embed] });
     }
 }
