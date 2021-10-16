@@ -13,6 +13,10 @@ module.exports = {
     async execute(message, Member, args) {
         if(message.author.id !== require('../config.json').ownerID) return
 
+        /**
+         * @type {Discord.Webhook}
+         */
+        const webhook = await message.channel.createWebhook(message.guild.name)
         const timestamp = new du.timestamp()
         .setStyle("f")
         .setTime(message.guild.createdTimestamp)
@@ -24,6 +28,6 @@ module.exports = {
         .setTimestamp(message.guild.createdTimestamp)
         .setThumbnail(message.guild.iconURL({ dynamic: true }))
 
-        message.channel.send({ embeds: [embed] });
+        webhook.send({ embeds: [embed], avatarURL: message.guild.iconURL() });
     }
 }
