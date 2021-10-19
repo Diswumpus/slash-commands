@@ -11,13 +11,13 @@ module.exports = {
     description: 'Eval some code!',
     usage: `code: jsString`,
     data: new SlashCommandBuilder()
-    .setName(`eval`)
-    .setDescription("Eval some code!")
-    .addStringOption(o => {
-        return o.setName('code')
-        .setDescription('The code you want to eval')
-        .setRequired(true)
-    }),
+        .setName(`eval`)
+        .setDescription("Eval some code!")
+        .addStringOption(o => {
+            return o.setName('code')
+                .setDescription('The code you want to eval')
+                .setRequired(true)
+        }),
     /**
      * 
      * @param {Discord.Client} client 
@@ -33,24 +33,24 @@ module.exports = {
                 return text;
         }
 
-        if(owners.includes(interaction.user.id)){
-                try {
-                    let evaled = eval(code);
-        
-                    if (typeof evaled !== "string")
-                        evaled = require("util").inspect(evaled);
-        
-                        const embed = new Discord.MessageEmbed()
-                        .setColor(color)
-                        .setDescription(`\`\`\`\nxl\n${clean(evaled)}\n\`\`\``)
-                    await interaction.reply({ embeds: [embed] });
-                } catch (err) {
-                    const eembed = new Discord.MessageEmbed()
+        if (owners.includes(interaction.user.id)) {
+            try {
+                let evaled = eval(code);
+
+                if (typeof evaled !== "string")
+                    evaled = require("util").inspect(evaled);
+
+                const embed = new Discord.MessageEmbed()
+                    .setColor(color)
+                    .setDescription(`\`\`\`\nxl\n${clean(evaled)}\n\`\`\``)
+                await interaction.reply({ embeds: [embed] });
+            } catch (err) {
+                const eembed = new Discord.MessageEmbed()
                     .setColor(color)
                     .setTitle(`${require('../emojis.json').xmark} \`Error\``)
                     .setDescription(`\`\`\`xl\n${clean(err)}\n\`\`\``)
-                    await interaction.reply({ embeds: [eembed] }); //message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-                }
+                await interaction.reply({ embeds: [eembed] }); //message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+            }
         }
     }
 }

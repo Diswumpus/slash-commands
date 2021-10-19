@@ -4,21 +4,21 @@ const serverM = require('../models/server.manager');
 const premiumM = require('../models/premium.manager');
 let thetext;
 async function textf(text) {
-    text = text.toString()
-    let newtext = text.slice(1, text.length)
-    let oldtext = text.slice(0, 1)
-    let rettext = oldtext.toUpperCase() + newtext
-    thetext = rettext;
-    return `${rettext}`
+	text = text.toString()
+	let newtext = text.slice(1, text.length)
+	let oldtext = text.slice(0, 1)
+	let rettext = oldtext.toUpperCase() + newtext
+	thetext = rettext;
+	return `${rettext}`
 }
 
 module.exports = {
 	name: 'interaction',
-	      /**
-     * 
-     * @param {Discord.Client} client 
-     * @param {Discord.CommandInteraction} interaction 
-     */
+	/**
+* 
+* @param {Discord.Client} client 
+* @param {Discord.CommandInteraction} interaction 
+*/
 	async execute(interaction, client) {
 		/*
 		id: String,
@@ -35,51 +35,40 @@ module.exports = {
 		});
 		//Return if there is no command data
 		if (!commandData) return
+		try {
 		//Run function
 		textf(commandData.name)
 		//Define text
 		let text = commandData.reply;
-		//Replace var
-		if(commandData.option1){
-			var res1 = text.replace("{option_1}", interaction.options?.find(c => c?.name === commandData.option1)?.value);
-		} else if(commandData.option2){
-			var res2 = text.replace("{option_2}", interaction.options?.find(c => c?.name === commandData.option2)?.value);
-		}
-		//Create text
-		if(commandData.option1){
-			text = res1
-		} else if(commandData.option2){
-			text = res2
-		} else if(commandData.option1 && commandData.option2){
-			text = text.replace("{option_2}", interaction.options?.find(c => c?.name === commandData.option2)?.value) && text.replace("{option_1}", interaction.options?.find(c => c?.name === commandData.option1)?.value);
-		}
 		//Add uses to the command
-		await slash.findOne({
+		let cmdDB = await slash.findOne({
 			id: interaction.commandID,
 			guild: interaction.guild.id
-		}, async (err, dUser) => {
-			if (err) console.log(err);
-			if(dUser?.uses){
-				dUser.uses++
-			} else {
-				dUser.uses = 1
-			}
-			await dUser.save().catch(e => console.log(e));
 		});
+		if(cmdDB?.uses){
+			cmdDB.uses++
+		} else {
+			cmdDB.uses = 1
+		}
+		await cmdDB.save().catch(e => console.log(e));
 		//Reply to the command
 		//Check if embed
 		if (commandData?.embed === true) {
 			const replyembed = new Discord.MessageEmbed()
 				.setTitle(thetext)
 				.setDescription(text)
-				var hasPremium = await premiumM.hasPremium(interaction.guild.id)
-				if(hasPremium){
-					var colorr = await serverM.findOne(interaction.guild.id).options.color
-					replyembed.setColor(colorr)
-				}
-			await interaction.reply({ embeds: [replyembed] })
+			var hasPremium = await premiumM.hasPremium(interaction.guild.id);
+			if (hasPremium) {
+				var colorr = await serverM.findOne(interaction.guild.id)?.options?.color || "DEFAULT"
+				replyembed.setColor(colorr)
+			}
+			await interaction.reply({ embeds: [replyembed], ephemeral: commandData?.eph || false })
 		} else {
-			await interaction.reply({ content: text.toString() })
+			await interaction.reply({ content: text.toString(), ephemeral: commandData?.eph || false })
+		}
+		} catch(e) {
+			await interaction.reply({ content: `<:failed:899071447811624980> Uh oh... Something bad happened! Report it here: https://discord.gg/3QWvYPpn with error: \`\`\`xl\n${e}\n\`\`\``, ephemeral: true });
+			console.log(e);
 		}
 	},
 };

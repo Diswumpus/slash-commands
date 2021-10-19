@@ -22,8 +22,8 @@ const sSchema = new mongoose.Schema({
         r6: String,
         r7: String,
         r8: String
-    }
-
+    },
+    messageID: String,
 });
 
 const sModel = module.exports = mongoose.model('s-br', sSchema);

@@ -9,7 +9,8 @@ const sSchema = new mongoose.Schema({
     embed: Boolean,
     uses: Number,
     option1: String,
-    option2: String
+    option2: String,
+    eph: Boolean
 });
 
 const sModel = module.exports = mongoose.model('s-commands', sSchema);

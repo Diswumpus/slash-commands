@@ -48,15 +48,15 @@ client.once('ready', async () => {
     console.log('Ready! %s', client.user.tag);
     //Set presence
     client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
-    
+
     setTimeout(() => {
         setInterval(() => {
             client.user.setPresence({ activities: [{ name: `Creating slash commands in ${client.guilds.cache.size} guild` }], status: 'online' });
         }, 60000);
         const emojis = new EmojiManager(client);
-        
+
         client.botEmojis = emojis.emojis
-        
+
         ready = true
         module.exports.ready = true
         console.log("Emojis Ready!")
@@ -74,60 +74,60 @@ client2.once('ready', async () => {
 const sCommands = [
     new SlashCommandBuilder().setName('command').setDescription('Search a command').addStringOption(o => {
         return o.setName('command')
-        .setRequired(false)
-        .setDescription('The command to search for.')
+            .setRequired(false)
+            .setDescription('The command to search for.')
     })
 ].map(command => command.toJSON());
 
 const rest2 = new REST({ version: '9' }).setToken(require('./config.json').token2);
 
 (async () => {
-	try {
-		await rest2.put(
-			Routes.applicationCommands('886391965661397032'),
-			{ body: sCommands },
-		);
+    try {
+        await rest2.put(
+            Routes.applicationCommands('886391965661397032'),
+            { body: sCommands },
+        );
 
-		console.log('Successfully registered application (/) commands.');
-	} catch (error) {
-		console.error(error);
-	}
+        console.log('Successfully registered application (/) commands.');
+    } catch (error) {
+        console.error(error);
+    }
 })();
 
 client2.on('interactionCreate', async i => {
-    if(!i.isCommand()) return
-    
-    if(i.commandName === 'command'){
-        if(i.options.getString('command')){
-        const COMMAND_NAME = i.options.getString('command').replace(/ /g,"-");
+    if (!i.isCommand()) return
 
-        const COMMAND = await COMMAND_MANAGER.getCommand(COMMAND_NAME, i.guildId)
-        COMMAND_MANAGER.useCommand(COMMAND_NAME, i.guildId)
-        const TEXT = COMMAND?.reply
+    if (i.commandName === 'command') {
+        if (i.options.getString('command')) {
+            const COMMAND_NAME = i.options.getString('command').replace(/ /g, "-");
 
-        if (COMMAND?.embed === true) {
-			const replyembed = new Discord.MessageEmbed()
-				.setTitle(require('discord-turtle').util.fixCase(COMMAND.name))
-				.setDescription(TEXT)
-				if((await SERVER_MANAGER.hasColor(i.guild.id))){
-					replyembed.setColor((await SERVER_MANAGER.findOne(interaction.guild.id).options?.color))
-				}
-			await i.reply({ embeds: [replyembed] })
-		} else {
-			await i.reply({ content: TEXT.toString() })
-		}
-    } else {
-        const ALL_COMMANDS = await COMMAND_MANAGER.getAll(i.guildId);
+            const COMMAND = await COMMAND_MANAGER.getCommand(COMMAND_NAME, i.guildId)
+            COMMAND_MANAGER.useCommand(COMMAND_NAME, i.guildId)
+            const TEXT = COMMAND?.reply
 
-        const EMBED = new Discord.MessageEmbed()
-        .setColor(require('./color.json').color)
-        
-        for(const Commandd of ALL_COMMANDS){
-            EMBED.addField(`${emojis.slashCommand} \`${Commandd.name}\``, `${emojis.user_add} \`${Commandd.uses || "0"} uses\``, true)
+            if (COMMAND?.embed === true) {
+                const replyembed = new Discord.MessageEmbed()
+                    .setTitle(require('discord-turtle').util.fixCase(COMMAND.name))
+                    .setDescription(TEXT)
+                if ((await SERVER_MANAGER.hasColor(i.guild.id))) {
+                    replyembed.setColor((await SERVER_MANAGER.findOne(interaction.guild.id).options?.color))
+                }
+                await i.reply({ embeds: [replyembed] })
+            } else {
+                await i.reply({ content: TEXT.toString() })
+            }
+        } else {
+            const ALL_COMMANDS = await COMMAND_MANAGER.getAll(i.guildId);
+
+            const EMBED = new Discord.MessageEmbed()
+                .setColor(require('./color.json').color)
+
+            for (const Commandd of ALL_COMMANDS) {
+                EMBED.addField(`${emojis.slashCommand} \`${Commandd.name}\``, `${emojis.user_add} \`${Commandd.uses || "0"} uses\``, true)
+            }
+
+            i.reply({ embeds: [EMBED], ephemeral: true })
         }
-
-        i.reply({ embeds: [EMBED], ephemeral: true })
-    }
     }
 })
 
@@ -171,34 +171,34 @@ for (const file of slashFiles) {
 
 const slshCommands = []
 const slashCommands = []
-    for(const cmd of slshcmdArray){
-        if(cmd.data){
-            if(cmd.devOnly === true){
-                slashCommands.push(cmd.data)
-            } else {
-                slshCommands.push(cmd.data)
-            }
+for (const cmd of slshcmdArray) {
+    if (cmd.data) {
+        if (cmd.devOnly === true) {
+            slashCommands.push(cmd.data)
+        } else {
+            slshCommands.push(cmd.data)
         }
     }
-	slshCommands.map(command => command.toJSON());
+}
+slshCommands.map(command => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
-	try {
-		await rest.put(
-			Routes.applicationCommands(clientId),
-			{ body: slshCommands },
-		);
+    try {
+        await rest.put(
+            Routes.applicationCommands(clientId),
+            { body: slshCommands },
+        );
         await rest.put(
             Routes.applicationGuildCommands(clientId, guildId),
-            { body: slashCommands}
+            { body: slashCommands }
         );
 
-		console.log('Successfully registered application commands.');
-	} catch (error) {
-		console.error(error);
-	}
+        console.log('Successfully registered application commands.');
+    } catch (error) {
+        console.error(error);
+    }
 })();
 
 //End
@@ -281,24 +281,24 @@ setInterval(async () => {
 
     if (results && results.length) {
         for (const result of results) {
-            if(Number(result.exp) === 0) return
+            if (Number(result.exp) === 0) return
             if (Number(result.redeemedAt) >= Number(result.exp)) {
                 const guildPremium = client.guilds.cache.get(result.guild);
                 if (guildPremium) {
-                        require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium')
-                        const timeemoj = client.emojis.cache.get('846868929065517066');
-                        const infoemoj = client.emojis.cache.get('860201073305583637');
-                        const embed = new Discord.MessageEmbed()
-                            .setColor(require('./color.json').color)//guildPremium.name
-                            .setDescription(`${infoemoj} Hey,\n\n${timeemoj} ${guildPremium.name}'s premium just expired... <a:blobsigh:855262242215690251>`)
-                            .setFooter('Slash commands premium')
-                            .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-                        guildPremium.channels.cache.first().send({ embeds: [embed] }).then(m => {
-                            require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium', m)
-                        });
-                        await prime.findOneAndDelete({
-                            id: result.id
-                        });
+                    require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium')
+                    const timeemoj = client.emojis.cache.get('846868929065517066');
+                    const infoemoj = client.emojis.cache.get('860201073305583637');
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(require('./color.json').color)//guildPremium.name
+                        .setDescription(`${infoemoj} Hey,\n\n${timeemoj} ${guildPremium.name}'s premium just expired... <a:blobsigh:855262242215690251>`)
+                        .setFooter('Slash commands premium')
+                        .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                    guildPremium.channels.cache.first().send({ embeds: [embed] }).then(m => {
+                        require('./log').log(`${guildPremium.name}'s premium ran out!`, 'premium', m)
+                    });
+                    await prime.findOneAndDelete({
+                        id: result.id
+                    });
                 }
             }
 

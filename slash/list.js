@@ -62,16 +62,16 @@ module.exports = {
         .setTitle(`${interaction.guild}'s Commands`)
         .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
         .setColor(color)
-        const embeds = [];
+      const embeds = [];
 
-        let i = 1;
-        let i2 = 0;
-    
-        let text = "";
-        let textLengths = []
-        let pages = []
-        let currentPage = "";
-        let msgCount = 0;
+      let i = 1;
+      let i2 = 0;
+
+      let text = "";
+      let textLengths = []
+      let pages = []
+      let currentPage = "";
+      let msgCount = 0;
       for (const c of commands) {
         let content = `**${client.botEmojis.info} Command: ${c.name}**\n${client.botEmojis.profile} ID: ${c.qid}\n${chart} Uses: ${c.uses || '0'}\n\n`
         let textToAdd = content
