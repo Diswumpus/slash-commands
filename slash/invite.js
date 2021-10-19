@@ -8,7 +8,6 @@ module.exports = {
     name: "invite",
     c: "Commands",
     usage: ``,
-    devOnly: true,
     data: new SlashCommandBuilder()
         .setName(`invite`)
         .setDescription("Invite the bot"),
