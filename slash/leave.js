@@ -24,10 +24,11 @@ module.exports = {
     async execute(client, interaction) {
         const guild = interaction.options?.get('guild_id')?.value;
 
+        if(!client.guilds.cache.has(guild)) return interaction.reply(`<:failed:899071447811624980> I'm not in that guild!`)
         const guildl = await client.guilds.cache.get(guild).leave()
 
         const embed = new Discord.MessageEmbed()
-            .setTitle(`${require('../emojis.json').x} Left the guild!`)
+            .setTitle(`${require('../emojis.json').check} Left the guild!`)
             .setColor(color)
             .setDescription(`Left guild ${guildl.name} (${guildl.id})`)
             .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
