@@ -14,11 +14,11 @@ module.exports = {
     async execute(message, Member, args) {
         const guild = message.client.guilds.cache.get(args[0]) || message.guild;
 
-        if(owners.includes(message.author.id)){
+        if (owners.includes(message.author.id)) {
             const owner = await guild.fetchOwner();
             const embed = new Discord.MessageEmbed()
-            .setColor(color)
-            .setDescription(`It seems like you broke the TOS! You can read it here: https://pepperbot-development.github.io/slash-commands/tos.\n\nYou may have banned one of our devs! Turtlepaw or Bluepaw, if you do not unban them the bot will leave your server! or you may have an NSFW channel if you do not delete it the bot will leave your server!`)
+                .setColor(color)
+                .setDescription(`It seems like you broke the TOS! You can read it here: https://pepperbot-development.github.io/slash-commands/tos.\n\nYou may have banned one of our devs! Turtlepaw or Bluepaw, if you do not unban them the bot will leave your server! or you may have an NSFW channel if you do not delete it the bot will leave your server!`)
             owner.send({ embeds: [embed] });
             message.reply(`\`✅\` ${message.author} Done!`)
         } else message.reply(`\`❎\` ${message.author} You cannot do that!`)

@@ -5,7 +5,7 @@ const models = require('../util').models;
 const commandArray = {
     name: String,
     description: String,
-    type: "STRING" | "INTEGER" | "NUMBER "| "BOOLEAN" | "USER" | "CHANNEL" | "ROLE" | "MENTIONABLE"
+    type: "STRING" | "INTEGER" | "NUMBER " | "BOOLEAN" | "USER" | "CHANNEL" | "ROLE" | "MENTIONABLE"
 }
 const commandOptions = {
     name: String,
@@ -25,7 +25,7 @@ const commandDataOptions = {
  * @param {commandDataOptions} commandOptions
  * @param {Discord.Client} client
  */
-module.exports.createCommand = async (command={}, commandOptions, guildId, client) => {
+module.exports.createCommand = async (command = {}, commandOptions, guildId, client) => {
     const commandd = await client.guilds.cache.get(guildId)?.commands.create(command)
 
     new models.slashCommands.model({
@@ -48,7 +48,7 @@ module.exports.createCommand = async (command={}, commandOptions, guildId, clien
  * @param {Discord.Client} client
  * @param {String} commandId
  */
- module.exports.editCommand = async (command={}, guildId, client, commandId) => {
+module.exports.editCommand = async (command = {}, guildId, client, commandId) => {
     const command = await client.guilds.cache.get(guildId)?.commands.edit(commandId, command)
     return command
 }
@@ -97,12 +97,12 @@ module.exports.getCommand = async (commandId, guildId) => {
     const commandIdType = this.IDCommand(commandId)
 
     let res;
-    if(commandIdType === "SHORT_ID"){
+    if (commandIdType === "SHORT_ID") {
         res = await models.slashCommands.model.findOne({
             qid: commandId,
             guild: guildId
         })
-    } else if(commandIdType === "SNOWFLAKE"){
+    } else if (commandIdType === "SNOWFLAKE") {
         res = await models.slashCommands.model.findOne({
             id: commandId,
             guild: guildId
@@ -124,9 +124,9 @@ module.exports.IDCommand = (id) => {
      * @type {"SHORT_ID" | "SNOWFLAKE" | "UNKNOWN"}
      */
     let type;
-    if(id.length < 5){
+    if (id.length < 5) {
         type = "SHORT_ID"
-    } else if(id.length === 18){
+    } else if (id.length === 18) {
         type = "SNOWFLAKE"
     } else { type = "UNKNOWN" }
 

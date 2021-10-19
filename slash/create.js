@@ -12,33 +12,38 @@ module.exports = {
     description: "Create a slash command",
     usage: `name: String description: String reply: String (Not Required: embed: true|false)`,
     data: new SlashCommandBuilder()
-    .setName(`create`)
-    .setDescription("Create a slash command")
-    .addStringOption(o => {
-        return o.setName('name')
-        .setDescription('The name of the command')
-        .setRequired(true)
-    })
-    .addStringOption(o => {
-        return o.setName('description')
-        .setDescription('The description of the command')
-        .setRequired(true)
-    })
-    .addStringOption(o => {
-        return o.setName('reply')
-        .setDescription('The reply of the command')
-        .setRequired(true)
-    })
-    .addBooleanOption(o => {
-        return o.setName('embed')
-        .setDescription('If the reply should be an embed')
-        .setRequired(false)
-    }),
-        /**
-   * 
-   * @param {Discord.Client} client 
-   * @param {Discord.CommandInteraction} interaction 
-   */
+        .setName(`create`)
+        .setDescription("Create a slash command")
+        .addStringOption(o => {
+            return o.setName('name')
+                .setDescription('The name of the command')
+                .setRequired(true)
+        })
+        .addStringOption(o => {
+            return o.setName('description')
+                .setDescription('The description of the command')
+                .setRequired(true)
+        })
+        .addStringOption(o => {
+            return o.setName('reply')
+                .setDescription('The reply of the command')
+                .setRequired(true)
+        })
+        .addBooleanOption(o => {
+            return o.setName('embed')
+                .setDescription('If the reply should be an embed')
+                .setRequired(false)
+        })
+        .addBooleanOption(o => {
+            return o.setName('ephemeral')
+                .setDescription('If the reply should be ephemeral')
+                .setRequired(false)
+        }),
+    /**
+* 
+* @param {Discord.Client} client 
+* @param {Discord.CommandInteraction} interaction 
+*/
     async execute(client, interaction) {
         //Defer Command
         const m2 = await interaction.deferReply();
@@ -57,6 +62,7 @@ module.exports = {
         const intembed = interaction.options?.get('embed')?.value || false;
         const option_1 = interaction.options?.get('option_1')?.value;
         const option_2 = interaction.options?.get('option_2')?.value;
+        const eph = interaction.options.getBoolean('ephemeral') || false;
         //Check if guild premium and interaction options 1 & 2
         const prime = require('../models/premium');
         const gprime = await prime.findOne({
@@ -78,53 +84,21 @@ module.exports = {
         }
 
         if (!client.application?.owner) await client.application?.fetch();
-        let data;
-        if (!option_1 || !option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-            };
-        } else if (option_1) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_1,
-                    type: 'STRING',
-                    description: option_1,
-                    required: true,
-                }],
-            };
-        } else if (option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_2,
-                    type: 'STRING',
-                    description: option_2,
-                    required: true,
-                }],
-            };
-        } else if (option_1 && option_2) {
-            data = {
-                name: name.toLowerCase(),
-                description: description,
-                options: [{
-                    name: option_1,
-                    type: 'STRING',
-                    description: option_1,
-                    required: true,
-                },
-                {
-                    name: option_2,
-                    type: 'STRING',
-                    description: option_2,
-                    required: true,
-                }],
-            };
+        const data = {
+            name: name.toString().toLowerCase().replace(/ /g,"-"),
+            description: description.toString(),
+        };
+        let err = {
+            errored: false,
+            err: ""
         }
-        const command = await client.guilds.cache.get(interaction.guild.id)?.commands.create(data);
+        let command
+        try {
+            command = await client.guilds.cache.get(interaction.guild.id)?.commands.create(data);
+        } catch(e) {
+            err.errored = true
+            err.err = e.toString()
+        }
         //Create id for easy use
         let theid = Math.floor(Math.random() * 5000);
         let testid;
@@ -153,8 +127,8 @@ module.exports = {
             reply: reply,
             name: command.name,
             embed: intembed,
-            option1: option_1,
-            option2: option_2
+            eph: eph,
+            uses: 0
         });
         await dBase.save().catch(e => console.log(e));
         //Log
@@ -162,7 +136,7 @@ module.exports = {
         //Send message
         const embed = new Discord.MessageEmbed()
             .setTitle(`${require('../emojis.json').check} Created`)
-            .addField('ID:', `${theid} ||( ${command.id} )||`, true)
+            .addField('ID:', `${theid} ||(${command.id})||`, true)
             .addField('Name:', command.name, true)
             .addField('Description:', command.description, true)
             .setColor(color)

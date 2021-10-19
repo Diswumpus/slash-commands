@@ -13,43 +13,43 @@ module.exports = {
     description: "Create Button Roles!",
     c: "buttonroles",
     data: new SlashCommandBuilder()
-    .setName("create-button-roles")
-    .setDescription("Create Button Roles!")
-    .addStringOption(o => {
-        return o.setName("style")
-        .setDescription("The style for the buttons")
-        .setRequired(false)
-        .addChoice("Blurple", "PRIMARY")
-        .addChoice("Grey", "SECONDARY")
-        .addChoice("Green", "SUCCESS")
-        .addChoice("Red", "DANGER")
-    })
-    .addStringOption(o => {
-        return o.setName("color")
-        .setDescription("The color for the embed")
-        .setRequired(false)
-        .addChoice("Blurple", "BLURPLE")
-        .addChoice("Navy", "NAVY")
-        .addChoice("Darker Grey", "DARKER_GREY")
-        .addChoice("Grey", "GREY")
-        .addChoice("Red", "RED")
-        .addChoice("Orange", "ORANGE")
-        .addChoice("Gold", "GOLD")
-        .addChoice("Fuchsia", "FUCHSIA")
-        .addChoice("Vivid Pink", "LUMINOUS_VIVID_PINK")
-        .addChoice("Purple", "PURPLE")
-        .addChoice("Yellow", "YELLOW")
-        .addChoice("Blue", "BLUE")
-        .addChoice("Green", "GREEN")
-        .addChoice("Aqua", "AQUA")
-        .addChoice("White", "WHITE")
-        .addChoice("Black", "DEFAULT")
-    })
-    .addStringOption(o => {
-        return o.setName("description")
-        .setDescription("The description for the embed")
-        .setRequired(false)
-    }),
+        .setName("create-button-roles")
+        .setDescription("Create Button Roles!")
+        .addStringOption(o => {
+            return o.setName("style")
+                .setDescription("The style for the buttons")
+                .setRequired(false)
+                .addChoice("Blurple", "PRIMARY")
+                .addChoice("Grey", "SECONDARY")
+                .addChoice("Green", "SUCCESS")
+                .addChoice("Red", "DANGER")
+        })
+        .addStringOption(o => {
+            return o.setName("color")
+                .setDescription("The color for the embed")
+                .setRequired(false)
+                .addChoice("Blurple", "BLURPLE")
+                .addChoice("Navy", "NAVY")
+                .addChoice("Darker Grey", "DARKER_GREY")
+                .addChoice("Grey", "GREY")
+                .addChoice("Red", "RED")
+                .addChoice("Orange", "ORANGE")
+                .addChoice("Gold", "GOLD")
+                .addChoice("Fuchsia", "FUCHSIA")
+                .addChoice("Vivid Pink", "LUMINOUS_VIVID_PINK")
+                .addChoice("Purple", "PURPLE")
+                .addChoice("Yellow", "YELLOW")
+                .addChoice("Blue", "BLUE")
+                .addChoice("Green", "GREEN")
+                .addChoice("Aqua", "AQUA")
+                .addChoice("White", "WHITE")
+                .addChoice("Black", "DEFAULT")
+        })
+        .addStringOption(o => {
+            return o.setName("description")
+                .setDescription("The description for the embed")
+                .setRequired(false)
+        }),
     /**
    * 
    * @param {Discord.Client} client 
@@ -98,49 +98,49 @@ module.exports = {
                         r1: function () {
                             if (roles[0]) {
                                 return new MessageButton()
-                                .setCustomId(roles[0]?.id || "NULL")
-                                .setLabel(roles[0]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[0]?.id || "NULL")
+                                    .setLabel(roles[0]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r2: function () {
                             if (roles[1]) {
                                 return new MessageButton()
-                                .setCustomId(roles[1]?.id || "NULL")
-                                .setLabel(roles[1]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[1]?.id || "NULL")
+                                    .setLabel(roles[1]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r3: function () {
                             if (roles[2]) {
                                 return new MessageButton()
-                                .setCustomId(roles[2]?.id || "NULL")
-                                .setLabel(roles[2]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[2]?.id || "NULL")
+                                    .setLabel(roles[2]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r4: function () {
                             if (roles[3]) {
                                 return new MessageButton()
-                                .setCustomId(roles[3]?.id || "NULL")
-                                .setLabel(roles[3]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[3]?.id || "NULL")
+                                    .setLabel(roles[3]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r5: function () {
                             if (roles[4]) {
                                 return new MessageButton()
-                                .setCustomId(roles[4]?.id || "NULL")
-                                .setLabel(roles[4]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[4]?.id || "NULL")
+                                    .setLabel(roles[4]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r6: function () {
                             if (roles[5]) {
                                 return new MessageButton()
-                                .setCustomId(roles[5]?.id || "NULL")
-                                .setLabel(roles[5]?.name || "NULL")
-                                .setStyle(buttons.style)
+                                    .setCustomId(roles[5]?.id || "NULL")
+                                    .setLabel(roles[5]?.name || "NULL")
+                                    .setStyle(buttons.style)
                             }
                         },
                         r7: function () {
@@ -159,35 +159,35 @@ module.exports = {
                                     .setStyle(buttons.style)
                             }
                         },
-                    allButtons: function () {
-                        const roless = [
-                            new MessageActionRow()
-                        ]
-                        if(roles[0]){
-                            roless[0].addComponents(this.r1())
-                        }
-                        if(roles[1]){
-                            roless[0].addComponents(this.r2())
-                        }
-                        if(roles[2]){
-                            roless[0].addComponents(this.r3())
-                        }
-                        if(roles[3]){
-                            roless[0].addComponents(this.r4())
-                        }
-                        if(roles[4]){
-                            roless[0].addComponents(this.r5())
-                        }
-                        if(roles[5]){
-                            roless.push(new MessageActionRow())
-                            roless[1].addComponents(this.r6())
-                        }
-                        if(roles[6]){
-                            roless[1].addComponents(this.r7())
-                        }
-                        if(roles[7]){
-                            roless[1].addComponents(this.r8())
-                        }
+                        allButtons: function () {
+                            const roless = [
+                                new MessageActionRow()
+                            ]
+                            if (roles[0]) {
+                                roless[0].addComponents(this.r1())
+                            }
+                            if (roles[1]) {
+                                roless[0].addComponents(this.r2())
+                            }
+                            if (roles[2]) {
+                                roless[0].addComponents(this.r3())
+                            }
+                            if (roles[3]) {
+                                roless[0].addComponents(this.r4())
+                            }
+                            if (roles[4]) {
+                                roless[0].addComponents(this.r5())
+                            }
+                            if (roles[5]) {
+                                roless.push(new MessageActionRow())
+                                roless[1].addComponents(this.r6())
+                            }
+                            if (roles[6]) {
+                                roless[1].addComponents(this.r7())
+                            }
+                            if (roles[7]) {
+                                roless[1].addComponents(this.r8())
+                            }
                             return roless
                         },
                         uuid: uuidv4(),
@@ -198,7 +198,6 @@ module.exports = {
                             }
                             return new MessageEmbed()
                                 .setColor(embed.color)
-                                .setFooter(this.uuid)
                                 .setDescription(embed.description || `Use the buttons below to get some roles!`)
                         }
                     }
@@ -227,7 +226,8 @@ module.exports = {
                             r6: roles[5]?.id || null,
                             r7: roles[6]?.id || null,
                             r8: roles[7]?.id || null
-                        }
+                        },
+                        messageID: SENT_MESSAGE.id
                     }).save().catch(e => console.log(e))
                 }
             })

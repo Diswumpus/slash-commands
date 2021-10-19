@@ -8,12 +8,12 @@ module.exports.getCommand = async (commandName, guildId, callback=null) => {
             guild: guildId
         })
     } else {
-        return await Slash.findOne({
+        const data = await Slash.findOne({
             name: commandName,
             guild: guildId
-        }, async function(err, doc) {
-            await callback(err, doc)
         })
+        callback(null, data)
+        return data
     }
 }
 

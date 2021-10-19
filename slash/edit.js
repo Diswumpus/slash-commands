@@ -9,16 +9,16 @@ module.exports = {
     description: 'Edits a command',
     usage: `Not required: reply: String embed: True|False`,
     data: new SlashCommandBuilder()
-    .setName(`edit`)
-    .setDescription("Edit a slash command")
-    .addStringOption(o => {
-        return o.setName('reply')
-        .setDescription('The reply for the command')
-    })
-    .addBooleanOption(o => {
-        return o.setName('embed')
-        .setDescription('If the reply should be an embed')
-    }),
+        .setName(`edit`)
+        .setDescription("Edit a slash command")
+        .addStringOption(o => {
+            return o.setName('reply')
+                .setDescription('The reply for the command')
+        })
+        .addBooleanOption(o => {
+            return o.setName('embed')
+                .setDescription('If the reply should be an embed')
+        }),
     /**
      * 
      * @param {Discord.Client} client 
@@ -41,18 +41,18 @@ module.exports = {
             guild: interaction.guild.id
         })
 
-        if(commandr){
+        if (commandr) {
             await scommand.findOne({
                 qid: command_id,
                 guild: interaction.guild.id
-            }, async function(err, doc) {
-                if(err) throw err;
+            }, async function (err, doc) {
+                if (err) throw err;
 
-                if(options.embed){
+                if (options.embed) {
                     doc.embed = options.embed
                     optionschanged.embed = options.embed.toString()
                 }
-                if(options.reply){
+                if (options.reply) {
                     doc.reply = options.reply
                     optionschanged.reply = options.reply.toString()
                 }
@@ -60,13 +60,13 @@ module.exports = {
             })
 
             const embed = new Discord.MessageEmbed()
-            .setTitle(`${require('../emojis.json').check} Edited the command!`)
-            .setColor(color)
-            .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-            if(optionschanged.reply){
+                .setTitle(`${require('../emojis.json').check} Edited the command!`)
+                .setColor(color)
+                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+            if (optionschanged.reply) {
                 embed.addField(`Reply Changed`, `${commandr.reply} -> ${optionschanged.reply}`)
             }
-            if(optionschanged.embed){
+            if (optionschanged.embed) {
                 embed.addField(`Embed Changed`, `${commandr.embed} -> ${optionschanged.embed}`)
             }
 

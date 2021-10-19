@@ -9,12 +9,12 @@ module.exports = {
     c: "Server",
     usage: `id: SlashCommandID`,
     data: new SlashCommandBuilder()
-    .setName(`delete`)
-    .setDescription("Delete a slash command")
-    .addStringOption(o => {
-        return o.setName('id')
-        .setDescription('The id of the command (0000 or snowflake)')
-    }),
+        .setName(`delete`)
+        .setDescription("Delete a slash command")
+        .addStringOption(o => {
+            return o.setName('id')
+                .setDescription('The id of the command (0000 or snowflake)')
+        }),
     async execute(client, interaction) {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID || interaction.user.id === owner.owner2ID) {
@@ -37,14 +37,15 @@ module.exports = {
                 })
             }
             //Log
-            require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command')
+            require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
             //Remove command from database
             //Reply
-            const embed = new Discord.MessageEmbed()
+            const replyEmbed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Deleted`)
+                .setDescription(`The command has been deleted!`)
                 .setColor(color)
                 .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-            await interaction.reply({ embeds: [embed] })
+            await interaction.reply({ embeds: [replyEmbed] })
         }
     }
 }
