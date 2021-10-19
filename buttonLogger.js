@@ -76,7 +76,7 @@ class logger {
             .setAuthor(this.member.user.tag, this.member.user.displayAvatarURL())
             .setTitle(`${emojis.role} Role ${type === "ADD" ? "Added" : "Removed"}`)
             .addField(`**Role ${type === "ADD" ? "Added" : "Removed"}:**`, `**${this.role}** ||(${this.role.id})||`)
-            .addField(`**Member:**`, `**${this.member.user.username}** ||(${this.member.user.id}})||`)
+            .addField(`**Member:**`, `**${this.member.user}** ||(${this.member.user.id})||`)
             .addField(`**Channel:**`, `**${this.channel}** ||(${this.channel.id})||`)
             .addField(`**Message:**`, `**[\`Link\`](${this.message.url})** ||(${this.message.id})||`)
             .setColor(`${type === "ADD" ? "GREEN" : "RED"}`)

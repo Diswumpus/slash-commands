@@ -12,7 +12,7 @@
 
 <font size="20px" color="7289da"> For more help join <a href="https://discord.gg/yuHceddqur">our Discord server</a><font><br>
 
-<a href="https://discord.gg/ANzBrkcXZy"><img src="https://invidget.switchblade.xyz/yuHceddqur" /></a>
+<a href="https://discord.gg/PWXGdJFdPH"><img src="https://invidget.switchblade.xyz/yuHceddqur" /></a>
 <br><br>
 <font size="10px"> Top.gg </font>
 <br>

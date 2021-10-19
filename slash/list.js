@@ -109,11 +109,6 @@ module.exports = {
       }
       await interaction.reply({ embeds: [embeds[i2]], components: [buttons], ephemeral: eph });
 
-      /**
-       * @type {Discord.Message}
-       */
-      const m = await interaction.fetchReply();
-
       const collector = interaction.channel.createMessageComponentCollector({ filter: i => i.user.id === interaction.user.id })
 
       collector.on("collect", async i3 => {

@@ -149,11 +149,11 @@ for (const file of eventFiles) {
     }
 }
 
-const clientFiles = fs.readdirSync('./client').filter(file => file.endsWith('.js'));
-for (const file of clientFiles) {
-    const filee = require(`./client/${file}`);
-    filee.execute(client)
-}
+// const clientFiles = fs.readdirSync('./client').filter(file => file.endsWith('.js'));
+// for (const file of clientFiles) {
+//     const filee = require(`./client/${file}`);
+//     filee.execute(client)
+// }
 
 const slshcmdArray = []
 // Here we load all the commands into client.commands
