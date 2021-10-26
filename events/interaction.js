@@ -57,7 +57,7 @@ module.exports = {
 			}
 			//Reply to the command
 			//Check if embed
-			commandData.rows[0].components[0].customId = "slashCommandButton"
+			if(commandData?.rows.length > 0) commandData.rows[0].components[0].customId = "slashCommandButton";
 			if (commandData?.embed === true) {
 				const replyembed = new Discord.MessageEmbed()
 					.setTitle(thetext)
