@@ -9,6 +9,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     name: "create",
     c: "Server",
+    devOnly: true,
     description: "Create a slash command",
     usage: `name: String description: String reply: String (Not Required: embed: true|false)`,
     data: new SlashCommandBuilder()
@@ -38,6 +39,14 @@ module.exports = {
             return o.setName('ephemeral')
                 .setDescription('If the reply should be ephemeral')
                 .setRequired(false)
+        })
+        .addBooleanOption(o => {
+            return o.setName("buttons")
+                .setDescription(`Should the command have buttons?`)
+        })
+        .addStringOption(o => {
+            return o.setName("button_reply")
+            .setDescription(`Needed if you have buttons enabled if this is not filled out then it will reply with the reply.`)
         }),
     /**
 * 
@@ -56,48 +65,28 @@ module.exports = {
             return
         };
         // Get interaction options
-        const name = interaction.options.get('name')?.value;
-        const description = interaction.options?.get('description')?.value;
-        const reply = interaction.options?.get('reply')?.value;
-        const intembed = interaction.options?.get('embed')?.value || false;
-        const option_1 = interaction.options?.get('option_1')?.value;
-        const option_2 = interaction.options?.get('option_2')?.value;
+        const name = interaction.options.getString("name");
+        const description = interaction.options.getString('description');
+        const reply = interaction.options.getString('reply');
+        const intembed = interaction.options.getBoolean('embed') || false;
         const eph = interaction.options.getBoolean('ephemeral') || false;
-        //Check if guild premium and interaction options 1 & 2
-        const prime = require('../models/premium');
-        const gprime = await prime.findOne({
-            guild: interaction.guild.id
-        });
-        //Return if guild is not premium
-        if (gprime?.guild !== interaction.guild.id) {
-            if (option_1 || option_2) {
-                const noprime = new Discord.MessageEmbed()
-                    .setColor('RED')
-                    .setDescription(`${emojis.crown} Your guild is not premium!\n\nOnly premium guilds can have command options!`)
-                    .setTitle(`${emojis.x} Error!`)
-                await interaction.reply({ embeds: [noprime] });
-                setTimeout(async () => {
-                    await interaction.deleteReply();
-                }, 3000);
-                return
-            }
-        }
+        const buttons = interaction.options.getBoolean('buttons') || false;
 
         if (!client.application?.owner) await client.application?.fetch();
-        const data = {
-            name: name.toString().toLowerCase().replace(/ /g,"-"),
-            description: description.toString(),
-        };
+        const data = new SlashCommandBuilder()
+            .setName(name.toString().toLowerCase().replace(/ /g, "-"))
+            .setDescription(description.toString())
         let err = {
             errored: false,
             err: ""
         }
         let command
         try {
-            command = await client.guilds.cache.get(interaction.guild.id)?.commands.create(data);
-        } catch(e) {
+            command = await interaction.guild?.commands.create(data.toJSON());
+        } catch (e) {
             err.errored = true
             err.err = e.toString()
+            console.log(e)
         }
         //Create id for easy use
         let theid = Math.floor(Math.random() * 5000);
@@ -115,32 +104,149 @@ module.exports = {
             }
             if (i === true) { break; }
         }
+        /**
+         * 
+         * @param {Discord.Message} m 
+         * @returns {Boolean}
+         */
         const mfilter = m => m.author.id === interaction.user.id;
-        const ifilter = (i) => i.user.id === interaction.user.id;
-        //Log
-        require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
-        //Create the command in the database
-        let dBase = new slash({
-            id: command.id,
-            qid: theid,
-            guild: interaction.guild.id,
-            reply: reply,
-            name: command.name,
-            embed: intembed,
-            eph: eph,
-            uses: 0
-        });
-        await dBase.save().catch(e => console.log(e));
-        //Log
-        require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
-        //Send message
-        const embed = new Discord.MessageEmbed()
-            .setTitle(`${require('../emojis.json').check} Created`)
-            .addField('ID:', `${theid} ||(${command.id})||`, true)
-            .addField('Name:', command.name, true)
-            .addField('Description:', command.description, true)
-            .setColor(color)
-            .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-        await interaction.editReply({ embeds: [embed], components: [] })
+        const ifilter = i => i.user.id === interaction.user.id;
+        let buttonFn;
+        const row = []
+        const button = new Discord.MessageButton();
+        if (buttons === true) {
+            await interaction.editReply({
+                embeds: [
+                    new Discord.MessageEmbed()
+                        .setColor(color)
+                        .setDescription(`Type the button label\n\nType \`cancel\` to cancel this command.`)
+                ]
+            })
+            interaction.channel.awaitMessages({ filter: mfilter, max: 1 })
+                .then(async m1 => {
+                    if (m1.first().toString().toLowerCase().includes("cancel")) return interaction.editReply({ content: `Canceled` })
+                    button.setLabel(m1.first().toString())
+                    await interaction.editReply({
+                        embeds: [
+                            new Discord.MessageEmbed()
+                                .setColor(color)
+                                .setDescription(`Type the button emoji. (ID or emoji)\n\nType \`skip\` to not put an emoji on the button.\n\nType \`cancel\` to cancel this command.`)
+                        ]
+                    })
+                    interaction.channel.awaitMessages({ filter: mfilter, max: 1 })
+                        .then(async m2 => {
+                            if (m2.first().toString().toLowerCase().includes("cancel")) return interaction.editReply({ content: `Canceled` })
+                            if(!m2.first().toString().toLowerCase().includes("skip")){
+                                button.setEmoji(m2.first().toString())
+                            }
+                            await interaction.editReply({
+                                embeds: [
+                                    new Discord.MessageEmbed()
+                                        .setColor(color)
+                                        .setDescription(`Use the menu below to set the button style\n\nType \`cancel\` to cancel this command.`)
+                                ], components: [
+                                    new Discord.MessageActionRow()
+                                        .addComponents(
+                                            new Discord.MessageSelectMenu()
+                                                .setCustomId("style_menu")
+                                                .setPlaceholder("Select a style")
+                                                .addOptions([
+                                                    {
+                                                        label: 'Blurple',
+                                                        value: 'PRIMARY',
+                                                    },
+                                                    {
+                                                        label: 'Grey',
+                                                        value: 'SECONDARY',
+                                                    },
+                                                    {
+                                                        label: 'Green',
+                                                        value: 'SUCCESS',
+                                                    },
+                                                    {
+                                                        label: 'Red',
+                                                        value: 'DANGER',
+                                                    }
+                                                ])
+                                        )
+                                ]
+                            })
+                            interaction.channel.awaitMessages({ filter: mfilter, max: 1 })
+                                .then(async m3 => {
+                                    if (m2.first().toString().toLowerCase().includes("cancel")) return interaction.editReply({ content: `Canceled` })
+                                })
+                            interaction.channel.awaitMessageComponent({ filter: ifilter })
+                                .then(async i3 => {
+                                    if (i3.customId === "style_menu") {
+                                        button.setStyle(i3.values[0])
+                                        row.push(new Discord.MessageActionRow().addComponents(button))
+                                        await i3.update({
+                                            embeds: [
+                                                new Discord.MessageEmbed()
+                                                    .setColor(color)
+                                                    .setDescription(`Use the menu below to set the button function`)
+                                            ], components: [
+                                                new Discord.MessageActionRow()
+                                                    .addComponents(
+                                                        new Discord.MessageSelectMenu()
+                                                            .setCustomId("fn_menu")
+                                                            .setPlaceholder("Select a function")
+                                                            .addOptions([
+                                                                {
+                                                                    label: 'Delete message after 10s',
+                                                                    value: 'MESSAGE_DELETE',
+                                                                },
+                                                                {
+                                                                    label: 'Reply to button',
+                                                                    value: 'REPLY',
+                                                                }
+                                                            ])
+                                                    )
+                                            ]
+                                        })
+                                        interaction.channel.awaitMessageComponent({ filter: ifilter })
+                                        .then(async i4 => {
+                                            if(i4.customId === "fn_menu"){
+                                                buttonFn = i4.values[0]
+                                                await createCommand();
+                                            }
+                                        })
+                                    }
+                                })
+
+                        })
+                })
+        }
+        if(buttons === false) await createCommand();
+        const createCommand = async () => {
+            //Log
+            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
+            //Create the command in the database
+            let dBase = new slash({
+                id: command.id,
+                qid: theid,
+                guild: interaction.guild.id,
+                reply: reply,
+                name: command.name,
+                embed: intembed,
+                eph: eph,
+                uses: 0,
+                rows: row,
+                buttonFn: buttonFn||null,
+                buttonReply: interaction.options.getString("button_reply")||null
+            });
+            await dBase.save().catch(e => console.log(e));
+            //Log
+            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
+            //Send message
+            const embed = new Discord.MessageEmbed()
+                .setTitle(`${require('../emojis.json').check} Created`)
+                .addField('<:id:863464329725607936> ID:', `${theid} ||(${command.id})||`, true)
+                .addField('<:messages:863464329667411998> Name:', command.name, true)
+                .addField('<:announcement:865027974788415518> Description:', command.description, true)
+                .setColor(color)
+                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+            await interaction.editReply({ embeds: [embed], components: [] });
+        }
     }
 }

@@ -44,9 +44,10 @@ module.exports = async (message, type, g) => {
         .setColor(color)
     //Log it to the console
     console.log(message)
+    let button;
     //Create buttons
     if (inv?.url) {
-        const button = new Discord.MessageButton()
+        button = new Discord.MessageButton()
             .setStyle("LINK")
             .setLabel('Go to guild')
             .setEmoji(require('./emojis.json').link)
