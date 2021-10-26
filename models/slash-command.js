@@ -10,7 +10,10 @@ const sSchema = new mongoose.Schema({
     uses: Number,
     option1: String,
     option2: String,
-    eph: Boolean
+    eph: Boolean,
+    rows: [Object],
+    buttonFn: String,
+    buttonReply: String
 });
 
 const sModel = module.exports = mongoose.model('s-commands', sSchema);
