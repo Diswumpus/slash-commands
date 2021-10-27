@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const color = require('../color.json').color;
 const scommand = require('../models/slash-command');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const emojis = require('../emojis.json');
 
 module.exports = {
     name: 'edit',
@@ -28,8 +29,8 @@ module.exports = {
         const command_id = interaction.options?.find(c => c?.name === 'command_id')?.value;
 
         const options = {
-            reply: interaction.options?.get('reply')?.value,
-            embed: interaction.options?.get('embed')?.value
+            reply: interaction.options.getString('reply'),
+            embed: interaction.options.getString('embed')
         }
         const optionschanged = {
             reply: 'Nothing Changed',
@@ -42,22 +43,20 @@ module.exports = {
         })
 
         if (commandr) {
-            await scommand.findOne({
+            const doc = await scommand.findOne({
                 qid: command_id,
                 guild: interaction.guild.id
-            }, async function (err, doc) {
-                if (err) throw err;
-
-                if (options.embed) {
-                    doc.embed = options.embed
-                    optionschanged.embed = options.embed.toString()
-                }
-                if (options.reply) {
-                    doc.reply = options.reply
-                    optionschanged.reply = options.reply.toString()
-                }
-                doc.save().catch(e => console.log(e))
             })
+
+            if (options.embed) {
+                doc.embed = options.embed
+                optionschanged.embed = options.embed.toString()
+            }
+            if (options.reply) {
+                doc.reply = options.reply
+                optionschanged.reply = options.reply.toString()
+            }
+            await doc.save().catch(e => console.log(e))
 
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Edited the command!`)
@@ -71,6 +70,8 @@ module.exports = {
             }
 
             await interaction.reply({ embeds: [embed] })
+        } else {
+            await interaction.reply(`${emojis.failed} I could not find that command!`)
         }
     }
 }

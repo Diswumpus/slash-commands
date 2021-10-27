@@ -15,7 +15,7 @@ module.exports = {
                 .setDescription('The name of the command')
         }),
     async execute(client, interaction) {
-        const cmddd = interaction.options?.get('command_name')?.value;
+        const cmddd = interaction.options.getString('command_name');
         if (!cmddd) {
             const commands = [];
             client.slashcmds.forEach(c => { commands.push(c) })

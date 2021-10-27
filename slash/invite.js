@@ -21,13 +21,13 @@ module.exports = {
             .setColor(color)
             .setTitle(`${client.user.username} Invite`)
             .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
-            .setDescription(`You can use the (dashboard)[https://] to manage the bot or invite it you can also invite the bot using the link below`)
+            .setDescription(`Invite the bot using the link below`)
         const row = new Discord.MessageActionRow()
             .addComponents(
-                new Discord.MessageButton()
-                    .setStyle("LINK")
-                    .setURL(client.dashboardAdd)
-                    .setLabel("Dashboard Invite"),
+                // new Discord.MessageButton()
+                //     .setStyle("LINK")
+                //     .setURL(client.dashboardAdd)
+                //     .setLabel("Dashboard Invite"),
                 new Discord.MessageButton()
                     .setStyle("LINK")
                     .setURL(client.generateInvite({ scopes: ['applications.commands', 'bot'], permissions: "ADMINISTRATOR" }))

@@ -17,7 +17,7 @@ module.exports = {
     description: "Manage the server settings!",
     data: new SlashCommandBuilder()
         .setName(`server`)
-        .setDescription("Manage the server settings!"),
+        .setDescription("Manage the server settings."),
     /**
    * 
    * @param {Discord.Client} client 
@@ -44,7 +44,7 @@ module.exports = {
                     .setCustomId('close')
                     .setEmoji(emojis.leave)
                     .setLabel(`Close`)
-                    .setStyle("DANGER"),
+                    .setStyle("SECONDARY"),
             )
         let ccolor;
         let logChan;
@@ -52,7 +52,7 @@ module.exports = {
             .setCustomId('cancel')
             .setEmoji(emojis.flag_removeid)
             .setLabel(`Cancel`)
-            .setStyle("DANGER")
+            .setStyle("SECONDARY")
         const colors = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu()

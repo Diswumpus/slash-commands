@@ -39,7 +39,7 @@ module.exports = {
                     .setLabel("Win Giveaways"),
                 new Discord.MessageButton()
                     .setStyle("LINK")
-                    .setURL("https://turtlebot-discord.github.io/slash-commands/partner")
+                    .setURL("https://pepperbot-development.github.io/slash-commands/partner")
                     .setEmoji(emojis.flag_add)
                     .setLabel("Partner"),
                 new Discord.MessageButton()
@@ -50,14 +50,14 @@ module.exports = {
                     .setDisabled(true),
                 new Discord.MessageButton()
                     .setStyle("LINK")
-                    .setURL("https://turtlebot-discord.github.io/slash-commands/premium")
+                    .setURL("https://pepperbot-development.github.io/slash-commands/premium")
                     .setEmoji(emojis.join)
                     .setLabel("More Info")
             )
 
         await interaction.reply({ embeds: [embed], components: [row] });
 
-        interaction.channel.awaitMessageComponent({ time: 60000000, filter: i => i.user.id === interaction.user.id })
+        interaction.channel.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id })
             .then(i => {
                 if (i.customId === "free_trial") {
                     const timestamp = new dt.timestamp()
@@ -85,7 +85,7 @@ module.exports = {
                                 .setLabel("Win Giveaways"),
                             new Discord.MessageButton()
                                 .setStyle("LINK")
-                                .setURL("https://turtlebot-discord.github.io/slash-commands/partner")
+                                .setURL("https://pepperbot-development.github.io/slash-commands/partner")
                                 .setEmoji(emojis.flag_add)
                                 .setLabel("Partner"),
                             new Discord.MessageButton()
@@ -96,7 +96,7 @@ module.exports = {
                                 .setDisabled(true),
                             new Discord.MessageButton()
                                 .setStyle("LINK")
-                                .setURL("https://turtlebot-discord.github.io/slash-commands/premium")
+                                .setURL("https://pepperbot-development.github.io/slash-commands/premium")
                                 .setEmoji(emojis.join)
                                 .setLabel("More Info")
                         )

@@ -21,14 +21,14 @@ module.exports = {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID) {
             // Get interaction options
-            const id = interaction.options?.get('code')?.value;
+            const id = interaction.options.getString('code');
             //Check if there is one
             let findone = await prime.findOne({
                 id: id
             })
             //If there is no prime code
             if (!findone || findone.guild) {
-                return await interaction.reply({ content: '<:failed:899071447811624980> That premium code seems to be invalid or someone already used it! :\\' })
+                return await interaction.reply({ content: '<:failed:899071447811624980> That premium code seems to be invalid or someone already used it! :(' })
             }
             //Delete code data...
             await prime.findOneAndDelete({
@@ -63,7 +63,7 @@ module.exports = {
             const rep_embed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Activated`)
                 .setColor(color)
-                .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild.id}\` by \`${interaction.user.tag}\`\n\nExpires at: <t:${Math.floor(expiresAt / 1000.0)}:R>\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
+                .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild}\` by \`${interaction.user.tag}\`\n\nExpires at: ${expiresAt === 0 ? "Never Expires" :  `<t:` + Math.floor(expiresAt / 1000.0) + `:R>`}\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
                 .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
             //Send embed
             await interaction.reply({ embeds: [rep_embed] });
