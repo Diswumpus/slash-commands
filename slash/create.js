@@ -217,7 +217,7 @@ module.exports = {
                 })
         }
         if(buttons === false) await createCommand();
-        const createCommand = async () => {
+        async function createCommand() {
             //Log
             require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
             //Create the command in the database
