@@ -219,7 +219,7 @@ module.exports = {
         if(buttons === false) await createCommand();
         async function createCommand() {
             //Log
-            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
+            await require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
             //Create the command in the database
             let dBase = new slash({
                 id: command.id,

@@ -19,17 +19,14 @@ module.exports = {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID || interaction.user.id === owner.owner2ID) {
             // Get interaction options
-            const cmdid = interaction.options?.get('id')?.value;
+            const cmdid = interaction.options.getString('id');
             //Delete it
             //Check if it is custom id
             if (cmdid.length < 4 || cmdid.length === 4) {
-                let commandData = await slash.findOne({
+                let commandData = await slash.findOneAndDelete({
                     qid: cmdid
                 });
                 interaction.guild.commands.delete(commandData.id)
-                await slash.findOneAndRemove({
-                    qid: cmdid
-                })
             } else {
                 interaction.guild.commands.delete(cmdid)
                 await slash.findOneAndRemove({
@@ -37,7 +34,7 @@ module.exports = {
                 })
             }
             //Log
-            require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
+            await require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
             //Remove command from database
             //Reply
             const replyEmbed = new Discord.MessageEmbed()
