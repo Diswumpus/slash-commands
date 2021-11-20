@@ -13,6 +13,11 @@ module.exports = {
         .setName(`edit`)
         .setDescription("Edit a slash command")
         .addStringOption(o => {
+            return o.setName("command_id")
+            .setDescription(`The ID of the command`)
+            .setRequired(true)
+        })
+        .addStringOption(o => {
             return o.setName('reply')
                 .setDescription('The reply for the command')
         })
@@ -61,7 +66,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Edited the command!`)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
             if (optionschanged.reply) {
                 embed.addField(`Reply Changed`, `${commandr.reply} -> ${optionschanged.reply}`)
             }

@@ -19,10 +19,21 @@ module.exports = {
 * @param {Discord.CommandInteraction} interaction 
 */
     async execute(client, interaction) {
+        const premiumM = require('../models/premium.manager');
+
+        var hasPremium = await premiumM.hasPremium(interaction.guild.id)
+        
+        if(hasPremium){
+            const embed = new Discord.MessageEmbed()
+            .setColor(color)
+            .setTitle(`${emojis.crown} Slash Commands Premium Beta`)
+            .setDescription(`This server is enjoying premium perks!`)
+            await interaction.reply({ embeds: [embed] });
+        } else {
         const embed = new Discord.MessageEmbed()
             .setColor(color)
             .setTitle(`${emojis.crown} Slash Commands Premium Beta`)
-            .setDescription(`[Slash Commands Premium](https://turtlebot-discord.github.io/slash-commands/premium)\n\n${emojis.dotfill} Custom Embed Color\n${emojis.dotfill} You can use \`!\` instead of \`/\`\n${emojis.dotfill} More coming soon`)
+            .setDescription(`[Slash Commands Premium](https://pepperbot-development.github.io/slash-commands/premium)\n\n${emojis.dotfill} Custom Embed Color\n${emojis.dotfill} You can use \`!\` instead of \`/\`\n${emojis.dotfill} More coming soon`)
 
         const row = new Discord.MessageActionRow()
             .addComponents(
@@ -103,5 +114,6 @@ module.exports = {
                     interaction.editReply({ components: [row2] });
                 }
             })
+        }
     }
 }
