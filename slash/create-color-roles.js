@@ -19,6 +19,13 @@ module.exports = {
 * @param {Discord.CommandInteraction} interaction 
 */
     async execute(client, interaction) {
+        if (!interaction.member.permissions.has(Discord.Permissions.FLAGS.MANAGE_ROLES)) {
+            const nembed = new Discord.MessageEmbed()
+                .setColor(color)
+                .setDescription(`${emojis.flag_remove} Sorry you don't have enough permissions!`)
+            await interaction.reply({ embeds: [nembed] })
+            return
+        };
         const embed = new Discord.MessageEmbed()
             .setColor(color)
             .setDescription(`Creating roles...`)
