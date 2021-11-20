@@ -45,7 +45,7 @@ module.exports = {
             { name: "🫐｜Purple", color: "PURPLE" },
             { name: "🔵｜Blue", color: "BLUE" },
             { name: "🍎｜Red", color: "RED" },
-            { name: "🍏｜Green", color: "GREEN" },
+            { name: "🍏｜Green", color: "DARK_GREEN" },
             { name: "🪙｜Gold", color: "GOLD" },
             { name: "🧶｜Teal", color: "#008080" }
         ]
