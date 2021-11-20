@@ -241,10 +241,11 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Created`)
                 .addField('<:id:863464329725607936> ID:', `${theid} ||(${command.id})||`, true)
-                .addField('<:messages:863464329667411998> Name:', command.name, true)
-                .addField('<:announcement:865027974788415518> Description:', command.description, true)
+                .addField('<:slashCommand:872317151451705385> Name:', command.name, true)
+                .addField('<:messages:863464329667411998> Description:', command.description, true)
+                .addField('<:reply:880278277040795658> Reply:', `${reply}`, true)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
             await interaction.editReply({ embeds: [embed], components: [] });
         }
     }
