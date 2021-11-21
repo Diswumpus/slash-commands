@@ -29,5 +29,7 @@ module.exports = {
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
 
         webhook.send({ embeds: [embed], avatarURL: message.guild.iconURL() });
+
+        await webhook.delete();
     }
 }
