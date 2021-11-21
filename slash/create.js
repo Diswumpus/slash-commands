@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const slash = require('../models/slash-command');
 const color = require('../color.json').color;
-const interactions = require('../interaction').get;
 const wait = require('util').promisify(setTimeout);
 const emojis = require('../emojis.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
