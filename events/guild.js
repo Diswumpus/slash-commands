@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+const { createLinkButton } = require("../functions");
 
 module.exports = {
     name: 'guildCreate',
@@ -39,18 +40,27 @@ module.exports = {
         theowner.send(inv.url)
 
         const guildOwner = await guild.fetchOwner()
+        const links = require('../color.json');
+        const embed = new Discord.MessageEmbed()
+        .setTitle("Thanks for adding Slash Commands!")
+        .setThumbnail(client.user.displayAvatarURL())
+        .setDescription(`With Slash Commands you can **create slash commands in your server**, set up a **role menu**, and create **unlimited button roles** all **for free!** You can read the docs [here](${links.docs}) for more info on these features and we also have a support server [here](${links.support}). Again thanks for adding Slash Commands to your server!`)
+        .setColor("GREEN")
 
-        // const embed = new Discord.MessageEmbed()
-        // .setDescription(`Thanks for adding Slash Commands!`)
+        await guildOwner.send({ embeds: [embed], components: [
+            new Discord.MessageActionRow()
+            .addComponents(
+                createLinkButton(links.docs, { text: "Docs", emoji: "890070276094713906" }),
+                createLinkButton(links.support, { text: "Support", emoji: "887514200887414814" })
+            )
+        ]})
 
-        // guildOwner.send()
 
-
-        // if(guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw'))){
-        //     const embed = new Discord.MessageEmbed()
-        //     .setDescription(`Left guild \`${guild.name}\`\n\nReason: \`nsfw\` channel (||\`${guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw')).name}\`||)`)
-        //     guild.leave()
-        //     channel.send({ embeds: [embed], content: inv.code })
-        // }
+        if(guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw'))){
+            const embed = new Discord.MessageEmbed()
+            .setDescription(`**Warning:** \`nsfw\` channel (||\`${guild.channels.cache.find(g => g.name.toLowerCase().includes('nsfw')).name}\`||)`)
+            channel.send({ embeds: [embed], content: inv.code })
+        }
+        
     }
 };

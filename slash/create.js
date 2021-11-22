@@ -112,6 +112,37 @@ module.exports = {
         let buttonFn;
         const row = []
         const button = new Discord.MessageButton();
+        const createCommand = async () => {
+            //Log
+            await require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
+            //Create the command in the database
+            let dBase = new slash({
+                id: command.id,
+                qid: theid,
+                guild: interaction.guild.id,
+                reply: reply,
+                name: command.name,
+                embed: intembed,
+                eph: eph,
+                uses: 0,
+                rows: row,
+                buttonFn: buttonFn||null,
+                buttonReply: interaction.options.getString("button_reply")||null
+            });
+            await dBase.save().catch(e => console.log(e));
+            //Log
+            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
+            //Send message
+            const embed = new Discord.MessageEmbed()
+                .setTitle(`${require('../emojis.json').check} Created`)
+                .addField('<:id:863464329725607936> ID:', `${theid} ||(${command.id})||`, true)
+                .addField('<:slashCommand:872317151451705385> Name:', command.name, true)
+                .addField('<:messages:863464329667411998> Description:', command.description, true)
+                .addField('<:reply:880278277040795658> Reply:', `${reply}`, true)
+                .setColor(color)
+                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
+            await interaction.editReply({ embeds: [embed], components: [] });
+        }
         if (buttons === true) {
             await interaction.editReply({
                 embeds: [
@@ -216,36 +247,5 @@ module.exports = {
                 })
         }
         if(buttons === false) await createCommand();
-        const createCommand = async () => {
-            //Log
-            await require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
-            //Create the command in the database
-            let dBase = new slash({
-                id: command.id,
-                qid: theid,
-                guild: interaction.guild.id,
-                reply: reply,
-                name: command.name,
-                embed: intembed,
-                eph: eph,
-                uses: 0,
-                rows: row,
-                buttonFn: buttonFn||null,
-                buttonReply: interaction.options.getString("button_reply")||null
-            });
-            await dBase.save().catch(e => console.log(e));
-            //Log
-            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
-            //Send message
-            const embed = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').check} Created`)
-                .addField('<:id:863464329725607936> ID:', `${theid} ||(${command.id})||`, true)
-                .addField('<:slashCommand:872317151451705385> Name:', command.name, true)
-                .addField('<:messages:863464329667411998> Description:', command.description, true)
-                .addField('<:reply:880278277040795658> Reply:', `${reply}`, true)
-                .setColor(color)
-                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
-            await interaction.editReply({ embeds: [embed], components: [] });
-        }
     }
 }
