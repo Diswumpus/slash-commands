@@ -15,23 +15,29 @@ module.exports = {
             return o.setName('id')
                 .setDescription('The id of the command (0000 or snowflake)')
         }),
+        /**
+         * @param {Discord.Client} client 
+         * @param {Discord.Interaction} interaction 
+         */
     async execute(client, interaction) {
         // Check member permissions
         if (interaction.member.permissions.has('MANAGE_MESSAGES') || interaction.user.id === owner.ownerID || interaction.user.id === owner.owner2ID) {
             // Get interaction options
             const cmdid = interaction.options.getString('id');
+
+            let commandData;
             //Delete it
             //Check if it is custom id
             if (cmdid.length < 4 || cmdid.length === 4) {
-                let commandData = await slash.findOneAndDelete({
+                commandData = await slash.findOneAndDelete({
                     qid: cmdid
                 });
-                interaction.guild.commands.delete(commandData.id)
+                await interaction.guild.commands.delete(commandData.id)
             } else {
-                interaction.guild.commands.delete(cmdid)
-                await slash.findOneAndRemove({
+                commandData = await slash.findOneAndDelete({
                     id: cmdid
                 })
+                await interaction.guild.commands.delete(cmdid)
             }
             //Log
             await require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
@@ -41,7 +47,7 @@ module.exports = {
                 .setTitle(`${require('../emojis.json').check} Deleted`)
                 .setDescription(`The command has been deleted!`)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
             await interaction.reply({ embeds: [replyEmbed] })
         }
     }

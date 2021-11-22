@@ -13,7 +13,7 @@ async function textf(text) {
 }
 
 module.exports = {
-	name: 'interaction',
+	name: 'interactionCreate',
 	/**
 * 
 * @param {Discord.Client} client 
@@ -64,8 +64,9 @@ module.exports = {
 					.setDescription(text)
 				var hasPremium = await premiumM.hasPremium(interaction.guild.id);
 				if (hasPremium) {
-					var colorr = await serverM.findOne(interaction.guild.id)?.options?.color || "DEFAULT"
-					replyembed.setColor(colorr)
+					const colorRes = await serverM.findOne(interaction.guild.id);
+					var embedColor = colorRes?.options?.color// || require('../color.json').color
+					replyembed.setColor(embedColor)
 				}
 				await interaction.reply({ embeds: [replyembed], ephemeral: commandData?.eph || false, components: commandData?.rows || [] })
 			} else {
