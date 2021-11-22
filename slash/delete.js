@@ -14,6 +14,7 @@ module.exports = {
         .addStringOption(o => {
             return o.setName('id')
                 .setDescription('The id of the command (0000 or snowflake)')
+                .setRequired(true)
         }),
         /**
          * @param {Discord.Client} client 
