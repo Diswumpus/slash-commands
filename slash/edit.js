@@ -31,7 +31,7 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
     async execute(client, interaction) {
-        const command_id = interaction.options?.find(c => c?.name === 'command_id')?.value;
+        const command_id = interaction.options.get('command_id')?.value;
 
         const options = {
             reply: interaction.options.getString('reply'),
