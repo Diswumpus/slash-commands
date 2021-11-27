@@ -35,7 +35,7 @@ module.exports = {
 
         const options = {
             reply: interaction.options.getString('reply'),
-            embed: interaction.options.getString('embed')
+            embed: interaction.options.getBoolean('embed')
         }
         const optionschanged = {
             reply: 'Nothing Changed',
