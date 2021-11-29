@@ -18,7 +18,7 @@ module.exports = {
         const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]);
         const embedMessage = (await channel.messages.fetch()).get(messageID);
 
-        let res = buttonRoles.findOne({
+        let res = await buttonRoles.findOne({
             guild: message.guild.id,
             id: embedMessage.embeds[0].footer.text.toString()
         })
