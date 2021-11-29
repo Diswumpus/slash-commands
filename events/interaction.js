@@ -57,7 +57,7 @@ module.exports = {
 			}
 			//Reply to the command
 			//Check if embed
-			if(commandData?.rows.length > 0) commandData.rows[0].components[0].customId = "slashCommandButton";
+			if (commandData?.rows.length > 0) commandData.rows[0].components[0].customId = "slashCommandButton";
 			if (commandData?.embed === true) {
 				const replyembed = new Discord.MessageEmbed()
 					.setTitle(thetext)
@@ -70,7 +70,10 @@ module.exports = {
 				}
 				await interaction.reply({ embeds: [replyembed], ephemeral: commandData?.eph || false, components: commandData?.rows || [] })
 			} else {
-				await interaction.reply({ content: text.toString(), ephemeral: commandData?.eph || false, components: commandData?.rows || [] })
+				const mentionArrRoles = text.split(/<@&(.*?)>/g);
+				const mentionArrUsers = text.split(/<@(.*?)>/g);
+
+				await interaction.reply({ content: text.toString(), ephemeral: commandData?.eph || false, components: commandData?.rows || [], allowedMentions: { roles: mentionArrRoles, users: mentionArrUsers }});
 			}
 			if (commandData?.rows.length > 0) {
 				/**
@@ -78,25 +81,27 @@ module.exports = {
 				 */
 				const m = await interaction.fetchReply();
 				m.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id })
-				.then(async i => {
-					if(i.customId === "slashCommandButton"){
-						if (commandData.buttonFn === "REPLY"){
+					.then(async i => {
+						if (i.customId === "slashCommandButton") {
+							const buttonReplyText = commandData?.buttonReply || text.toString();
+							const mentionArrRoles = buttonReplyText.split(/<@&(.*?)>/g);
+							const mentionArrUsers = buttonReplyText.split(/<@(.*?)>/g);
+							const mentions = { users: mentionArrUsers, roles: mentionArrRoles };
+
 							commandData.rows[0].components[0].disabled = true
-							await i.reply({ content: commandData?.buttonReply||text.toString() })
+							await i.reply({ content: commandData?.buttonReply || text.toString(), allowedMentions: mentions })
 							await interaction.editReply({ components: commandData.rows })
-						} else if(commandData.buttonFn === "MESSAGE_DELETE"){
-							commandData.rows[0].components[0].disabled = true
-							await i.reply({ content: commandData?.buttonReply||text.toString() })
-							await interaction.editReply({ components: commandData.rows })
-							setTimeout(async () => {
-								await i.deleteReply()
-							}, 10000);
+
+							if (commandData.buttonFn === "MESSAGE_DELETE") {
+								setTimeout(async () => {
+									await i.deleteReply()
+								}, 10000);
+							}
 						}
-					}
-			 	})
+					})
 			}
 		} catch (e) {
-			await interaction.reply({ content: `<:failed:899071447811624980> Uh oh... Something bad happened! Report it here: https://discord.gg/dssFv2A8XA with error: \`\`\`xl\n${e}\n\`\`\``, ephemeral: true });
+			await interaction.reply({ content: `<:failed:899071447811624980> Uh oh... Something bad happened! Report it here: https://discord.gg/dssFv2A8XA with error: \`\`\`${Discord.Formatters.codeBlock("js", e)}\n\`\`\``, ephemeral: true });
 			console.log(e);
 		}
 	},
