@@ -5,6 +5,7 @@ const br = require('../models/button-roles');
 const color = require('../color.json').color;
 const owner = require('../config.json');
 const { v4: uuidv4 } = require('uuid');
+const { checkPermissions } = require("../functions");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 
@@ -56,6 +57,7 @@ module.exports = {
    * @param {Discord.CommandInteraction} interaction 
    */
     async execute(client, interaction) {
+        await checkPermissions("MANAGE_ROLES", interaction);
         //await interaction.defer()
 
         /**
