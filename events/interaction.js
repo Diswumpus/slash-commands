@@ -70,10 +70,10 @@ module.exports = {
 				}
 				await interaction.reply({ embeds: [replyembed], ephemeral: commandData?.eph || false, components: commandData?.rows || [] })
 			} else {
-				const mentionArrRoles = text.split(/<@&(.*?)>/g);
-				const mentionArrUsers = text.split(/<@(.*?)>/g);
+				// const mentionArrRoles = text.split(/<@&(.*?)>/g);
+				// const mentionArrUsers = text.split(/<@(.*?)>/g);
 
-				await interaction.reply({ content: text.toString(), ephemeral: commandData?.eph || false, components: commandData?.rows || [], allowedMentions: { roles: mentionArrRoles, users: mentionArrUsers }});
+				await interaction.reply({ content: text.toString(), ephemeral: commandData?.eph || false, components: commandData?.rows || [], /* allowedMentions: { roles: mentionArrRoles, users: mentionArrUsers } */ });
 			}
 			if (commandData?.rows.length > 0) {
 				/**
@@ -84,12 +84,12 @@ module.exports = {
 					.then(async i => {
 						if (i.customId === "slashCommandButton") {
 							const buttonReplyText = commandData?.buttonReply || text.toString();
-							const mentionArrRoles = buttonReplyText.split(/<@&(.*?)>/g);
-							const mentionArrUsers = buttonReplyText.split(/<@(.*?)>/g);
-							const mentions = { users: mentionArrUsers, roles: mentionArrRoles };
+							// const mentionArrRoles = buttonReplyText.split(/<@&(.*?)>/g);
+							// const mentionArrUsers = buttonReplyText.split(/<@(.*?)>/g);
+							// const mentions = { users: mentionArrUsers, roles: mentionArrRoles };
 
 							commandData.rows[0].components[0].disabled = true
-							await i.reply({ content: commandData?.buttonReply || text.toString(), allowedMentions: mentions })
+							await i.reply({ content: commandData?.buttonReply || text.toString(), /* allowedMentions: mentions */ })
 							await interaction.editReply({ components: commandData.rows })
 
 							if (commandData.buttonFn === "MESSAGE_DELETE") {
