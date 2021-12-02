@@ -2,10 +2,10 @@
     "color": "#2F3136",
     "emojis": ["863457284456972298", "870893923684466708", "887143380990185512", "888151815869313024", "834199640702320650"],
     "support": "https://discord.gg/5Wutrs8s4s",
-    "links": "[Support Server](https://discord.gg/5Wutrs8s4s) | [Vote for me!](https://discordbotlist.com/bots/slash-commands/upvote) | [Invite Me!](https://discord.com/oauth2/authorize?client_id=859915461692096552&permissions=4228381815&scope=bot+applications.commands) | [Website](https://turtlebot-discord.github.io/slash-commands/)",
+    "links": "[Support Server](https://slashr.xyz/support) | [Vote for me!](https://slashr.xyz/vote) | [Invite Me!](https://slashr.xyz/invite) | [Website](https://slashr.xyz/)",
     "links_blank": "\u200B",
-    "docs": "https://pepper-dev.gitbook.io/slash-commands-docs/",
-    "website": "https://turtlebot-discord.github.io/slash-commands/",
-    "vote": "https://discordbotlist.com/bots/slash-commands/upvote",
-    "inv": "https://discord.com/oauth2/authorize?client_id=859915461692096552&permissions=4228381815&scope=bot+applications.commands"
+    "docs": "https://docs.slashr.xyz/",
+    "website": "https://slashr.xyz/",
+    "vote": "https://slashr.xyz/vote",
+    "inv": "https://slashr.xyz/invite"
 }
