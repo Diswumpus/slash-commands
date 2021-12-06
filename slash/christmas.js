@@ -7,7 +7,6 @@ const { checkPermissions, createPremiumCode, activatePremium, disableButtons } =
 
 module.exports = {
   name: "christmas",
-  devOnly: true,
   c: "",
   usage: ``,
   data: new SlashCommandBuilder()
