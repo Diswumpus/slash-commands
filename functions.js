@@ -3,6 +3,73 @@ const color = require("./color.json").color;
 const emojis = require('./emojis.json');
 const prime = require('./models/premium');
 
+module.exports.categoryEmojis = {
+    "Bot": "<:bot_add:863464329738715156>",
+    "Discord.js": "<:djs:895374013629599806>",
+    "Emojis": "<:reaction_add:863474840726929449>",
+    "Fun": "<a:atada:869705649846616104>",
+    "Mod": "<:ban:863529097283240016>",
+    "Misc": "<:channel_add:863464329755361350>",
+    "Slash_Command": "<:slashCommand:872317151451705385>",
+    "Rule_Book": "<:rules:890070276094713906>",
+    "Pencil": "<:pencil:887514200614780939>",
+    "Member_Add": "<:member_invited:887514198651830292>",
+    "Error": "<:failed:899071447811624980>"
+}
+
+/**
+ * Replys with an error.
+ * @param {String} message The message to say.
+ * @param {Discord.Interaction|Discord.Message} interaction The interaction can be a component or a command.
+ * @param {"REPLY" | "UPDATE"} replyType If it should reply or edit.
+ * @param {Boolean} ephemeral If the interaction reply should be hidden
+ */
+ module.exports.errorMessage = (message, interaction, replyType="REPLY", ephemeral=false) => {
+    const text = this.categoryEmojis.Error + " " + message
+    if(interaction?.author){
+        interaction.channel.send(text)
+    } else {
+    if(interaction.isMessageComponent()){
+        if(replyType === "REPLY"){
+            interaction.reply({ content: text, ephemeral: ephemeral });
+        } else if(replyType === "UPDATE"){
+            interaction.update({ content: text });
+        }
+    } else if(interaction.isApplicationCommand()){
+        if(replyType === "REPLY"){
+            interaction.reply({ content: text, ephemeral: ephemeral });
+        } else if(replyType === "UPDATE"){
+            interaction.editReply({ content: text });
+        }
+    }
+}
+}
+
+/**
+ * Splits buttons into action rows.
+ * @param {Discord.MessageButton[]|Discord.MessageButton} buttons 
+ * @returns {Discord.MessageActionRow}
+ */
+module.exports.formatButtons = (buttons) => {
+    if(!Array.isArray(buttons)) buttons = [buttons]
+    const rows=[new Discord.MessageActionRow()];
+    let row = 0;
+    let btn = 0;
+    for(const button of buttons){
+        if(btn === 5){
+            rows.push(new MessageActionRow())
+            row++
+        }
+        if(row === 5){
+            break
+        }
+        
+        rows[row].addComponents(button)
+        btn++
+    }
+    return rows
+}
+
 /**
  * Checks if a member has a permission if they don't the bot will reply/edit to the interaction.
  * @param {Discord.PermissionString} permission 
