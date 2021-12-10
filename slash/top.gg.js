@@ -12,19 +12,19 @@ module.exports = {
         .setName(`topgg`)
         .setDescription("Top.gg")
         .addSubcommand(o => {
-            o.setName("vote")
+            return o.setName("vote")
             .setDescription("Vote for the bot!")
         })
         .addSubcommandGroup(sg => {
-            sg.setName("store")
+            return sg.setName("store")
             .setDescription(`The vote store!`)
             .addSubcommand(s => {
-                s.setName("buy")
+                return s.setName("buy")
                 .setDescription(`Buy something from the shop.`)
                 .addStringOption(o => o.setName("id").setDescription("The ID of the item.").setRequired(true))
             })
             .addSubcommand(s => {
-                s.setName("browse")
+                return s.setName("browse")
                 .setDescription(`Browse the shop.`)
             })
         }),
