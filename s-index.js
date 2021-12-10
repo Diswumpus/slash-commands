@@ -134,6 +134,7 @@ client2.on('interactionCreate', async i => {
 client2.login(require('./config.json').token2)
 //Client 2 End
 module.exports.client = client;
+module.exports.getClient = () => client;
 client.commands = new Discord.Collection();
 client.slashcmds = new Discord.Collection();
 client.config = config;
