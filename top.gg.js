@@ -62,7 +62,7 @@ module.exports = async (client) => {
             .setDescription(`**${votedUser.username}#${votedUser.discriminator}** (${votedUser.id}) just voted **${client.user.username}**!`)
             .setFooter(`Vote #${vote_number}`)
 
-        webhookVote.send(embed);
+        webhookVote.send({ embeds: [embed] });
 
         return await userV.updateOne({
             votes: vote_number,
