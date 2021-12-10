@@ -11,9 +11,10 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName(`auto-tag`)
         .setDescription("Auto tags!")
-        .addSubcommand(o => {
-            o
-        }),
+        // .addSubcommand(o => {
+        //     o
+        // })
+        ,
     /**
      * 
      * @param {Discord.Client} client 
