@@ -24,6 +24,7 @@ module.exports = {
                 .addChoice("Grey", "SECONDARY")
                 .addChoice("Green", "SUCCESS")
                 .addChoice("Red", "DANGER")
+                .addChoice("Random", "random")
         })
         .addStringOption(o => {
             return o.setName("color")
@@ -70,9 +71,9 @@ module.exports = {
         let channel;
 
         const embeds = {
-            roles: new MessageEmbed().setColor(color).setDescription(`Mention the roles for the button roles`),
-            channel: new MessageEmbed().setColor(color).setDescription(`Mention the channel you want the button role to be in`),
-            done: new MessageEmbed().setColor(color).setTitle(`\`✅\` Created`)
+            roles: new MessageEmbed().setColor(color).setDescription(`Mention the roles for the button roles.\n\nExample \`@Green @Blue\` (You can have up to 8)`),
+            channel: new MessageEmbed().setColor(color).setDescription(`Mention the channel you want the button role to be in.\n\nExample: \`#general\``),
+            done: new MessageEmbed().setColor(color).setTitle(`${client.botEmojis.b_check} Created`)
         }
 
         interaction.reply({ embeds: [embeds.channel] })
@@ -93,10 +94,15 @@ module.exports = {
                     i++
                     roles.push(role[1])
                 }
-
-                if (channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES') && channel.isText()) {
+                const colorStyles = {
+                    styles: ["DANGER", "PRIMARY", "SECONDARY", "SUCCESS"],
+                }
+                function randomColor(){
+                    return colorStyles.styles[Math.round(Math.random() * colorStyles.styles.length)];
+                }
+                if (channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')) {
                     const buttons = {
-                        style: interaction.options.get('style')?.value || "SECONDARY",
+                        style: interaction.options.getString("style") === "random" ? randomColor() : interaction.options.get('style')?.value || randomColor(),
                         r1: function () {
                             if (roles[0]) {
                                 return new MessageButton()
@@ -203,34 +209,64 @@ module.exports = {
                                 .setDescription(embed.description || `Use the buttons below to get some roles!`)
                         }
                     }
-                    const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
-                    interaction.editReply({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
-
-                    await new br({
-                        guild: interaction.guild.id,
-                        id: buttons.uuid,
-                        roles: {
-                            r1: roles[0]?.id || null,
-                            r2: roles[1]?.id || null,
-                            r3: roles[2]?.id || null,
-                            r4: roles[3]?.id || null,
-                            r5: roles[4]?.id || null,
-                            r6: roles[5]?.id || null,
-                            r7: roles[6]?.id || null,
-                            r8: roles[7]?.id || null
-                        },
-                        button_ID: {
-                            r1: roles[0]?.id || null,
-                            r2: roles[1]?.id || null,
-                            r3: roles[2]?.id || null,
-                            r4: roles[3]?.id || null,
-                            r5: roles[4]?.id || null,
-                            r6: roles[5]?.id || null,
-                            r7: roles[6]?.id || null,
-                            r8: roles[7]?.id || null
-                        },
-                        messageID: SENT_MESSAGE.id
-                    }).save().catch(e => console.log(e))
+                    
+                    const getRoles = () => {
+                        const roleArr = []
+                        roles.forEach(e => roleArr.push(e.name))
+                        return roleArr.join();
+                    }
+                    const PAYLOAD = {
+                        components: [
+                            new MessageActionRow()
+                                .addComponents(
+                                    new MessageButton()
+                                        .setStyle("SECONDARY")
+                                        .setLabel("Send")
+                                        .setEmoji(client.botEmojis.join.show)
+                                        .setCustomId("send_btns")
+                                )
+                        ],
+                        embeds: [
+                            new MessageEmbed()
+                                .setTitle(`Button Roles`)
+                                .addField(`${client.botEmojis.role} Roles:`, getRoles())
+                                .addField(`${client.botEmojis.channel} Channel:`, channel.name)
+                                .setColor(color)
+                        ]
+                    }
+                    await interaction.editReply(PAYLOAD);
+                    /** @type {Discord.Message} */
+                    const message = await interaction.fetchReply();
+                    message.awaitMessageComponent({ filter: i=>i.user.id===interaction.user.id })
+                    .then(async i => {
+                        const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
+                        i.update({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
+                        await new br({
+                            guild: interaction.guild.id,
+                            id: buttons.uuid,
+                            roles: {
+                                r1: roles[0]?.role?.id || null,
+                                r2: roles[1]?.role?.id || null,
+                                r3: roles[2]?.role?.id || null,
+                                r4: roles[3]?.role?.id || null,
+                                r5: roles[4]?.role?.id || null,
+                                r6: roles[5]?.role?.id || null,
+                                r7: roles[6]?.role?.id || null,
+                                r8: roles[7]?.role?.id || null
+                            },
+                            button_ID: {
+                                r1: roles[0]?.role?.id || null,
+                                r2: roles[1]?.role?.id || null,
+                                r3: roles[2]?.role?.id || null,
+                                r4: roles[3]?.role?.id || null,
+                                r5: roles[4]?.role?.id || null,
+                                r6: roles[5]?.role?.id || null,
+                                r7: roles[6]?.role?.id || null,
+                                r8: roles[7]?.role?.id || null
+                            },
+                            messageID: SENT_MESSAGE.id
+                        }).save().catch(e => console.log(e))
+                    })
                 }
             })
         })

@@ -186,6 +186,8 @@ const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
     try {
+        await require('./top.gg')(client);
+
         await rest.put(
             Routes.applicationCommands(clientId),
             { body: slshCommands },
