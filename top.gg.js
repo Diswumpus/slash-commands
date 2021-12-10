@@ -33,7 +33,6 @@ module.exports = async (client) => {
             }
         }).then(res => res.json());
 
-
         console.log(`${votedUser.username} Just Voted!`);
 
         let userV = await User.findOne({
@@ -54,6 +53,13 @@ module.exports = async (client) => {
         };
 
         const vote_number = userV.votes + 1 || 1;
+
+        const u = client.users.cache.get(vote.user);
+        u.send({ embeds: [
+            new Discord.MessageEmbed()
+            .setColor("GREEN")
+            .setDescription(`Thanks for voting for Slashr you now have **${vote_number} vote credits!**\n\nYou can spend vote credits using \`/store\` you can buy Slashr premium and many more things!`)
+        ] });
 
         const embed = new Discord.MessageEmbed()
             .setAuthor(`${client.user.username}'s Voting System'`, `${client.user.displayAvatarURL()}`)
