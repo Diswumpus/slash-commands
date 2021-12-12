@@ -22,6 +22,8 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
     async execute(client, interaction) {
+        if (interaction.user.id !== require('../config.json').ownerID) return
+
         const guild = interaction.options?.get('guild_id')?.value;
 
         if(!client.guilds.cache.has(guild)) return interaction.reply(`<:failed:899071447811624980> I'm not in that guild!`)
