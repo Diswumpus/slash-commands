@@ -7,17 +7,23 @@ const config = require('./config.json')
 const webhook = new DBL.Webhook(config.DBL.auth);
 const fetch = require('node-fetch');
 const Discord = require('discord.js');
+const { AutoPoster } = require("topgg-autoposter");
 const port = config.port || 6000
 const {
     WebhookClient
 } = require('discord.js');
-const webhookVote = new WebhookClient({ id: config.webhook_id, token: config.webhook_url, url: config.webhook});
+const webhookVote = new WebhookClient({ id: config.webhook_id, token: config.webhook_url, url: config.webhook });
 
 /**
  * 
  * @param {Discord.Client} client 
  */
 module.exports = async (client) => {
+    AutoPoster(config.DBL.token, client)
+        .on('posted', () => {
+            console.log('Posted stats to Top.gg!')
+        })
+
     app.get('/', (req, res) => {
         res.send('Currently Working.')
     })
@@ -55,11 +61,13 @@ module.exports = async (client) => {
         const vote_number = userV.votes + 1 || 1;
 
         const u = client.users.cache.get(vote.user);
-        u.send({ embeds: [
-            new Discord.MessageEmbed()
-            .setColor("GREEN")
-            .setDescription(`Thanks for voting for Slashr you now have **${vote_number} vote credits!**\n\nYou can spend vote credits using \`/store\` you can buy Slashr premium and many more things!`)
-        ] });
+        u.send({
+            embeds: [
+                new Discord.MessageEmbed()
+                    .setColor("GREEN")
+                    .setDescription(`Thanks for voting for Slashr you now have **${vote_number} vote credits!**\n\nYou can spend vote credits using \`/store\` you can buy Slashr premium and many more things!`)
+            ]
+        });
 
         const embed = new Discord.MessageEmbed()
             .setAuthor(`${client.user.username}'s Voting System'`, `${client.user.displayAvatarURL()}`)
