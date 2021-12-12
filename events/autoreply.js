@@ -12,11 +12,11 @@ module.exports = {
         const fetchedData = await AtRply.findOne({
             guildID: message.guild.id
         });
-
+        if(!fetchedData) return
         /**
          * @type {Map<String, String>} //Trigger > Reply
          */
-        const replys = fetchedData.replys
+        const replys = fetchedData?.replys
         let rply
         const rplyData = replys.forEach((k, e) => { if(e.toLowerCase().includes(message.content.toLowerCase())) rply = e })
         if(rply){
