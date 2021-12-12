@@ -12,7 +12,7 @@ module.exports = {
         const fetchedData = await AtRply.findOne({
             guildID: message.guild.id
         });
-
+        if(!fetchedData) return
         /**
          * @type {Map<String, String>} //Trigger > Reply
          */
