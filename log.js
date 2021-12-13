@@ -29,8 +29,8 @@ module.exports.log = async (message, type, guild, user) => {
     const embed = new Discord.MessageEmbed()
     .setTitle(type)
     .setDescription(message)
-    .addField(`${client.botEmojis.channel_add || "\`Emojis Loading\`"} Guild:`, `**Name:** ${guild.name || "No guild added"}\n**ID:** ${guild.id || "No guild added"}\n**Owner Tag:** ${await (await guild.fetchOwner()).user.tag || "No guild added"}`)
-    .addField(`${client.botEmojis.user_add || "\`Emojis Loading\`"} User:`, `**Tag:** ${user.tag || "No user added"}\n**Username:** ${user.username || "No user added"}\n**ID:** ${user.id || "No user added"}`)
+    .addField(`${client.botEmojis.channel_add || "\`Emojis Loading\`"} Guild:`, `**Name:** ${guild.name || "No guild added"}\n**ID:** \`${guild.id || "No guild added"}\`\n**Owner Tag:** ${await (await guild.fetchOwner()).user.tag || "No guild added"}`)
+    .addField(`${client.botEmojis.user_add || "\`Emojis Loading\`"} User:`, `**Tag:** ${user.tag || "No user added"}\n**Username:** ${user.username || "No user added"}\n**ID:** \`${user.id || "No user added"}\``)
     .setColor(color)
 
     let rows = [];
