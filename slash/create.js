@@ -131,7 +131,7 @@ module.exports = {
             });
             await dBase.save().catch(e => console.log(e));
             //Log
-            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command')
+            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
             //Send message
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${require('../emojis.json').check} Created`)

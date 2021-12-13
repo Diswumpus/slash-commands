@@ -241,6 +241,7 @@ module.exports = {
                     .then(async i => {
                         const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
                         i.update({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
+                        require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild)
                         await new br({
                             guild: interaction.guild.id,
                             id: buttons.uuid,

@@ -40,6 +40,7 @@ module.exports = async (message, type, g) => {
     const embed = new Discord.MessageEmbed()
         .setAuthor(`/ Logs`, `${client.user?.displayAvatarURL()}`)
         .setTitle('__**' + thetext + '**__')
+        .addField(`Guild:`, `**Name:** ${g.name || "No guild added"}\n**ID:** ${g.id || "No guild added"}\n${await (await g.fetchOwner()).user.tag || "No guild added"}`)
         .setDescription(message)
         .setColor(color)
     //Log it to the console
