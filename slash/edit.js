@@ -52,7 +52,7 @@ module.exports = {
                 qid: command_id,
                 guild: interaction.guild.id
             })
-            require('../log').log(`${interaction.user.tag} Edited ${commandr.name}`, 'premium', interaction.guild)
+            require('../log').log(`${interaction.user.tag} Edited ${commandr.name}`, 'premium', interaction.guild, interaction.user)
             if (options.embed) {
                 doc.embed = options.embed
                 optionschanged.embed = options.embed.toString()

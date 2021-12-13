@@ -26,7 +26,7 @@ module.exports = {
             await interaction.reply({ embeds: [nembed] })
             return
         };
-        require('../log').log(`${interaction.user.tag} Created color roles on guild: ${interaction.guild}`, 'command', interaction.guild)
+        require('../log').log(`${interaction.user.tag} Created color roles on guild: ${interaction.guild}`, 'command', interaction.guild, interaction.user)
         const embed = new Discord.MessageEmbed()
             .setColor(color)
             .setDescription(`Creating roles...`)

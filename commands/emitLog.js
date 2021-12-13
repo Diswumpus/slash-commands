@@ -12,6 +12,6 @@ module.exports = {
     async execute(message, Member, args) {
         if (message.author.id !== require('../config.json').ownerID) return
         
-        await require('../log').log("Hi :)", "command", message.guild);
+        await require('../log').log("Hi :)", "command", message.guild, message.author);
     }
 }

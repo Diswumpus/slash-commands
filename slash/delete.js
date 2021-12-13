@@ -40,7 +40,7 @@ module.exports = {
                 await interaction.guild.commands.delete(cmdid)
             }
             //Log
-            await require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild)
+            await require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
             //Remove command from database
             //Reply
             const replyEmbed = new Discord.MessageEmbed()
