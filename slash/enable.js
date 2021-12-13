@@ -57,7 +57,7 @@ module.exports = {
             });
             await newSave.save().catch(e => console.log(e));
             //Log
-            require('../log').log(`${interaction.user.tag} enabled premium on guild: \`${interaction.guild}\``, 'premium')
+            require('../log').log(`${interaction.user.tag} enabled premium on guild: \`${interaction.guild}\``, 'premium', interaction.guild, interaction.user)
             //Reply
             //Create embed
             const rep_embed = new Discord.MessageEmbed()

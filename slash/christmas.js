@@ -53,7 +53,7 @@ module.exports = {
          * @type {Discord.Message}
          */
         const message = await interaction.reply({ components: rows, embeds: [embed], fetchReply: true });
-
+        require('../log').log(`${interaction.user.tag} Created a premium code: ${code}`, 'premium', interaction.guild, interaction.user)
         message.awaitMessageComponent({ filter: i=>i.user.id===interaction.user.id })
         .then(async i => {
             if(i.customId === "continue-prime") {

@@ -68,6 +68,7 @@ module.exports = {
     });
     codeSave.save().catch(e => console.log(e));
     //R E P L Y
+    require('../log').log(`${interaction.user.tag} Created a premium code: ${code}`, 'premium', interaction.guild, interaction.user)
     //Create embed
     const reply_embed = new Discord.MessageEmbed()
       .setTitle(`${require('../emojis.json').check} Created!`)
