@@ -242,28 +242,28 @@ module.exports = {
                         const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
                         i.update({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
                         require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
-                        await new br({
+                        await new br({ //Err here!!
                             guild: interaction.guild.id,
                             id: buttons.uuid,
                             roles: {
-                                r1: roles[0]?.role?.id || null,
-                                r2: roles[1]?.role?.id || null,
-                                r3: roles[2]?.role?.id || null,
-                                r4: roles[3]?.role?.id || null,
-                                r5: roles[4]?.role?.id || null,
-                                r6: roles[5]?.role?.id || null,
-                                r7: roles[6]?.role?.id || null,
-                                r8: roles[7]?.role?.id || null
+                                r1: roles[0]?.id || null,
+                                r2: roles[1]?.id || null,
+                                r3: roles[2]?.id || null,
+                                r4: roles[3]?.id || null,
+                                r5: roles[4]?.id || null,
+                                r6: roles[5]?.id || null,
+                                r7: roles[6]?.id || null,
+                                r8: roles[7]?.id || null
                             },
                             button_ID: {
-                                r1: roles[0]?.role?.id || null,
-                                r2: roles[1]?.role?.id || null,
-                                r3: roles[2]?.role?.id || null,
-                                r4: roles[3]?.role?.id || null,
-                                r5: roles[4]?.role?.id || null,
-                                r6: roles[5]?.role?.id || null,
-                                r7: roles[6]?.role?.id || null,
-                                r8: roles[7]?.role?.id || null
+                                r1: roles[0]?.id || null,
+                                r2: roles[1]?.id || null,
+                                r3: roles[2]?.id || null,
+                                r4: roles[3]?.id || null,
+                                r5: roles[4]?.id || null,
+                                r6: roles[5]?.id || null,
+                                r7: roles[6]?.id || null,
+                                r8: roles[7]?.id || null
                             },
                             messageID: SENT_MESSAGE.id
                         }).save().catch(e => console.log(e))
