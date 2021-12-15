@@ -25,9 +25,6 @@ module.exports = {
                 role = roleId
             }
         }
-        if(!role) { console.log("Error while getting role!")
-            return interaction.reply({ content: `Error while getting role!`, ephemeral: true })
-        }
 
         /**
          * @type {Discord.Role}
