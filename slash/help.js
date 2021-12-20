@@ -13,7 +13,44 @@ module.exports = {
         .addStringOption(option => {
             return option.setName('command_name')
                 .setDescription('The name of the command')
+                .setAutocomplete(true)
         }),
+    /**
+ * @param {Discord.AutocompleteInteraction} interaction
+ * @param {Discord.Client} client 
+ */
+    async autocomplete(client, interaction) {
+        /**
+         * 
+         * @param {""|"Commands"|"Server"|"ButtonRoles"} c 
+         * @returns 
+         */
+        function getCategory(c) {
+            if (c === "") {
+                return "👀"
+            } else if (c === "Commands") {
+                return "⭐"
+            } else if (c === "ButtonRoles") {
+                return "👆"
+            } else if (c === "Server") {
+                return "⚙️"
+            }
+        }
+        let options = [];
+        for (const cmd of client.commands.values()) {
+            if (!cmd) continue
+            options.push({ name: `${getCategory(cmd.c)} ${standardizeText(cmd.name)}`, value: `${cmd.name}` })
+        }
+        const focused = interaction.options.getFocused();
+        if (focused) {
+            options = options.filter(e => {
+                return e.value.includes(focused)
+            })
+        }
+        if (options.length >= 24) options.length = 24
+        if (options.length === 0) return
+        await interaction.respond(options)//.catch(e => console.log(e));
+    },
     async execute(client, interaction) {
         const cmddd = interaction.options.getString('command_name');
         if (!cmddd) {
@@ -34,7 +71,8 @@ module.exports = {
             const codeblock = (text) => {
                 return "`" + text + "`" + "," + " "
             }
-            for (commandd of commands) {
+            for (const commandd of commands) {
+                if(!commandd || typeof commandd?.name !== "string" || typeof commandd?.c !== "string") continue
                 if (commandd.c.toLowerCase() === "commands") {
                     commandsList.commands += codeblock(commandd.name)
                 } else if (commandd.c.toLowerCase() === "buttonroles") {

@@ -213,10 +213,11 @@ client.on("interactionCreate", async interaction => {
 
     const command = client.slashcmds.get(interaction.commandName);
 
-    if(command.autocomplete){
+    if(command?.autocomplete){
         await command.autocomplete(client, interaction);
     }
 });
+
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
     console.log(`received interaction ${interaction.commandName} by ${interaction.user.tag}`);
