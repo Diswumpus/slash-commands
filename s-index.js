@@ -207,10 +207,16 @@ const rest = new REST({ version: '9' }).setToken(token);
 //End
 
 
-const errorr = new Discord.MessageEmbed()
-    .setTitle(`That's a 404`)
-    .setColor(`YELLOW`)
-    .setDescription(`This is a problem at our end we are clearing it up, please try again in a bit if it still does not work use ,problem`)
+client.on("interactionCreate", async interaction => {
+    if(interaction.isAutocomplete === undefined) return
+    if(!interaction.isAutocomplete()) return
+
+    const command = client.slashcmds.get(interaction.commandName);
+
+    if(command.autocomplete){
+        await command.autocomplete(client, interaction);
+    }
+});
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
     console.log(`received interaction ${interaction.commandName} by ${interaction.user.tag}`);
