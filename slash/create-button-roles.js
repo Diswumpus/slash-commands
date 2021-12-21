@@ -223,18 +223,13 @@ module.exports = {
                                         .setStyle("SECONDARY")
                                         .setLabel("Send")
                                         .setEmoji(client.botEmojis.join.show)
-                                        .setCustomId("send_btns"),
-                                    new MessageButton()
-                                    .setCustomId("send_btns_wh")
-                                    .setLabel("Send as webhook")
-                                    .setEmoji(clientn.botEmojis.bot_add.show)
-                                    .setStyle("SECONDARY")
+                                        .setCustomId("send_btns")
                                 )
                         ],
                         embeds: [
                             new MessageEmbed()
                                 .setTitle(`Button Roles`)
-                                .addField(`${client.botEmojis.role} Roles:`, roles.map(e => e.toString()))
+                                .addField(`${client.botEmojis.role} Roles:`, getRoles())
                                 .addField(`${client.botEmojis.channel} Channel:`, channel.name)
                                 .setColor(color)
                         ]
@@ -244,11 +239,6 @@ module.exports = {
                     const message = await interaction.fetchReply();
                     message.awaitMessageComponent({ filter: i=>i.user.id===interaction.user.id })
                     .then(async i => {
-                        if(i.customId === 'send_btns'){
-
-                        } else if (i.customId === "send_btns_wh"){
-
-                        }
                         const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
                         i.update({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
                         require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
