@@ -7,6 +7,8 @@ const owner = require('../config.json');
 const { v4: uuidv4 } = require('uuid');
 const { checkPermissions } = require("../functions");
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const WebhookBuilder = require("../Util/webhookBuilder");
+const { disableAllButtons } = require("../Util/util");
 
 
 module.exports = {
@@ -51,6 +53,14 @@ module.exports = {
             return o.setName("description")
                 .setDescription("The description for the embed")
                 .setRequired(false)
+        })
+        .addStringOption(o => {
+            return o.setName("detailed")
+                .setDescription(`Weather it should show all the roles in embeds.`)
+                .addChoice("Embeds High", "EMBEDS_H")
+                .addChoice("Embeds Low", "EMBEDS_L")
+                .addChoice("One Embed", "EMBED")
+                .addChoice("None", "NONE")
         }),
     /**
    * 
@@ -79,26 +89,31 @@ module.exports = {
         interaction.reply({ embeds: [embeds.channel] })
 
         interaction.channel.awaitMessages({ filter: m => m.author.id === interaction.user.id, max: 1, time: 1000000 }).then(async m => {
-            channel = m.first().mentions.channels.first()
+            channel = m.first().mentions.channels.first() || interaction.guild.channels.cache.find(e => e.name.toLowerCase() == m.first().content.toLowerCase()) || interaction.guild.channels.cache.get(m.first());
 
-            m.first().delete()
+            if (channel?.client == null) {
+                embeds.roles.setFooter(`Incorrect channel! The channel has been changed to ${interaction.channel.name}.`, client.botEmojis.failed.url)
+                channel = interaction.channel;
+            }
 
             interaction.editReply({ embeds: [embeds.roles] })
 
             interaction.channel.awaitMessages({ filter: m => m.author.id === interaction.user.id, max: 1, time: 100000000 }).then(async m2 => {
                 const m3 = m2.first()
-
+                const roleArray = [];
+                m3.content.split(" ").forEach(e => roleArray.push(interaction.guild.roles.cache.get(e)));
+                const mentions = m3.mentions.roles.size > 0 ? m3.mentions.roles.entries() : roleArray;
                 let i = 0
-                for (const role of m3.mentions.roles.entries()) {
+                for (const role of mentions) {
                     if (i === 8) break;
                     i++
-                    roles.push(role[1])
+                    roles.push(Array.isArray(mentions) ? role : role[1])
                 }
                 const colorStyles = {
                     styles: ["DANGER", "PRIMARY", "SECONDARY", "SUCCESS"],
                 }
-                function randomColor(){
-                    return colorStyles.styles[Math.round(Math.random() * colorStyles.styles.length)];
+                function randomColor() {
+                    return colorStyles.styles[Math.round(Math.random() * colorStyles.styles.length - 1)];
                 }
                 if (channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')) {
                     const buttons = {
@@ -200,16 +215,66 @@ module.exports = {
                         },
                         uuid: uuidv4(),
                         getEmbed: function () {
-                            const embed = {
-                                color: interaction.options?.get('color')?.value || color,
-                                description: interaction.options.get('description')?.value
+                            if (interaction.options.getString("detailed") == null || interaction.options.getString("detailed") === "NONE") {
+                                const embed = {
+                                    color: interaction.options?.get('color')?.value || color,
+                                    description: interaction.options.get('description')?.value
+                                }
+
+                                return [new MessageEmbed()
+                                    .setColor(embed.color)
+                                    .setDescription(embed.description || `Choose some roles!`)]
+                            } else {
+                                let utilPos = 0;
+                                /**
+                                 * @type {"EMBEDS_H"|"EMBEDS_L"|"EMBED"}
+                                 */
+                                const optionSelected = interaction.options.getString("detailed");
+                                // ["Embeds High", "EMBEDS_H"]
+                                // ["Embeds Low", "EMBEDS_L"],
+                                // ["One Embed", "EMBED"],
+                                // ["None", "NONE"]
+                                if (optionSelected == "EMBED") {
+                                    return [
+                                        new MessageEmbed()
+                                            .setColor(embed.color)
+                                            .addField(`${client.botEmojis.sroles} Roles:`, `${roles.map(e => {
+                                                utilPos++
+                                                return `${utilPos == roles.length ? client.botEmojis.reply.show : client.botEmojis.stem.show} ${e.name}`
+                                            })}`)
+                                    ]
+                                } else if (optionSelected == "EMBEDS_H") {
+                                    const EMBEDSSS = [];
+                                    roles.forEach(e => {
+                                        EMBEDSSS.push(new MessageEmbed()
+                                            .setTitle(e.name)
+                                            .addField(`Permissions`, e.permissions.toArray().map(e => "`" + e + "`"))
+                                            .addField(`Emoji`, e.unicodeEmoji || "None")
+                                            .addField(`ID`, e.id)
+                                            .addField(`Position`, `${e.position}`)
+                                            .addField(`Hoisted`, `${e.hoist}`)
+                                            .setColor(e.color || "#9DA8B3")
+                                            .setThumbnail(e.iconURL())
+                                        )
+                                    })
+                                    return EMBEDSSS
+                                } else if (optionSelected == "EMBEDS_L") {
+                                    const EMBEDSSS = [];
+                                    roles.forEach(e => {
+                                        EMBEDSSS.push(
+                                            new MessageEmbed()
+                                            .setTitle(e.name)
+                                            .setColor(e.color || "#9DA8B3")
+                                            .setThumbnail(e.iconURL())
+                                        )
+                                    })
+                                    return EMBEDSSS
+                                }
                             }
-                            return new MessageEmbed()
-                                .setColor(embed.color)
-                                .setDescription(embed.description || `Use the buttons below to get some roles!`)
+
                         }
                     }
-                    
+
                     const getRoles = () => {
                         const roleArr = []
                         roles.forEach(e => roleArr.push(e.name))
@@ -223,51 +288,110 @@ module.exports = {
                                         .setStyle("SECONDARY")
                                         .setLabel("Send")
                                         .setEmoji(client.botEmojis.join.show)
-                                        .setCustomId("send_btns")
+                                        .setCustomId("send_btns"),
+                                    new MessageButton()
+                                        .setCustomId("send_btns_wh")
+                                        .setLabel("Send as webhook")
+                                        .setEmoji(client.botEmojis.bot_add.show)
+                                        .setStyle("SECONDARY")
                                 )
                         ],
                         embeds: [
                             new MessageEmbed()
                                 .setTitle(`Button Roles`)
-                                .addField(`${client.botEmojis.role} Roles:`, getRoles())
-                                .addField(`${client.botEmojis.channel} Channel:`, channel.name)
+                                .addField(`${client.botEmojis.role} Roles:`, roles.map(e => e.toString()).join(", "))
+                                .addField(`${client.botEmojis.channel} Channel:`, channel.toString())
                                 .setColor(color)
                         ]
                     }
                     await interaction.editReply(PAYLOAD);
                     /** @type {Discord.Message} */
                     const message = await interaction.fetchReply();
-                    message.awaitMessageComponent({ filter: i=>i.user.id===interaction.user.id })
-                    .then(async i => {
-                        const SENT_MESSAGE = await channel.send({ embeds: [buttons.getEmbed()], components: buttons.allButtons() })
-                        i.update({ embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(require('../emojis.json').link))] })
-                        require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
-                        await new br({ //Err here!!
-                            guild: interaction.guild.id,
-                            id: buttons.uuid,
-                            roles: {
-                                r1: roles[0]?.id || null,
-                                r2: roles[1]?.id || null,
-                                r3: roles[2]?.id || null,
-                                r4: roles[3]?.id || null,
-                                r5: roles[4]?.id || null,
-                                r6: roles[5]?.id || null,
-                                r7: roles[6]?.id || null,
-                                r8: roles[7]?.id || null
-                            },
-                            button_ID: {
-                                r1: roles[0]?.id || null,
-                                r2: roles[1]?.id || null,
-                                r3: roles[2]?.id || null,
-                                r4: roles[3]?.id || null,
-                                r5: roles[4]?.id || null,
-                                r6: roles[5]?.id || null,
-                                r7: roles[6]?.id || null,
-                                r8: roles[7]?.id || null
-                            },
-                            messageID: SENT_MESSAGE.id
-                        }).save().catch(e => console.log(e))
-                    })
+                    const WebHook = new WebhookBuilder().setChannel(channel);
+                    let SENT_MESSAGE;
+                    message.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id })
+                        .then(async i => {
+                            if (i.customId === 'send_btns_wh') {
+                                await i.update({
+                                    embeds: [
+                                        {
+                                            title: `${client.botEmojis.bot_add} Webhook Name`,
+                                            description: `Enter the name/username of the webhook.`,
+                                            color: color
+                                        },
+
+                                    ], components: [
+                                        disableAllButtons([
+                                            new MessageButton()
+                                                .setStyle("SECONDARY")
+                                                .setLabel("Send")
+                                                .setEmoji(client.botEmojis.join.show)
+                                                .setCustomId("send_btns"),
+                                            new MessageButton()
+                                                .setCustomId("send_btns_wh")
+                                                .setLabel("Send as webhook")
+                                                .setEmoji(client.botEmojis.bot_add.show)
+                                                .setStyle("SECONDARY")
+                                        ])
+                                    ]
+                                });
+                                const WhMessage1 = await (await interaction.channel.awaitMessages({ filter: i => i.author.id === interaction.user.id, max: 1 })).first();
+
+                                WebHook.setName(WhMessage1.content);
+
+                                await interaction.editReply({
+                                    embeds: [
+                                        {
+                                            title: `${client.botEmojis.bot_add} Webhook Avatar`,
+                                            description: `Enter the avatar/profile picture of the webhook.\n\nEnter \`Skip\` to skip this!`,
+                                            color: color
+                                        }
+                                    ]
+                                });
+
+                                const WhMessage2 = await (await interaction.channel.awaitMessages({ filter: i => i.author.id === interaction.user.id, max: 1 })).first();
+                                let avC = WhMessage2.content;
+                                if (avC.toLowerCase() == "skip") avC = null;
+                                if (WhMessage2.attachments.size > 0) avC = WhMessage2.attachments.first().url;
+                                if (avC != null) WebHook.setAvatar(avC)
+                                const TooManyWhs = await (await channel.fetchWebhooks());
+                                if (TooManyWhs.size == 10) {
+                                    TooManyWhs.first().delete(`Too many webhooks!`)
+                                    embeds.done.setFooter(`Deleted 1 webhook! Reason: Too many webhooks`, client.botEmojis.failed.url)
+                                }
+                                SENT_MESSAGE = await WebHook.CreateAndSend({ embeds: buttons.getEmbed(), components: buttons.allButtons() })
+                            } else if (i.customId === "send_btns") {
+                                SENT_MESSAGE = await channel.send({ embeds: buttons.getEmbed(), components: buttons.allButtons() })
+                            }
+                            const EndPayload = { embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(client.botEmojis.link))] };
+                            i.replied ? interaction.editReply(EndPayload) : i.update(EndPayload);
+                            require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
+                            await new br({ //~~Err here!!~~ Fixed
+                                guild: interaction.guild.id,
+                                id: buttons.uuid,
+                                roles: {
+                                    r1: roles[0]?.id || null,
+                                    r2: roles[1]?.id || null,
+                                    r3: roles[2]?.id || null,
+                                    r4: roles[3]?.id || null,
+                                    r5: roles[4]?.id || null,
+                                    r6: roles[5]?.id || null,
+                                    r7: roles[6]?.id || null,
+                                    r8: roles[7]?.id || null
+                                },
+                                button_ID: {
+                                    r1: roles[0]?.id || null,
+                                    r2: roles[1]?.id || null,
+                                    r3: roles[2]?.id || null,
+                                    r4: roles[3]?.id || null,
+                                    r5: roles[4]?.id || null,
+                                    r6: roles[5]?.id || null,
+                                    r7: roles[6]?.id || null,
+                                    r8: roles[7]?.id || null
+                                },
+                                messageID: SENT_MESSAGE.id
+                            }).save().catch(e => console.log(e))
+                        })
                 }
             })
         })
