@@ -27,7 +27,7 @@ class EmojiManager {
         filteredEmojis.forEach(e => emojiArray.push(e))
         for(const emoji of emojiArray){
             if(!botConfig.emojis.includes(emoji.guild.id)) continue
-            object[`${emoji.name}`] = { "id": `${emoji.id}`, "show": `${emoji}`, toString: function(){ return `${emoji}` } }
+            object[`${emoji.name}`] = { "id": `${emoji.id}`, "show": `${emoji}`, "url": `${emoji.url}`, toString: function(){ return `${emoji}` } }
             //textt += `"${emoji.name}": { "id": "${emoji.id}", "show": "${emoji}" },`
         }
         textt = textt.slice(0, textt.lastIndexOf(","));
