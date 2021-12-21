@@ -1,3 +1,20 @@
+//  _____ _           _          
+// / ____| |         | |         
+// | (___ | | __ _ ___| |__  _ __ 
+// \___ \| |/ _` / __| '_ \| '__|
+// ____) | | (_| \__ \ | | | |   
+// |_____/|_|\__,_|___/_| |_|_|   
+                              
+                              
+//  __  __           _        _             _______         _   _                           
+// |  \/  |         | |      | |           |__   __|       | | | |                          
+// | \  / | __ _  __| | ___  | |__  _   _     | |_   _ _ __| |_| | ___ _ __   __ ___      __
+// | |\/| |/ _` |/ _` |/ _ \ | '_ \| | | |    | | | | | '__| __| |/ _ \ '_ \ / _` \ \ /\ / /
+// | |  | | (_| | (_| |  __/ | |_) | |_| |    | | |_| | |  | |_| |  __/ |_) | (_| |\ V  V / 
+// |_|  |_|\__,_|\__,_|\___| |_.__/ \__, |    |_|\__,_|_|   \__|_|\___| .__/ \__,_| \_/\_/  
+//                                  __/ |                            | |                   
+//                                 |___/                             |_|                   
+
 const Discord = require('discord.js');
 const config = require('./config.json');
 const fs = require('fs');
@@ -207,17 +224,10 @@ const rest = new REST({ version: '9' }).setToken(token);
 //End
 
 
-client.on("interactionCreate", async interaction => {
-    if(interaction.isAutocomplete === undefined) return
-    if(!interaction.isAutocomplete()) return
-
-    const command = client.slashcmds.get(interaction.commandName);
-
-    if(command?.autocomplete){
-        await command.autocomplete(client, interaction);
-    }
-});
-
+const errorr = new Discord.MessageEmbed()
+    .setTitle(`That's a 404`)
+    .setColor(`YELLOW`)
+    .setDescription(`This is a problem at our end we are clearing it up, please try again in a bit if it still does not work use ,problem`)
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
     console.log(`received interaction ${interaction.commandName} by ${interaction.user.tag}`);
@@ -318,3 +328,21 @@ setInterval(async () => {
 }, 1000)
 
 client.login(config.token);
+
+
+//  _____ _           _          
+// / ____| |         | |         
+// | (___ | | __ _ ___| |__  _ __ 
+// \___ \| |/ _` / __| '_ \| '__|
+// ____) | | (_| \__ \ | | | |   
+// |_____/|_|\__,_|___/_| |_|_|   
+                              
+                              
+//  __  __           _        _             _______         _   _                           
+// |  \/  |         | |      | |           |__   __|       | | | |                          
+// | \  / | __ _  __| | ___  | |__  _   _     | |_   _ _ __| |_| | ___ _ __   __ ___      __
+// | |\/| |/ _` |/ _` |/ _ \ | '_ \| | | |    | | | | | '__| __| |/ _ \ '_ \ / _` \ \ /\ / /
+// | |  | | (_| | (_| |  __/ | |_) | |_| |    | | |_| | |  | |_| |  __/ |_) | (_| |\ V  V / 
+// |_|  |_|\__,_|\__,_|\___| |_.__/ \__, |    |_|\__,_|_|   \__|_|\___| .__/ \__,_| \_/\_/  
+//                                  __/ |                            | |                   
+//                                 |___/                             |_|                   
