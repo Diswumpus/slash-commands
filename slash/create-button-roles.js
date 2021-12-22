@@ -241,7 +241,7 @@ module.exports = {
                                             .addField(`${client.botEmojis.sroles} Roles:`, `${roles.map(e => {
                                                 utilPos++
                                                 return `${utilPos == roles.length ? client.botEmojis.reply.show : client.botEmojis.stem.show} ${e}`
-                                            })}`)
+                                            }).join(`\n`)}`)
                                     ]
                                 } else if (optionSelected == "EMBEDS_H") {
                                     const EMBEDSSS = [];
