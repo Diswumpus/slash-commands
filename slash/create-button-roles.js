@@ -240,7 +240,7 @@ module.exports = {
                                             .setColor(interaction.options?.get('color')?.value || color)
                                             .addField(`${client.botEmojis.sroles} Roles:`, `${roles.map(e => {
                                                 utilPos++
-                                                return `${utilPos == roles.length ? client.botEmojis.reply.show : client.botEmojis.stem.show} ${e.name}`
+                                                return `${utilPos == roles.length ? client.botEmojis.reply.show : client.botEmojis.stem.show} ${e}`
                                             })}`)
                                     ]
                                 } else if (optionSelected == "EMBEDS_H") {
