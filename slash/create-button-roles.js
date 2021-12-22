@@ -237,7 +237,7 @@ module.exports = {
                                 if (optionSelected == "EMBED") {
                                     return [
                                         new MessageEmbed()
-                                            .setColor(embed.color)
+                                            .setColor(interaction.options?.get('color')?.value || color)
                                             .addField(`${client.botEmojis.sroles} Roles:`, `${roles.map(e => {
                                                 utilPos++
                                                 return `${utilPos == roles.length ? client.botEmojis.reply.show : client.botEmojis.stem.show} ${e.name}`
