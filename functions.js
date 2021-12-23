@@ -24,7 +24,7 @@ module.exports.categoryEmojis = {
  * @param {"REPLY" | "UPDATE"} replyType If it should reply or edit.
  * @param {Boolean} ephemeral If the interaction reply should be hidden
  */
- module.exports.errorMessage = (message, interaction, replyType="REPLY", ephemeral=false) => {
+ module.exports.errorMessage = (message, interaction, replyType="REPLY", ephemeral=true) => {
     const text = this.categoryEmojis.Error + " " + message
     if(interaction?.author){
         interaction.channel.send(text)
@@ -35,7 +35,7 @@ module.exports.categoryEmojis = {
         } else if(replyType === "UPDATE"){
             interaction.update({ content: text });
         }
-    } else if(interaction.isApplicationCommand()){
+    } else if(interaction.isCommand()){
         if(replyType === "REPLY"){
             interaction.reply({ content: text, ephemeral: ephemeral });
         } else if(replyType === "UPDATE"){

@@ -16,6 +16,7 @@
 //                                 |___/                             |_|                   
 
 const Discord = require('discord.js');
+const { ContextMenuBuilder } = require("discord.js-util");
 const config = require('./config.json');
 const fs = require('fs');
 const klawSync = require('klaw-sync')
@@ -200,6 +201,27 @@ for (const cmd of slshcmdArray) {
 }
 slshCommands.map(command => command.toJSON());
 
+const menus = {
+    beta: [
+
+    ],
+    pub: [
+        new ContextMenuBuilder()
+        .setName(`Show All Roles`)
+        .setType("MESSAGE"),
+        new ContextMenuBuilder()
+        .setName(`Show All Roles`)
+        .setType("USER"),
+    ]
+}
+if (menus.beta.length > 0) {
+    for (const menu of menus.beta) {
+        slashCommands.push(menu.toJSON())
+    }
+}
+for (const menu of menus.pub) {
+    slshCommands.push(menu.toJSON())
+}
 const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
