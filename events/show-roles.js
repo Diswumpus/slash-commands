@@ -11,7 +11,7 @@ module.exports = {
      * @param {Discord.Client} client 
      */
     async execute(interaction, client) {
-        const member = interaction.options.getMember("user") || interaction.member;
+        const member = interaction?.options?.getMember("user") || interaction.member;
         if(member.user.bot) return errorMessage(`This user is a bot!`, interaction);
         if(interaction.customId != "VIEW_ALL_ROLES" && interaction.commandName != "Show All Roles") return;
         const btnRoles = require("../models/button-roles");
