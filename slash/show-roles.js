@@ -22,6 +22,7 @@ module.exports = {
    * @param {Discord.CommandInteraction} interaction 
    */
     async execute(client, interaction) {
+        await checkPermissions("MANAGE_ROLES", interaction);
         //Fetch guild
         const GuildBRoles = await btnRoles.find({ guild: interaction.guild.id });
         //Fetch options
