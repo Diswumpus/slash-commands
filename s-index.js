@@ -158,7 +158,7 @@ client.commands = new Discord.Collection();
 client.slashcmds = new Discord.Collection();
 client.config = config;
 //...
-const slashFiles = fs.readdirSync('./slash').filter(file => file.endsWith('.js'));
+const slashFiles = klawSync('./commands', { nodir: true, traverseAll: true, filter: f => f.path.endsWith('.js') });
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
     const event = require(`./events/${file}`);
@@ -178,8 +178,8 @@ for (const file of eventFiles) {
 const slshcmdArray = []
 // Here we load all the commands into client.commands
 for (const file of slashFiles) {
-    const command = require(`./slash/${file}`);
-    console.log(`loading slash/${file}`);
+    const command = require(`${file.path}`);
+    console.log(`loading slash/${file.path}`);
     // set a new item in the Collection
     // with the key as the command name and the value as the exported module
     client.slashcmds.set(command.name, command);
@@ -269,7 +269,7 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-var commandFiles = klawSync('./commands', { nodir: true, traverseAll: true, filter: f => f.path.endsWith('.js') })
+var commandFiles = klawSync('./d-commands', { nodir: true, traverseAll: true, filter: f => f.path.endsWith('.js') })
 for (const file of commandFiles) {
     const command = require(`${file.path}`);
     console.log(`loading ${command.name}: ${file.path}`);
