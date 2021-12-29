@@ -9,6 +9,8 @@ module.exports = {
 	 */
 	async execute(message, client) {
         if(message.author.bot) return
+        if(message.system) return
+        if(message.content == "") return
         const fetchedData = await AtRply.findOne({
             guildID: message.guild.id
         });
@@ -18,7 +20,9 @@ module.exports = {
          */
         const replys = fetchedData?.replys
         let rply
-        const rplyData = replys.forEach((k, e) => { if(e.toLowerCase().includes(message.content.toLowerCase())) rply = e })
+        const rplyData = replys.forEach((k, e) => { 
+            if(e.toLowerCase().includes(message.content.toLowerCase())) rply = e 
+        })
         if(rply){
             await message.reply(`${rply}`);
         }
