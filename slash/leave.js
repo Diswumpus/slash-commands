@@ -30,7 +30,7 @@ module.exports = {
         const guildl = await client.guilds.cache.get(guild).leave()
 
         const embed = new Discord.MessageEmbed()
-            .setTitle(`${require('../emojis.json').check} Left the guild!`)
+            .setTitle(`${client.check} Left the guild!`)
             .setColor(color)
             .setDescription(`Left guild ${guildl.name} (${guildl.id})`)
             .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)

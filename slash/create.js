@@ -134,7 +134,7 @@ module.exports = {
             require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
             //Send message
             const embed = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').check} Created`)
+                .setTitle(`${client.check} Created`)
                 .addField('<:id:863464329725607936> ID:', `${theid} ||(${command.id})||`, true)
                 .addField('<:slashCommand:872317151451705385> Name:', command.name, true)
                 .addField('<:messages:863464329667411998> Description:', command.description, true)

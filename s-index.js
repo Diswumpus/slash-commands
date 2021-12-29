@@ -80,7 +80,8 @@ client.once('ready', async () => {
         console.log("Emojis Ready!")
     }, 4000);
 });
-
+client.check = "<:checkmark_d:925583512118120507>"
+client.x = "<:xmark_d:925583718402359346>"
 client.dashboardAdd = `https://discord.gg/PWXGdJFdPH`
 //Client 2 Start
 client2.once('ready', async () => {

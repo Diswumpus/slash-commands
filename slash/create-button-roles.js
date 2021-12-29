@@ -83,7 +83,7 @@ module.exports = {
         const embeds = {
             roles: new MessageEmbed().setColor(color).setDescription(`Mention the roles for the button roles.\n\nExample \`@Green @Blue\` (You can have up to 8)`),
             channel: new MessageEmbed().setColor(color).setDescription(`Mention the channel you want the button role to be in.\n\nExample: \`#general\``),
-            done: new MessageEmbed().setColor(color).setTitle(`${client.botEmojis.b_check} Created`)
+            done: new MessageEmbed().setColor(color).setTitle(`${client.check} Created`).setDescription(`The button roles have been created.`)
         }
 
         interaction.reply({ embeds: [embeds.channel] })

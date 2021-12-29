@@ -65,7 +65,7 @@ module.exports = {
 
             doc.save().catch(e => console.log(e));
 
-            await interaction.editReply({ embeds: [createEmbedFromText(`${client.botEmojis.check_} Added ${options.role} to the role menu!`)]});
+            await interaction.editReply({ embeds: [createEmbedFromText(`${client.check} Added ${options.role} to the role menu!`)]});
         } else if(subcommand === "remove"){
             if(!res1) {
                 await interaction.editReply(`${client.botEmojis.failed} Your guild has not set up the role menu yet!`);
@@ -78,7 +78,7 @@ module.exports = {
 
             doc.save().catch(e => console.log(e));
 
-            await interaction.editReply({ embeds: [createEmbedFromText(`${client.botEmojis.check_} Removed ${options.role} from the role menu!`)]});
+            await interaction.editReply({ embeds: [createEmbedFromText(`${client.check} Removed ${options.role} from the role menu!`)]});
         }
     }
 }

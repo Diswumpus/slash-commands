@@ -37,7 +37,7 @@ module.exports = {
                         .setCustomId("pos-dont-touch")
                         .setDisabled(true)
                         .setStyle("SECONDARY")
-                        .setLabel(`6/${p}`)
+                        .setLabel(`${p}/6`)
                         .setEmoji("<:role:863829023293571082>")
                 );
         }
@@ -69,7 +69,7 @@ module.exports = {
         await interaction.editReply({
             embeds: [new Discord.MessageEmbed()
                 .setColor(color)
-                .setTitle(`${require('../emojis.json').check} Created Roles!`)
+                .setTitle(`${client.check} Created Roles!`)
             ]
         })
     }

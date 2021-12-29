@@ -71,7 +71,7 @@ module.exports = {
     require('../log').log(`${interaction.user.tag} Created a premium code: ${code}`, 'premium', interaction.guild, interaction.user)
     //Create embed
     const reply_embed = new Discord.MessageEmbed()
-      .setTitle(`${require('../emojis.json').check} Created!`)
+      .setTitle(`${client.check} Created!`)
       .setDescription(`**Code**: \`${code}\`\n\nExpires At: \`${expiresAt}\``)
       .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
       .setColor(color)

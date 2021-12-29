@@ -45,7 +45,7 @@ module.exports = {
             //Remove command from database
             //Reply
             const replyEmbed = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').check} Deleted`)
+                .setTitle(`${client.check} Deleted`)
                 .setDescription(`The command has been deleted!`)
                 .setColor(color)
                 .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)

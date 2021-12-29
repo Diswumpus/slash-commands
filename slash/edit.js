@@ -64,7 +64,7 @@ module.exports = {
             await doc.save().catch(e => console.log(e))
 
             const embed = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').check} Edited the command!`)
+                .setTitle(`${client.check} Edited the command!`)
                 .setColor(color)
                 .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
             if (optionschanged.reply) {

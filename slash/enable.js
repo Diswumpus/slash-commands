@@ -61,7 +61,7 @@ module.exports = {
             //Reply
             //Create embed
             const rep_embed = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').check} Activated`)
+                .setTitle(`${client.check} Activated`)
                 .setColor(color)
                 .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild}\` by \`${interaction.user.tag}\`\n\nExpires at: ${expiresAt === 0 ? "Never Expires" :  `<t:` + Math.floor(expiresAt / 1000.0) + `:R>`}\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
                 .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)

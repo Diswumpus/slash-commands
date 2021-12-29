@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const br = require('../models/button-roles');
+const { v4: uuid } = require("uuid");
 
 module.exports = {
     name: 'interactionCreate',
@@ -40,20 +41,90 @@ module.exports = {
         });
         let textt;
         let ltype;
+        let added = false;
         if (interaction.member.roles.cache.has(rresults.id)) {
-            interaction.member.roles.remove(rresults.id)
-            ltype = "REMOVE"
-            textt = `${require('../emojis.json').flag_remove} Removed the ${rresults} role!`
+            let ID1 = uuid();
+            let ID2 = uuid();
+            await interaction.reply({
+                ephemeral: true,
+                content: `<:ban:863529097283240016> You already have this role! Would you like to remove it?`,
+                components: [
+                    {
+                        type: 1,
+                        components: [
+                            new Discord.MessageButton()
+                                .setEmoji(client.check)
+                                .setLabel("Yes Remove It!")
+                                .setStyle("SECONDARY")
+                                .setCustomId(ID1),
+                            new Discord.MessageButton()
+                                .setEmoji(client.x)
+                                .setLabel("Nevermind")
+                                .setStyle("SECONDARY")
+                                .setCustomId(ID2)
+                        ]
+                    }
+                ]
+            });
+
+            const btn = await interaction.channel.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id });
+            if (btn.customId === ID1) {
+                interaction.member.roles.remove(rresults.id)
+                ltype = "REMOVE"
+                textt = `${require('../emojis.json').flag_remove} Removed the ${rresults} role!`
+                await btn.update({
+                    content: `${client.check} Removed the role.`, components: [
+                        {
+                            type: 1,
+                            components: [
+                                new Discord.MessageButton()
+                                    .setEmoji(client.check)
+                                    .setLabel("Yes Remove It!")
+                                    .setStyle("SECONDARY")
+                                    .setCustomId(ID1)
+                                    .setDisabled(),
+                                new Discord.MessageButton()
+                                    .setEmoji(client.x)
+                                    .setLabel("Nevermind")
+                                    .setStyle("SECONDARY")
+                                    .setCustomId(ID2)
+                                    .setDisabled()
+                            ]
+                        }
+                    ]
+                });
+            } else if (btn.customId == ID2) {
+                await btn.update({
+                    content: `${client.x} Canceled.`, components: [
+                        {
+                            type: 1,
+                            components: [
+                                new Discord.MessageButton()
+                                    .setEmoji(client.check)
+                                    .setLabel("Yes Remove It!")
+                                    .setStyle("SECONDARY")
+                                    .setCustomId(ID1)
+                                    .setDisabled(),
+                                new Discord.MessageButton()
+                                    .setEmoji(client.x)
+                                    .setLabel("Nevermind")
+                                    .setStyle("SECONDARY")
+                                    .setCustomId(ID2)
+                                    .setDisabled()
+                            ]
+                        }
+                    ]
+                })
+            }
         } else {
+            added = true;
             interaction.member.roles.add(rresults.id)
             ltype = "ADD"
             textt = `${require('../emojis.json').flag_add} Added the ${rresults} role!`
+            interaction.reply({ content: textt, ephemeral: true });
         }
-
-        interaction.reply({ content: textt, ephemeral: true });
-
         const brLog = require('../buttonLogger')
 
-        const brlogger = await new brLog({ message: interaction.message, member: interaction.member, role: rresults }).log(client, ltype)
+        if(added == true) await new brLog({ message: interaction.message, member: interaction.member, role: rresults }).log(client, ltype);
     }
 };

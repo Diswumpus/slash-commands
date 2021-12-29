@@ -19,13 +19,13 @@ module.exports = {
                         type: 1, components: [
                             new Discord.MessageButton()
                                 .setStyle("SUCCESS")
-                                .setEmoji(client.botEmojis.b_check.show)
+                                .setEmoji(client.check)
                                 .setLabel("Approve")
                                 .setCustomId("ta")
                                 .setDisabled(true),
                             new Discord.MessageButton()
                                 .setStyle("DANGER")
-                                .setEmoji(client.botEmojis.b_xmark.show)
+                                .setEmoji(client.x)
                                 .setLabel("Deny")
                                 .setCustomId("td")
                                 .setDisabled(true)
@@ -46,13 +46,13 @@ module.exports = {
                         type: 1, components: [
                             new Discord.MessageButton()
                                 .setStyle("DANGER")
-                                .setEmoji(client.botEmojis.b_check.show)
+                                .setEmoji(client.check)
                                 .setLabel("Approve")
                                 .setCustomId("ta")
                                 .setDisabled(true),
                             new Discord.MessageButton()
                                 .setStyle("SUCCESS")
-                                .setEmoji(client.botEmojis.b_xmark.show)
+                                .setEmoji(client.x)
                                 .setLabel("Deny")
                                 .setCustomId("td")
                                 .setDisabled(true)
