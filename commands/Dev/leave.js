@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
      * @param {Discord.CommandInteraction} interaction 
      */
     async execute(client, interaction) {
-        if (interaction.user.id !== require('../config.json').ownerID) return
+        if (interaction.user.id !== require('../../config.json').ownerID) return
 
         const guild = interaction.options?.get('guild_id')?.value;
 
@@ -33,7 +33,7 @@ module.exports = {
             .setTitle(`${client.check} Left the guild!`)
             .setColor(color)
             .setDescription(`Left guild ${guildl.name} (${guildl.id})`)
-            .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+            .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
         await interaction.reply({ embeds: [embed] });
     }
 }

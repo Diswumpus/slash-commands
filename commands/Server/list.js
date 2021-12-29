@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const ownerid = require('../config.json').ownerID;
-const owner2id = require('../config.json').owner2ID;
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const ownerid = require('../../config.json').ownerID;
+const owner2id = require('../../config.json').owner2ID;
 const dt = require('discord-turtle');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -60,7 +60,7 @@ module.exports = {
       //Create new embed
       const command_embed = new Discord.MessageEmbed()
         .setTitle(`${interaction.guild}'s Commands`)
-        .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+        .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
         .setColor(color)
       const embeds = [];
 

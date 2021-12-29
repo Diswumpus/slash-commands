@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const owner = require('../config.json');
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const owner = require('../../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {

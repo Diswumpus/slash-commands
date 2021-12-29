@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const du = require("discord.js-util");
-const { createPremiumCode } = require("../functions");
-const UsrVts = require("../models/user");
+const { createPremiumCode } = require("../../functions");
+const UsrVts = require("../../models/user");
 const buyItems = [
     {
         name: "Slashr Premium",
@@ -110,7 +110,7 @@ module.exports = {
                 }
             }
         } else if (subcommand === "vote") {
-            await interaction.reply({ content: `You can vote here!`, ephemeral: true, components: [new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setURL(require('../color.json').vote).setStyle("LINK").setEmoji(client.botEmojis.topgg.show))] });
+            await interaction.reply({ content: `You can vote here!`, ephemeral: true, components: [new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setURL(require('../../color.json').vote).setStyle("LINK").setEmoji(client.botEmojis.topgg.show))] });
         }
     }
 }

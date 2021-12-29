@@ -1,11 +1,11 @@
 //Get all packages/files
 const Discord = require("discord.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { v4: uuidv4 } = require('uuid');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { checkPermissions, createEmbedFromText } = require('../functions');
-const menuRole = require("../models/menu");
+const { checkPermissions, createEmbedFromText } = require('../../functions');
+const menuRole = require("../../models/menu");
 
 module.exports = {
     name: "menu",

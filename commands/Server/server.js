@@ -1,15 +1,15 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const ownerid = require('../config.json').ownerID;
-const owner2id = require('../config.json').owner2ID;
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const ownerid = require('../../config.json').ownerID;
+const owner2id = require('../../config.json').owner2ID;
 const dt = require('discord-turtle');
-const emojis = require('../emojis.json');
-const ser = require('../models/server');
+const emojis = require('../../emojis.json');
+const ser = require('../../models/server');
 const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-const premiumM = require('../models/premium.manager');
+const premiumM = require('../../models/premium.manager');
 
 module.exports = {
     name: "server",
@@ -27,7 +27,7 @@ module.exports = {
         //interaction.deferReply()
 
         const res = await ser.findOne({ guild: interaction.guild.id })
-        const res2 = await require('../buttonLogger').getChannel(interaction.guild.id)
+        const res2 = await require('../../buttonLogger').getChannel(interaction.guild.id)
         const buttons = new MessageActionRow()
             .addComponents(
                 new MessageButton()
@@ -136,7 +136,7 @@ module.exports = {
                 .setTitle(`Server Settings`),
             noPrime: new MessageEmbed()
                 .setColor(color)
-                .setAuthor(`Your guild does not have premium! Changing the embed color is a premium feature`, `https://cdn.discordapp.com/emojis/${emojis.crownid}.png?v=1`, `${require('../color.json').website}premium`),
+                .setAuthor(`Your guild does not have premium! Changing the embed color is a premium feature`, `https://cdn.discordapp.com/emojis/${emojis.crownid}.png?v=1`, `${require('../../color.json').website}premium`),
             close: new MessageEmbed()
                 .setColor(color)
                 .setTitle(`Server Settings`)
@@ -209,7 +209,7 @@ module.exports = {
                     i.reply({ embeds: [embeds.noPrime], ephemeral: true })
                 }
             } else if (i.customId === 'setLog') {
-                const logManager = require('../buttonLogger');
+                const logManager = require('../../buttonLogger');
 
                 i.update({ embeds: [embeds.mentionChannel], components: [new MessageActionRow().addComponents(cancelButton)] })
                 interaction.channel.awaitMessageComponent({ time: 600000, filter: filter }).then(async i3 => {

@@ -1,8 +1,8 @@
 //Get all packages/files
 const Discord = require("discord.js");
-const prime = require('../models/premium');
-const color = require('../color.json').color;
-const owner = require('../config.json');
+const prime = require('../../models/premium');
+const color = require('../../color.json').color;
+const owner = require('../../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -68,12 +68,12 @@ module.exports = {
     });
     codeSave.save().catch(e => console.log(e));
     //R E P L Y
-    require('../log').log(`${interaction.user.tag} Created a premium code: ${code}`, 'premium', interaction.guild, interaction.user)
+    require('../../log').log(`${interaction.user.tag} Created a premium code: ${code}`, 'premium', interaction.guild, interaction.user)
     //Create embed
     const reply_embed = new Discord.MessageEmbed()
       .setTitle(`${client.check} Created!`)
       .setDescription(`**Code**: \`${code}\`\n\nExpires At: \`${expiresAt}\``)
-      .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+      .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
       .setColor(color)
     //Send embed
     await interaction.reply({ embeds: [reply_embed] });

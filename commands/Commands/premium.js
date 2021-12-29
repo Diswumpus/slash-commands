@@ -1,13 +1,13 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const emojis = require('../emojis.json');
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const emojis = require('../../emojis.json');
 const dt = require('discord-turtle');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: "premium",
-    c: "Server",
+    c: "Commands",
     description: "Slash Commands Premium!",
     usage: ``,
     data: new SlashCommandBuilder()
@@ -19,7 +19,7 @@ module.exports = {
 * @param {Discord.CommandInteraction} interaction 
 */
     async execute(client, interaction) {
-        const premiumM = require('../models/premium.manager');
+        const premiumM = require('../../models/premium.manager');
 
         var hasPremium = await premiumM.hasPremium(interaction.guild.id)
         

@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
-const scommand = require('../models/slash-command');
-const config = require('../config.json');
+const color = require('../../color.json').color;
+const scommand = require('../../models/slash-command');
+const config = require('../../config.json');
 const owners = new Array(config.ownerID, config.owner2ID);
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -47,7 +47,7 @@ module.exports = {
             } catch (err) {
                 const eembed = new Discord.MessageEmbed()
                     .setColor(color)
-                    .setTitle(`${require('../emojis.json').xmark} \`Error\``)
+                    .setTitle(`${require('../../emojis.json').xmark} \`Error\``)
                     .setDescription(`\`\`\`xl\n${clean(err)}\n\`\`\``)
                 await interaction.reply({ embeds: [eembed] }); //message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
             }

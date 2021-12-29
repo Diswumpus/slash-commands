@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const AtRply = require("../models/autoreply");
-const { errorMessage } = require("../functions");
+const AtRply = require("../../models/autoreply");
+const { errorMessage } = require("../../functions");
 const du = require("discord.js-util");
 
 module.exports = {

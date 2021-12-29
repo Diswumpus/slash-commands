@@ -1,13 +1,14 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const Discord = require("discord.js");
-const { color } = require("../color.json");
-const template = require("../models/template");
-const { templates } = require("../config.json").logs;
+const { color } = require("../../color.json");
+const template = require("../../models/template");
+const { templates } = require("../../config.json").logs;
 const du = require("discord.js-util");
 
 const Config = module.exports = {
     name: "templates",
     description: "Templates!",
+    c: "Commands",
     devOnly: true
 }
 

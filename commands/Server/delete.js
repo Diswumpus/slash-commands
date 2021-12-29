@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const owner = require('../config.json');
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const owner = require('../../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -41,14 +41,14 @@ module.exports = {
                 await interaction.guild.commands.delete(cmdid)
             }
             //Log
-            await require('../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
+            await require('../../log').log(`${interaction.user.tag} deleted \`/${commandData?.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
             //Remove command from database
             //Reply
             const replyEmbed = new Discord.MessageEmbed()
                 .setTitle(`${client.check} Deleted`)
                 .setDescription(`The command has been deleted!`)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
+                .addField(`${require('../../color.json').links_blank}`, `${require('../../color.json').links}`)
             await interaction.reply({ embeds: [replyEmbed] })
         }
     }

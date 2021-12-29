@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
 const wait = require('util').promisify(setTimeout);
-const emojis = require('../emojis.json');
+const emojis = require('../../emojis.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -114,7 +114,7 @@ module.exports = {
         const button = new Discord.MessageButton();
         const createCommand = async () => {
             //Log
-            await require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
+            await require('../../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction)
             //Create the command in the database
             let dBase = new slash({
                 id: command.id,
@@ -131,7 +131,7 @@ module.exports = {
             });
             await dBase.save().catch(e => console.log(e));
             //Log
-            require('../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
+            require('../../log').log(`${interaction.user.tag} Created \`/${command.name}\` on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
             //Send message
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${client.check} Created`)
@@ -140,7 +140,7 @@ module.exports = {
                 .addField('<:messages:863464329667411998> Description:', command.description, true)
                 .addField('<:reply:880278277040795658> Reply:', `${reply}`, true)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
+                .addField(`${require('../../color.json').links_blank}`, `${require('../../color.json').links}`)
             await interaction.editReply({ embeds: [embed], components: [] });
         }
         if (buttons === true) {

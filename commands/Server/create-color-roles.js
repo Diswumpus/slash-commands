@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const slash = require('../models/slash-command');
-const color = require('../color.json').color;
-const emojis = require('../emojis.json');
+const slash = require('../../models/slash-command');
+const color = require('../../color.json').color;
+const emojis = require('../../emojis.json');
 const dt = require('discord-turtle');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -26,7 +26,7 @@ module.exports = {
             await interaction.reply({ embeds: [nembed] })
             return
         };
-        require('../log').log(`${interaction.user.tag} Created color roles on guild: ${interaction.guild}`, 'command', interaction.guild, interaction.user)
+        require('../../log').log(`${interaction.user.tag} Created color roles on guild: ${interaction.guild}`, 'command', interaction.guild, interaction.user)
         const embed = new Discord.MessageEmbed()
             .setColor(color)
             .setDescription(`Creating roles...`)

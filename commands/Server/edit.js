@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
-const scommand = require('../models/slash-command');
+const color = require('../../color.json').color;
+const scommand = require('../../models/slash-command');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const emojis = require('../emojis.json');
+const emojis = require('../../emojis.json');
 
 module.exports = {
     name: 'edit',
@@ -52,7 +52,7 @@ module.exports = {
                 qid: command_id,
                 guild: interaction.guild.id
             })
-            require('../log').log(`${interaction.user.tag} Edited ${commandr.name}`, 'premium', interaction.guild, interaction.user)
+            require('../../log').log(`${interaction.user.tag} Edited ${commandr.name}`, 'premium', interaction.guild, interaction.user)
             if (options.embed) {
                 doc.embed = options.embed
                 optionschanged.embed = options.embed.toString()
@@ -66,7 +66,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`${client.check} Edited the command!`)
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}`, `${require('../color.json').links}`)
+                .addField(`${require('../../color.json').links_blank}`, `${require('../../color.json').links}`)
             if (optionschanged.reply) {
                 embed.addField(`Reply Changed`, `${commandr.reply} -> ${optionschanged.reply}`)
             }

@@ -1,11 +1,11 @@
 //Get all packages/files
 const Discord = require("discord.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { v4: uuidv4 } = require('uuid');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { checkPermissions, createEmbedFromText, errorMessage } = require('../functions');
-const btnRoles = require("../models/button-roles");
+const { checkPermissions, createEmbedFromText, errorMessage } = require('../../functions');
+const btnRoles = require("../../models/button-roles");
 
 module.exports = {
     name: "show-roles",

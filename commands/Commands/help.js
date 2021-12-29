@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const color = require('../color.json').color;
+const color = require('../../color.json').color;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const emojis = require('../emojis.json');
+const emojis = require('../../emojis.json');
 
 module.exports = {
     name: 'help',
@@ -50,10 +50,10 @@ module.exports = {
             commandsList.server = sliceLast(commandsList.server)
             commandsList.buttonRoles = sliceLast(commandsList.buttonRoles)
             const helpp = new Discord.MessageEmbed()
-                .setTitle(`${require('../emojis.json').slashCommand} Slash (/) Commands`)
+                .setTitle(`${require('../../emojis.json').slashCommand} Slash (/) Commands`)
                 .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
                 .addField(commandNames.commands, commandsList.commands)
                 .addField(commandNames.buttonRoles, commandsList.buttonRoles)
                 .addField(commandNames.server, commandsList.server)
@@ -64,15 +64,15 @@ module.exports = {
             const helpp = new Discord.MessageEmbed()
                 .setFooter(`${client.user.username}`, client.user.displayAvatarURL({ dynamic: true, size: 1024 }))
                 .setColor(color)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
-                .setTitle(`${require('../emojis.json').slashCommand} ${cmd.c} › ${cmd.name}`)
+                .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
+                .setTitle(`${require('../../emojis.json').slashCommand} ${cmd.c} › ${cmd.name}`)
                 .setDescription(cmd.description)
                 .addField(`${emojis.verifybadge} Usage`, `\`\`\`/${cmd.name} ${cmd.usage || " "}\`\`\``)
             if (!cmd) {
                 const notfound = new Discord.MessageEmbed()
-                    .setTitle(`${require('../emojis.json').xmark} Not found!`)
+                    .setTitle(`${require('../../emojis.json').xmark} Not found!`)
                     .setColor('RED')
-                    .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                    .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
                 return await interaction.reply({ embeds: [notfound] })
             }
             await interaction.reply({ embeds: [helpp] });

@@ -1,8 +1,8 @@
 //Get all packages/files
 const Discord = require("discord.js");
-const prime = require('../models/premium');
-const color = require('../color.json').color;
-const owner = require('../config.json');
+const prime = require('../../models/premium');
+const color = require('../../color.json').color;
+const owner = require('../../config.json');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -57,14 +57,14 @@ module.exports = {
             });
             await newSave.save().catch(e => console.log(e));
             //Log
-            require('../log').log(`${interaction.user.tag} enabled premium on guild: \`${interaction.guild}\``, 'premium', interaction.guild, interaction.user)
+            require('../../log').log(`${interaction.user.tag} enabled premium on guild: \`${interaction.guild}\``, 'premium', interaction.guild, interaction.user)
             //Reply
             //Create embed
             const rep_embed = new Discord.MessageEmbed()
                 .setTitle(`${client.check} Activated`)
                 .setColor(color)
                 .setDescription(`With code: \`${id}\` on guild: \`${interaction.guild}\` by \`${interaction.user.tag}\`\n\nExpires at: ${expiresAt === 0 ? "Never Expires" :  `<t:` + Math.floor(expiresAt / 1000.0) + `:R>`}\n( <t:${Math.floor(expiresAt / 1000.0)}:f> )`)
-                .addField(`${require('../color.json').links_blank}‎`, `${require('../color.json').links}‎`)
+                .addField(`${require('../../color.json').links_blank}‎`, `${require('../../color.json').links}‎`)
             //Send embed
             await interaction.reply({ embeds: [rep_embed] });
         }

@@ -1,14 +1,14 @@
 //Get all packages/files
 const Discord = require("discord.js");
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const br = require('../models/button-roles');
-const color = require('../color.json').color;
-const owner = require('../config.json');
+const br = require('../../models/button-roles');
+const color = require('../../color.json').color;
+const owner = require('../../config.json');
 const { v4: uuidv4 } = require('uuid');
-const { checkPermissions } = require("../functions");
+const { checkPermissions } = require("../../functions");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const WebhookBuilder = require("../Util/webhookBuilder");
-const { disableAllButtons } = require("../Util/util");
+const WebhookBuilder = require("../../Util/webhookBuilder");
+const { disableAllButtons } = require("../../Util/util");
 
 
 module.exports = {
@@ -365,7 +365,7 @@ module.exports = {
                             }
                             const EndPayload = { embeds: [embeds.done], components: [new MessageActionRow().addComponents(new MessageButton().setLabel("Jump to Message").setStyle('LINK').setURL(SENT_MESSAGE.url).setEmoji(client.botEmojis.link))] };
                             i.replied ? interaction.editReply(EndPayload) : i.update(EndPayload);
-                            require('../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
+                            require('../../log').log(`${interaction.user.tag} Created button roles on guild: \`${interaction.guild}\``, 'command', interaction.guild, interaction.user)
                             await new br({ //~~Err here!!~~ Fixed
                                 guild: interaction.guild.id,
                                 id: buttons.uuid,
