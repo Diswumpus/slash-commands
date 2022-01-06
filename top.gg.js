@@ -84,7 +84,7 @@ module.exports = async (client) => {
         });
     }));
 
-    app.listen(port, () => {
+    app.listen(port,"0.0.0.0", () => {
         console.log(`Running Vote System on Port http://172.19.45.147:${port}/`);
     });
 }
