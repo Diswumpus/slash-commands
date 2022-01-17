@@ -10,7 +10,6 @@ const Config = module.exports = {
     name: "templates",
     description: "Templates!",
     c: "Commands",
-    devOnly: true
 }
 
 module.exports.data = new SlashCommandBuilder()
