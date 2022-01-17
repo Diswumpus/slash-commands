@@ -44,9 +44,9 @@ module.exports.execute = async (client, interaction) => {
     const subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "create") {
-        const fetch = await template.findOne({
-            title: interaction.options.getString("title")
-        });
+        const fetch = await (await template.find({
+            //title: interaction.options.getString("title").toLowerCase()
+        })).filter(e => e.title == interaction.options.getString("title").toLowerCase());
 
         if(fetch) return await errorMessage(`There's already a template with this title!`, interaction, "REPLY", true);
 
@@ -115,7 +115,7 @@ module.exports.execute = async (client, interaction) => {
             embeds: [
                 new Discord.MessageEmbed()
                     .setColor(color)
-                    .setDescription(`Type of pack:`)
+                    .setDescription(`What type of template are you looking for?`)
             ],
             components: [
                 {
